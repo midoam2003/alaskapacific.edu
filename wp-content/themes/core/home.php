@@ -9,6 +9,7 @@ function child_load_more_scripts(){
 	wp_enqueue_script( 'jquery-ui-tabs' );
 	
 	$dir = $_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/core/images/backgrounds/home/';
+	print_r($dir);
 	$number = -2;
 	// Open a known directory, and proceed to read its contents
 	   if ($dh = opendir($dir)) {

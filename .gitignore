@@ -2,8 +2,8 @@
 /local-config.php
 /sql-dump-*.sql
 /db-sync
-/content/upgrade/
-/content/debug.log
+/wp-content/upgrade/
+/wp-content/debug.log
 *.log
 *.sql
 /wp-content/uploads/
