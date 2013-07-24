@@ -28,6 +28,7 @@ wp_head(); /** we need this for plugins **/
 <?php
 do_action( 'genesis_before' );
 ?>
+<div class="bg1 bg"></div>
 <div id="wrap">
 <?php
 do_action( 'genesis_before_header' );

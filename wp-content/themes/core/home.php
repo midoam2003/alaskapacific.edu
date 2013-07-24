@@ -8,7 +8,7 @@ function child_load_more_scripts(){
 	wp_enqueue_script( 'jquery-ui-widget' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
 	
-	$dir = $_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/core/images/backgrounds/home/';
+	$dir = '/Users/joverton/Sites/APU/alaskapacific.edu/wp-content/themes/core/images/backgrounds/home/';
 	$number = -2;
 	// Open a known directory, and proceed to read its contents
 	   if ($dh = opendir($dir)) {
@@ -23,7 +23,13 @@ function child_load_more_scripts(){
 	<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			var random = Math.floor(Math.random()*<?php echo $number; ?>);
-		    $('#wrap').css('background-image', 'url(<?php echo get_bloginfo('stylesheet_directory') ?>/images/backgrounds/home/'+random+'.jpg)');  
+		    $('.bg1').css('background-image', 'url(<?php echo get_bloginfo('stylesheet_directory') ?>/images/backgrounds/home/'+random+'.jpg)');  
+
+				$('.bg1').scrollingParallax({
+			        bgHeight : '250%',
+			        staticSpeed : .25,
+			        staticScrollLimit : false
+			    });
 		});
 	</script>
 	<?php
@@ -34,9 +40,13 @@ function child_load_more_scripts(){
 	?>
 	<script type="text/javascript">
 		jQuery(document).ready(function($) {
-			 $('#wrap').css('background-image', 'url(<?php echo get_bloginfo('url') ?>/content/themes/core/images/backgrounds/home/0.jpg)'); 
+			 $('.bg1').css('background-image', 'url(<?php echo get_bloginfo('url') ?>/content/themes/core/images/backgrounds/home/0.jpg)'); 
 			 $('#header ul.menu li.current-menu-item a').css('background-position', 'right bottom');
+
+			 $('.bg1').parallax({ speed: 0.2, axis: 'x' });
 		});
+
+
 	</script>
 	<?php
 	 restore_current_blog();

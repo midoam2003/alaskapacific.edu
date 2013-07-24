@@ -221,6 +221,30 @@ p.more-from-category{
 }
 
 
+/* Parallax
+---------------------------------------------------------- */
+
+
+.bg {
+
+position: fixed; 
+top: 0; 
+left: 0; 
+bottom: 0;
+height: 100%; 
+width: 100%; 
+background-position: top center;
+background-repeat: no-repeat; 
+
+}
+
+.bg1 { 
+opacity: 1;  
+
+
+
+} 
+
 
 
 /* Slideshow

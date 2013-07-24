@@ -34,7 +34,13 @@ function template_load_background($directory){
 	<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			var random = Math.floor(Math.random()*<?php echo $number; ?>);
-		    $('#wrap').css('background-image', 'url(<?php echo get_bloginfo('stylesheet_directory') ?>/images/backgrounds/<?php echo $directory; ?>/'+random+'.jpg)');  
+		    $('.bg1').css('background-image', 'url(<?php echo get_bloginfo('stylesheet_directory') ?>/images/backgrounds/<?php echo $directory; ?>/'+random+'.jpg)');  
+
+		    $('.bg1').scrollingParallax({
+			        bgHeight : '250%',
+			        staticSpeed : .25,
+			        staticScrollLimit : false
+			    });
 		});
 	</script>
 	<?php

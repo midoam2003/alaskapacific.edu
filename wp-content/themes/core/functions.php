@@ -42,10 +42,20 @@ function theme_load_the_scripts(){
 		if($background_image) :
 	?>
 	<style>
-		#wrap{
+		.bg1{
 			background-image: url('<?php echo $background_image[0];  ?>');
 		}
 	</style>
+	<script type="text/javascript">
+		jQuery(document).ready(function($) {
+
+				$('.bg1').scrollingParallax({
+			        bgHeight : '250%',
+			        staticSpeed : .25,
+			        staticScrollLimit : false
+			    });
+		});
+	</script>
 	<?php
 	endif;
 	endif;
@@ -69,6 +79,10 @@ add_action('genesis_before', 'child_load_scripts');
 function child_load_scripts(){
 	wp_register_script( 'menu-position', trailingslashit( get_bloginfo('stylesheet_directory') ).'js/menu-position.js'); 
 	wp_enqueue_script( 'menu-position' );
+
+
+	wp_register_script( 'parallax', trailingslashit( get_bloginfo('stylesheet_directory') ).'js/jquery.scrolling-parallax.js'); 
+	wp_enqueue_script( 'parallax' );
 	
 	if(!is_home()){
 		$page_ID = get_the_ID();
@@ -79,8 +93,13 @@ function child_load_scripts(){
 		jQuery(document).ready(function() {
 			var link = jQuery("#menu-item-330 a").attr("href");
 			jQuery("#menu-item-330 a").attr("href", link+"index.php?page="<?php echo (isset($page_ID) ? "+" . $page_ID : null); ?>);
+
+
+			
 			
 		});
+
+
 				
 		jQuery(document).keyup(function(e){
 		  if (e.ctrlKey && (e.keyCode == 57 || e.charCode == 57 )) {
