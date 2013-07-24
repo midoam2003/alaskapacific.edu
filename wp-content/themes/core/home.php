@@ -8,7 +8,7 @@ function child_load_more_scripts(){
 	wp_enqueue_script( 'jquery-ui-widget' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
 	
-	$dir = '/Users/joverton/Sites/APU/alaskapacific.edu/wp-content/themes/core/images/backgrounds/home/';
+	$dir = $_SERVER['DOCUMENT_ROOT'] . '/wp-content/themes/core/images/backgrounds/home/';
 	$number = -2;
 	// Open a known directory, and proceed to read its contents
 	   if ($dh = opendir($dir)) {

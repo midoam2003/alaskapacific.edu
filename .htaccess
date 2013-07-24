@@ -17,5 +17,3 @@ RewriteRule ^([_0-9a-zA-Z-]+/)?(.*\.php)$ wp/$2 [L]
 RewriteRule . index.php [L]
 </IfModule>
 # END WordPress
-
-
