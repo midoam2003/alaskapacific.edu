@@ -45,6 +45,23 @@
 		return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 	}
 
+	function is_int(n) {
+		n = parseInt(n);
+		return typeof n === 'number' && n % 1 == 0;
+	}
+
+	function add_commas( number_string ) {
+		number_string += '';
+		x = number_string.split('.');
+		x1 = x[0];
+		x2 = x.length > 1 ? '.' + x[1] : '';
+		var rgx = /(\d+)(\d{3})/;
+		while (rgx.test(x1)) {
+			x1 = x1.replace(rgx, '$1' + ',' + '$2');
+		}
+		return x1 + x2;
+	}
+
 	function setup_counter() { 
 		var c = 0,
 		counter_display = $('.timer'),
@@ -115,7 +132,7 @@
 
 	function get_domain_name( url ){
 		var temp_url = url;
-		var domain = temp_url.replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
+		var domain = temp_url.replace( /\/\/(.*)@/, '//' ).replace('http://','').replace('https://','').replace('www.','').split(/[/?#]/)[0];
 		return domain;
 	}
 
@@ -136,10 +153,54 @@
 
 	$(document).ready(function() {
 
+		if( navigator.appName.indexOf('Internet Explorer') != -1 ) {
+			$('.ie-warning').show();
+		}
+
+		$('.slider').slider({
+			range: 	'min',
+			value: 	wpmdb_max_request / 1024,
+			min: 	512,
+			max: 	wpmdb_bottleneck / 1024,
+			step:  512,
+			slide: function( event, ui ) {
+				$('.amount').html( add_commas( ui.value ) + ' kB' );
+			},
+			change: function( event, ui ) {
+				$('.amount').after( '<img src="' + spinner_url + '" alt="" class="slider-spinner general-spinner" />' );
+				$('.slider').slider('disable');
+				$.ajax({
+					url: 		ajaxurl,
+					type: 		'POST',
+					dataType:	'json',
+					cache: 	false,
+					data: {
+						action 				: 'wpmdb_update_max_request_size',
+						max_request_size 	: parseInt( ui.value ),
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						$('.slider').slider('enable');
+						$('.slider-spinner').remove();
+						alert( 'A problem occurred when trying to change the maximum request size, please try again.' );
+					},
+					success: function(data){
+						$('.slider').slider('enable');
+						$('.slider-spinner').remove();
+						$('.slider-success-msg').show();
+						$('.slider-success-msg').fadeOut(2000,function(){
+							$(this).hide();
+						});
+					}
+				});
+			}
+		});
+		$('.amount').html( add_commas( $('.slider').slider('value') ) + ' kB' );
+
 		var progress_content_original = $('.progress-content').clone();
 		$('.progress-content').remove();
 
 		var this_tables = $.parseJSON(wpmdb_this_tables);
+		var this_prefixed_tables = $.parseJSON(wpmdb_this_prefixed_tables);
 		var push_select = $('#select-tables').clone();
 		var pull_select = $('#select-tables').clone();
 
@@ -157,8 +218,10 @@
 		});
 
 		$('.backup-options').show();
+		$('.keep-active-plugins').show();
 		if( $('#savefile').is(':checked') ){
 			$('.backup-options').hide();
+			$('.keep-active-plugins').hide();
 		}
 
 		function check_licence( licence ){
@@ -172,7 +235,7 @@
 					licence_key : licence,
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					alert( 'A problem occured when trying to check the license, please try again.' );
+					alert( 'A problem occurred when trying to check the license, please try again.' );
 				},
 				success: function(data){
 					if ( typeof data.errors !== 'undefined' ) {
@@ -219,7 +282,7 @@
 					intent: 	intent,
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					$('.connection-status').html( 'A problem occured when attempting to connect to the remote server, please check the details and try again. (#102)' );
+					$('.connection-status').html( 'A problem occurred when attempting to connect to the remote server, please check the details and try again. (#102)' );
 					$('.connection-status').addClass( 'migration-error' );
 					$('.ajax-spinner').remove();
 					doing_ajax = false;
@@ -231,12 +294,14 @@
 					if( typeof data.wpmdb_error != 'undefined' && data.wpmdb_error == 1 ){
 						$('.connection-status').html( data.body );
 						$('.connection-status').addClass( 'migration-error' );
+
+						if( data.body.indexOf( '401 Unauthorized' ) > -1 ) {
+							$('.basic-access-auth-wrapper').show();
+						}
+
 						return;
 					}
 					
-					var original_body = data;
-					data = $.parseJSON( data );
-
 					maybe_show_ssl_warning( connection_info[0], connection_info[1], data.scheme );
 					maybe_show_version_warning( data.plugin_version, connection_info[0] );
 					maybe_show_prefix_notice( data.prefix );
@@ -249,8 +314,6 @@
 					$('.step-two').show();
 					connection_established = true;
 					connection_data = data;
-
-					$('.remote-json-data').val(original_body);
 
 					var loaded_tables = '';
 					if( wpmdb_default_profile == false && wpmdb_export_with_prefix == false ){
@@ -320,7 +383,7 @@
 				error: function(jqXHR, textStatus, errorThrown){
 					doing_licence_registration_ajax = false;
 					$('.register-licence-ajax-spinner').remove();
-					$('.licence-status').html( 'A problem occured when trying to register the license, please try again.' );
+					$('.licence-status').html( 'A problem occurred when trying to register the license, please try again.' );
 				},
 				success: function(data){
 					doing_licence_registration_ajax = false;
@@ -358,7 +421,7 @@
 					action : 'wpmdb_clear_log',
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					alert('An error occured when trying to clear the debug log. You can clear it manually by accessing the file system. (#132)');
+					alert('An error occurred when trying to clear the debug log. You can clear it manually by accessing the file system. (#132)');
 				},
 				success: function(data){
 				}
@@ -376,7 +439,7 @@
 					action : 'wpmdb_get_log',
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					alert('An error occured when trying to update the debug log. Please contact support. (#133)');
+					alert('An error occurred when trying to update the debug log. Please contact support. (#133)');
 				},
 				success: function(data){
 					$('.debug-log-textarea').val(data);
@@ -493,7 +556,7 @@
 						profile: 	profile, 
 					},
 					error: function(jqXHR, textStatus, errorThrown){
-						alert('An error occured when attempting to save the migration profile. Please see the Help tab for details on how to request support. (#118)');
+						alert('An error occurred when attempting to save the migration profile. Please see the Help tab for details on how to request support. (#118)');
 					},
 					success: function(data){
 						if(create_new_profile){
@@ -542,7 +605,7 @@
 			var remote_site = connection_info[0];
 			var secret_key = connection_info[1];
 			var tables_to_migrate = '';
-			var table_sizes = '';
+			var table_rows = '';
 
 			var static_migration_label = '';
 
@@ -569,50 +632,50 @@
 				// user is pushing or exporting
 				if( migration_intent == 'push' || migration_intent == 'savefile' ){
 					// default value, assuming we're not backing up
-					table_sizes = $.parseJSON(wpmdb_this_table_sizes);
+					table_rows = $.parseJSON(wpmdb_this_table_rows);
 					// backing up, during a push, need to only grab the common tables
 					if( stage == 'backup' ){
 						tables_to_migrate = get_intersect(connection_data.tables,temp_tables_to_migrate);
-						table_sizes = connection_data.table_sizes;
+						table_rows = connection_data.table_rows;
 					}
 				}
 				else{
-					table_sizes = connection_data.table_sizes;
+					table_rows = connection_data.table_rows;
 					if( stage == 'backup' ){
 						tables_to_migrate = get_intersect(temp_tables_to_migrate,this_tables);
-						table_sizes = $.parseJSON(wpmdb_this_table_sizes);
+						table_rows = $.parseJSON(wpmdb_this_table_rows);
 					}
 				}
 			}
 			else{
 				if( migration_intent == 'push' || migration_intent == 'savefile' ){
-					tables_to_migrate = this_tables;
-					table_sizes = $.parseJSON(wpmdb_this_table_sizes);
+					tables_to_migrate = this_prefixed_tables;
+					table_rows = $.parseJSON(wpmdb_this_table_rows);
 					if( stage == 'backup' ){
-						tables_to_migrate = get_intersect(connection_data.tables,this_tables);
-						table_sizes = connection_data.table_sizes;
+						tables_to_migrate = get_intersect(connection_data.prefixed_tables,this_prefixed_tables);
+						table_rows = connection_data.table_rows;
 					}
 				}
 				else{
-					tables_to_migrate = connection_data.tables;
-					table_sizes = connection_data.table_sizes;
+					tables_to_migrate = connection_data.prefixed_tables;
+					table_rows = connection_data.table_rows;
 					if( stage == 'backup' ){
-						tables_to_migrate = get_intersect(connection_data.tables,this_tables);
-						table_sizes = $.parseJSON(wpmdb_this_table_sizes);
+						tables_to_migrate = get_intersect(connection_data.tables,this_prefixed_tables);
+						table_rows = $.parseJSON(wpmdb_this_table_rows);
 					}
 				}
 			}
 
-			function decide_tables_to_display( tables_to_migrate, table_sizes ){
+			function decide_tables_to_display_rows( tables_to_migrate, table_rows ){
 
 				var total_size = 0;
 				$.each(tables_to_migrate, function(index, value) {
-					total_size += parseInt(table_sizes[value]);
+					total_size += parseInt(table_rows[value]);
 				});
 
 				var last_element = '';
 				$.each(tables_to_migrate, function(index, value) {
-					var percent = table_sizes[value] / total_size * 100;
+					var percent = table_rows[value] / total_size * 100;
 					var percent_rounded = Math.round(percent*1000)/1000;
 					$('.progress-tables').append('<div class="progress-chunk ' + value + '_chunk" style="width: ' + percent_rounded + '%;" title="' + value + '"><span>' + value + '</span></div>');
 					$('.progress-tables-hover-boxes').append('<div class="progress-chunk-hover" data-table="' + value + '" style="width: ' + percent_rounded + '%;"></div>');
@@ -624,9 +687,9 @@
 					if( $(this).width() < 1 && tables_to_migrate[index] != last_element ){
 						$(this).hide();
 						$('.progress-chunk-hover[data-table=' + tables_to_migrate[index] + ']').hide();
-						table_sizes[last_element] = Number(table_sizes[last_element]);
-						table_sizes[last_element] += Number(table_sizes[tables_to_migrate[index]]);
-						table_sizes[tables_to_migrate[index]] = 0;
+						table_rows[last_element] = Number(table_rows[last_element]);
+						table_rows[last_element] += Number(table_rows[tables_to_migrate[index]]);
+						table_rows[tables_to_migrate[index]] = 0;
 					}
 					var element = this;
 					setTimeout(function(){
@@ -642,21 +705,21 @@
 				});
 
 				percent_rounded = 0;
-				if( table_sizes[last_element] != 0 ){
-					var percent = table_sizes[last_element] / total_size * 100;
+				if( table_rows[last_element] != 0 ){
+					var percent = table_rows[last_element] / total_size * 100;
 					var percent_rounded = Math.round(percent*1000)/1000;
 				}
 				$('.progress-tables .progress-chunk:last').css('width',percent_rounded + '%');
 				$('.progress-chunk-hover:last').css('width',percent_rounded + '%');
 
-				var return_vals = [table_sizes,total_size];
+				var return_vals = [table_rows,total_size];
 
 				return return_vals;
 
 			}
 
-			table_details = decide_tables_to_display( tables_to_migrate, table_sizes );
-			table_sizes = table_details[0];
+			table_details = decide_tables_to_display_rows( tables_to_migrate, table_rows );
+			table_rows = table_details[0];
 			total_size = table_details[1];
 
 			$('.progress-title').after( '<img src="' + spinner_url + '" alt="" class="migration-progress-ajax-spinner general-spinner" />' );
@@ -678,11 +741,11 @@
 					url 		:	remote_site,
 					key			:	secret_key,
 					form_data	:	form_data,
-					stage		: 	stage, 
+					stage		: 	stage,
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					$('.progress-title').html('Migration failed');
-					$('.progress-text').html( 'A problem occured when attempting to connect to the local server, please check the details and try again. (#112)' );
+					$('.progress-text').html( 'A problem occurred when attempting to connect to the local server, please check the details and try again. (#112)' );
 					$('.progress-text').addClass( 'migration-error' );
 				},
 				success: function(data){
@@ -700,8 +763,12 @@
 					var i = 0;
 					var progress_size = 0;
 					var overall_percent = 0;
+					var table_progress = 0;
+					var temp_progress = 0;
+					var last_progress = 0;
+					var overall_table_progress = 0;
 							
-					function migrate_table_recursive(){
+					function migrate_table_recursive( current_row ){
 
 						if( i >= tables_to_migrate.length ){
 							if( stage == 'backup' ) {
@@ -713,46 +780,44 @@
 								if( table_intent == 'migrate_select' ){
 									tables_to_migrate = $('#select-tables').val();
 									if( migration_intent == 'push' || migration_intent == 'savefile' ){
-										table_sizes = $.parseJSON(wpmdb_this_table_sizes);
+										table_rows = $.parseJSON(wpmdb_this_table_rows);
 									}
 									else{
-										table_sizes = connection_data.table_sizes;
+										table_rows = connection_data.table_rows;
 									}
 								}
 								else{
 									if( migration_intent == 'push' || migration_intent == 'savefile' ){
-										tables_to_migrate = this_tables;
-										table_sizes = $.parseJSON(wpmdb_this_table_sizes);
+										tables_to_migrate = this_prefixed_tables;
+										table_rows = $.parseJSON(wpmdb_this_table_rows);
 									}
 									else{
-										tables_to_migrate = connection_data.tables;
-										table_sizes = connection_data.table_sizes;
+										tables_to_migrate = connection_data.prefixed_tables;
+										table_rows = connection_data.table_rows;
 									}
 								}
 
 								$('.progress-tables').empty();
 								$('.progress-tables-hover-boxes').empty();
 
-								table_details = decide_tables_to_display( tables_to_migrate, table_sizes );
-								table_sizes = table_details[0];
+								table_details = decide_tables_to_display_rows( tables_to_migrate, table_rows );
+								table_rows = table_details[0];
 								total_size = table_details[1];
 
 							}
 							else {
-								stage == 'end';
 								migration_complete();
 								return;
 							}
 						}
 
-						if( stage == 'backup'){
+						if( stage == 'backup' ){
 							$('.progress-text').html( overall_percent + '% - Backing up "' + tables_to_migrate[i] + '"' );
 						}
 						else{
 							$('.progress-text').html( overall_percent + '% - Migrating "' + tables_to_migrate[i] + '"');
 						}
 						
-
 						$.ajax({
 							url: 		ajaxurl,
 							type: 		'POST',
@@ -769,19 +834,23 @@
 								datetime	:	datetime,
 								stage		: 	stage,
 								bottleneck	: 	connection_data.bottleneck,
-								prefix 		: 	connection_data.prefix
+								prefix 		: 	connection_data.prefix,
+								current_row	:   current_row
 							},
 							error: function(jqXHR, textStatus, errorThrown){
 								$('.progress-title').html('Migration failed');
-								$('.progress-text').html( 'A problem occured when processing the ' + tables_to_migrate[i] + ' table. (#113)' );
+								$('.progress-text').html( 'A problem occurred when processing the ' + tables_to_migrate[i] + ' table. (#113)' );
 								$('.progress-text').addClass( 'migration-error' );
-								alert( jqXHR + ' : ' + textStatus + ' : ' + errorThrown );
+								console.log( jqXHR );
+								console.log( textStatus );
+								console.log( errorThrown );
 								table_migration_error = true;
 								migration_complete_events();
 								return;
 							},
 							success: function(data){
-								if( $.trim( data ) != '' ){
+								data = $.trim( data );
+								if( ! is_int( data ) ){
 									$('.progress-title').html('Migration failed');
 									$('.progress-text').html(data);
 									$('.progress-text').addClass('migration-error');
@@ -789,12 +858,24 @@
 									migration_complete_events();
 									return;
 								}
-								progress_size += parseInt(table_sizes[tables_to_migrate[i]]);
+								if( data == '-1' ) {
+									progress_size -= overall_table_progress;
+									overall_table_progress = 0;
+									last_progress = 0;
+									progress_size += parseInt(table_rows[tables_to_migrate[i]]);
+									i++;
+								}
+								else {
+									temp_progress = parseInt( data );
+									table_progress = temp_progress - last_progress;
+									last_progress = temp_progress;
+									progress_size += table_progress;
+									overall_table_progress += table_progress;
+								}
 								var percent = 100 * progress_size / total_size;
 								$('.progress-bar').width(percent + '%');
-								i++;
 								overall_percent = Math.floor(percent);
-								migrate_table_recursive();
+								migrate_table_recursive( data );
 							}
 						});
 					
@@ -848,7 +929,7 @@
 								},
 								error: function(jqXHR, textStatus, errorThrown){
 									$('.progress-title').html('Migration failed');
-									$('.progress-text').html('A problem occured when finalizing the backup. (#132)');
+									$('.progress-text').html('A problem occurred when finalizing the backup. (#132)');
 									$('.progress-text').addClass('migration-error');
 									alert( jqXHR + ' : ' + textStatus + ' : ' + errorThrown );
 									table_migration_error = true;
@@ -870,7 +951,7 @@
 						}
 					}
 
-					migrate_table_recursive();
+					migrate_table_recursive( '-1' );
 
 				}
 
@@ -947,10 +1028,10 @@
 				cache: 		false,
 				data: {
 					action: 	'wpmdb_save_profile',
-					profile: 	profile, 
+					profile: 	profile,
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					alert('An error occured when attempting to save the migration profile. Please see the Help tab for details on how to request support. (#104)');
+					alert('An error occurred when attempting to save the migration profile. Please see the Help tab for details on how to request support. (#104)');
 					$('.save-settings-button').removeAttr('disabled');
 					$('.save-profile-ajax-spinner').remove();
 					$('.save-settings-button').after('<span class="ajax-success-msg">Saved</span>');
@@ -1008,8 +1089,10 @@
 			move_connection_info_box();
 
 			$('.backup-options').show();
+			$('.keep-active-plugins').show();
 			if( $('#savefile').is(':checked') ){
 				$('.backup-options').hide();
+				$('.keep-active-plugins').hide();
 			}
 
 			if( connection_established ){
@@ -1241,7 +1324,7 @@
 					action: 	'wpmdb_reset_api_key',
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					alert('An error occured when trying to generate the API key. Please see the Help tab for details on how to request support. (#105)');
+					alert('An error occurred when trying to generate the API key. Please see the Help tab for details on how to request support. (#105)');
 					$('.reset-api-key-ajax-spinner').remove();
 					doing_reset_api_key_ajax = false;
 				},
@@ -1288,7 +1371,7 @@
 					profile_id 	: 	$(this).attr('data-profile-id')
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					alert('An error occured when trying to delete the profile. Please see the Help tab for details on how to request support. (#106)');
+					alert('An error occurred when trying to delete the profile. Please see the Help tab for details on how to request support. (#106)');
 				},
 				success: function(data){
 					if( data == '-1' ){
@@ -1320,7 +1403,7 @@
 					profile_id 	: 	$(this).attr('data-profile-id')
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					alert('An error occured when trying to delete the profile. Please see the Help tab for details on how to request support. (#107)');
+					alert('An error occurred when trying to delete the profile. Please see the Help tab for details on how to request support. (#107)');
 				}
 			});
 
@@ -1337,8 +1420,8 @@
 				$('.ssl-notice').hide();
 				$('.different-plugin-version-notice').hide();
 				$('.migrate-db-button').show();
-				$(this).removeClass('temp-disabled');
-				$(this).removeAttr('readonly');
+				$('.temp-disabled').removeAttr('readonly');
+				$('.temp-disabled').removeClass('temp-disabled');
 				$('.connect-button').show();
 				$('.step-two').hide();
 				$('.connection-status').show().html('Please enter the connection information above to continue.');
@@ -1365,7 +1448,7 @@
 					setting 	: setting
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					alert('An error occured when trying to save the settings. Please try again. If the problem persists, please see the Help tab for details on how to request support. (#108)');
+					alert('An error occurred when trying to save the settings. Please try again. If the problem persists, please see the Help tab for details on how to request support. (#108)');
 					$('.ajax-spinner').remove();
 				},
 				success: function(data){
@@ -1474,6 +1557,14 @@
 
 			show_prefix_notice = false;
 			doing_ajax = true;
+
+			if( $('.basic-access-auth-wrapper').is(':visible') ) {
+				connection_info[0] = connection_info[0].replace( /\/\/(.*)@/, '//' );
+				connection_info[0] = connection_info[0].replace( '//', '//' + $.trim( $('.auth-username').val() ) + ':' + $.trim( $('.auth-password').val() ) + '@' );
+				var new_connection_info_contents = connection_info[0] + "\n" + connection_info[1];
+				$('.pull-push-connection-info').val(new_connection_info_contents);
+				$('.basic-access-auth-wrapper').hide();
+			}
 			
 			$('.step-two').hide();
 			$('.ssl-notice').hide();
@@ -1500,7 +1591,7 @@
 					intent: 	intent,
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					$('.connection-status').html( 'A problem occured when attempting to connect to the local server, please check the details and try again. (#100)' );
+					$('.connection-status').html( 'A problem occurred when attempting to connect to the local server, please check the details and try again. (#100)' );
 					$('.connection-status').addClass( 'migration-error' );
 					$('.ajax-spinner').remove();
 					doing_ajax = false;
@@ -1512,14 +1603,16 @@
 					if( typeof data.wpmdb_error != 'undefined' && data.wpmdb_error == 1 ){
 						$('.connection-status').html( data.body );
 						$('.connection-status').addClass( 'migration-error' );
+
+						if( data.body.indexOf( '401 Unauthorized' ) > -1 ) {
+							$('.basic-access-auth-wrapper').show();
+						}
+
 						return;
 					}
 
 					var profile_name = get_domain_name( connection_info[0] );
 					$('.create-new-profile').val(profile_name);
-
-					var original_body = data;
-					data = $.parseJSON( data );
 											
 					$('.pull-push-connection-info').addClass('temp-disabled');
 					$('.pull-push-connection-info').attr('readonly','readonly');
@@ -1534,13 +1627,11 @@
 					maybe_show_version_warning( data.plugin_version, connection_info[0] );
 					maybe_show_prefix_notice( data.prefix );
 
-					$('.remote-json-data').val(original_body);
-
 					var table_select = document.createElement('select');
 					$(table_select).attr('multiple', 'multiple').attr('name','select-tables[]').attr('id','select-tables');
 
 					$.each(connection_data.tables, function(index, value) {
-						$(table_select).append('<option value="' + value  + '">' +  value + '</option>');
+						$(table_select).append('<option value="' + value  + '">' +  value + ' (' + connection_data.table_sizes_hr[value]  + ')</option>');
 					});
 
 					pull_select = table_select;

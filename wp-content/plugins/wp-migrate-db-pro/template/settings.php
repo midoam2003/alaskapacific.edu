@@ -12,7 +12,7 @@
 
 	<form method="post" id="settings-form" action="#settings">
 
-		<div class="option-section allow-remote-requests-wrap">
+		<div class="option-section allow-remote-requests-wrap">		
 			<ul class="option-group">
 				<li>
 					<label for="allow_pull">
@@ -41,6 +41,20 @@
 			<label for="connection_info" class="connection-info-label">Connection Info</label>
 			<textarea id="connection_info" class="connection-info" readonly><?php echo $connection_info; ?></textarea>
 			<div class="reset-button-wrap clearfix"><a class="button reset-api-key js-action-link">Reset API Key</a></div>
+		</div>
+
+		<div class="option-section slider-outer-wrapper">
+			<div class="clearfix slider-label-wrapper">
+				<div class="slider-label">Maximum Request Size 
+					<a class="general-helper slider-helper js-action-link" href="#"></a>
+					<div class="slider-message helper-message">
+						We've detected that your server supports requests up to <?php echo size_format( $this->get_bottleneck( 'max' ) ); ?>, but it's possible that your server has limitations that we could not detect. If you're getting a 413 error or having trouble with time outs, try throttling this setting down.
+					</div>
+				</div>
+				<div class="amount"></div>
+				<span class="slider-success-msg">Saved</span>
+			</div>
+			<div class="slider"></div>
 		</div>
 
 	</form>

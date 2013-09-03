@@ -1,7 +1,5 @@
 <?php
 class WP_Migrate_DB_Pro {
-	private $upload_dir;
-	private $upload_url;
 	private $fp;
 	private $settings;
 	private $absolute_root_file_path;
@@ -21,7 +19,7 @@ class WP_Migrate_DB_Pro {
 	private $plugin_dir_path;
 	private $plugin_slug;
 	private $plugin_basename;
-	private $temp_prefix = '_migrate_';
+	private $temp_prefix = '_mig_';
 	private $row_tracker;
 	private $rows_per_segment = 100;
 	private $error;
@@ -30,7 +28,6 @@ class WP_Migrate_DB_Pro {
 	private $dbrains_api_base = 'https://deliciousbrains.com';
 	private $transient_timeout;
 	private $transient_retry_timeout;
-	private $max_allowed_packet_default;
 	private $multipart_boundary = 'bWH4JVmYCnf6GfXacrcc';
 	private $attempting_to_connect_to;
 
@@ -39,10 +36,6 @@ class WP_Migrate_DB_Pro {
 		$this->plugin_dir_path = plugin_dir_path( $plugin_file_path );
 		$this->plugin_slug = basename( $this->plugin_dir_path );
 		$this->plugin_basename = plugin_basename( $plugin_file_path );
-
-		$upload_dir = wp_upload_dir();
-		$this->upload_dir = $upload_dir['basedir'];
-		$this->upload_url = $upload_dir['baseurl'];
 
 		$this->replaced['serialized']['count'] = 0;
 		$this->replaced['serialized']['strings'] = '';
@@ -74,6 +67,11 @@ class WP_Migrate_DB_Pro {
 			'licence_email' => '',
 			'verify_ssl'	=> false,
 		);
+
+		if( empty( $this->settings['max_request'] ) ) {
+			$this->settings['max_request'] = min( 1024 * 1024, $this->get_bottleneck( 'max' ) );
+			update_option( 'wpmdb_settings', $this->settings );
+		}
 
 		// if no settings exist then this is a fresh install, set up some default settings
 		if ( empty( $this->settings ) ) {
@@ -123,6 +121,8 @@ class WP_Migrate_DB_Pro {
 		add_action( 'wp_ajax_wpmdb_get_log', array( $this, 'ajax_get_log' ) );
 		add_action( 'wp_ajax_wpmdb_activate_licence', array( $this, 'ajax_activate_licence' ) );
 		add_action( 'wp_ajax_wpmdb_check_licence', array( $this, 'ajax_check_licence' ) );
+		add_action( 'wp_ajax_wpmdb_fire_migration_complete', array( $this, 'fire_migration_complete' ) );
+		add_action( 'wp_ajax_wpmdb_update_max_request_size', array( $this, 'ajax_update_max_request_size' ) );
 
 		// external AJAX handlers
 		add_action( 'wp_ajax_nopriv_wpmdb_establish_remote_connection', array( $this, 'ajax_establish_remote_connection' ) );
@@ -131,6 +131,7 @@ class WP_Migrate_DB_Pro {
 		add_action( 'wp_ajax_nopriv_wpmdb_prepare_table_migration', array( $this, 'ajax_prepare_table_migration' ) );
 		add_action( 'wp_ajax_nopriv_wpmdb_finalize_backup', array( $this, 'ajax_finalize_backup' ) );
 		add_action( 'wp_ajax_nopriv_wpmdb_process_pull_request', array( $this, 'ajax_process_pull_request' ) );
+		add_action( 'wp_ajax_nopriv_wpmdb_fire_migration_complete', array( $this, 'fire_migration_complete' ) );
 
 		// Take over the update check
 		add_filter( 'site_transient_update_plugins', array( $this, 'site_transient_update_plugins' ) );
@@ -157,7 +158,9 @@ class WP_Migrate_DB_Pro {
 		$home_url = rtrim( home_url( '', 'http' ), '\\/' );
 		if ( $site_url != $home_url ) {
 			$difference = str_replace( $home_url, '', $site_url );
-			$absolute_path = rtrim( substr( ABSPATH, 0, -strlen( $difference ) ), '\\/' );
+			if( strpos( $absolute_path, $difference ) !== false ) {
+				$absolute_path = rtrim( substr( $absolute_path, 0, -strlen( $difference ) ), '\\/' );
+			}
 		}
 		$this->absolute_root_file_path = $absolute_path;
 
@@ -178,6 +181,7 @@ class WP_Migrate_DB_Pro {
 			'create_new_profile',
 			'create_backup',
 			'remove_backup',
+			'keep_active_plugins',
 		);
 
 		$this->default_profile = array(
@@ -197,13 +201,69 @@ class WP_Migrate_DB_Pro {
 		// allow devs to change the temporary prefix applied to the tables
 		$this->temp_prefix = apply_filters( 'wpmdb_temporary_prefix', $this->temp_prefix );
 
-		// allow devs to change the max allowed packet default value (1mb)
-		$this->max_allowed_packet_default = apply_filters( 'wpmdb_max_allowed_packet_default', 1048576 );
-
 		// testing only - if uncommented, will always check for plugin updates
 		//delete_site_transient( 'update_plugins' );
 		//delete_site_transient( 'wpmdb_upgrade_data' );
 		//delete_site_transient( 'wpmdb_licence_response' );
+	}
+
+	function get_upload_info( $type = 'path' ) {
+		if( ! function_exists( 'request_filesystem_credentials' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		}
+
+		// Let developers define their own path to for export files
+		// Ideally in a folder that's offline!
+		$upload_info = apply_filters( 'wpmdb_upload_info', array() );
+		if ( !empty( $upload_info ) ) {
+			return $upload_info;
+		}
+
+		$upload_dir = wp_upload_dir();
+
+		$upload_info['path'] = $upload_dir['basedir'];
+		$upload_info['url'] = $upload_dir['baseurl'];
+
+		$upload_dir_name = apply_filters( 'wpmdb_upload_dir_name', 'wp-migrate-db' );
+
+		if( ! file_exists( $upload_dir['basedir'] . DS . $upload_dir_name ) ) {
+			$url = wp_nonce_url( $this->plugin_base, 'wp-migrate-db-pro-nonce' );
+			if( false === ( $creds = request_filesystem_credentials( $url, '', false, false, NULL ) ) ) {
+				return $upload_info[$type];
+			}
+
+			if ( ! WP_Filesystem( $creds ) ) {
+				request_filesystem_credentials( $url, '', true, false, NULL );
+				return $upload_info[$type];
+			}
+			 
+			global $wp_filesystem;
+
+			if( ! $wp_filesystem->mkdir( $upload_dir['basedir'] . DS . 'wp-migrate-db' ) ) {
+				return $upload_info[$type];
+			}
+
+			$filename = $upload_dir['basedir'] . DS . 'wp-migrate-db' . DS . 'index.php';
+			if ( ! $wp_filesystem->put_contents( $filename, "<?php\r\n// Silence is golden\r\n?>", FS_CHMOD_FILE ) ) {
+				return $upload_info[$type];
+			}
+		}
+
+		$upload_info['path'] .= DS . $upload_dir_name;
+		$upload_info['url'] .= '/' . $upload_dir_name;
+
+		return $upload_info[$type];
+	}
+
+	function ajax_update_max_request_size() {
+		$this->settings['max_request'] = (int) $_POST['max_request_size'] * 1024;
+		update_option( 'wpmdb_settings', $this->settings );
+		exit;
+	}
+
+	function filter_post_elements( $post_array, $accepted_elements ) {
+		$accepted_elements[] = 'sig';
+		return array_intersect_key( $post_array, array_flip( $accepted_elements ) );
 	}
 
 	function verify_download( $response, $args, $url ) {
@@ -310,36 +370,6 @@ class WP_Migrate_DB_Pro {
 		return false;
 	}
 
-	function get_db_object(){
-		global $wpdb;
-
-		if( ( $colon_pos = strpos( DB_HOST, ':' ) ) !== false ) {
-			$host = substr( DB_HOST, 0, $colon_pos );
-			$port = (int) str_replace( $host . ':', '', DB_HOST );
-			$db = @new mysqli( $host, DB_USER, DB_PASSWORD, DB_NAME, $port );
-		}
-		else {
-			$db = @new mysqli( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-		}
-
-		if( $db->connect_error ) {
-			$this->error = 'MySQLi connection error ' . $db->connect_errno . ': ' . $db->connect_error;
-			$this->display_errors();
-			exit;
-		}
-
-		// DB_CHARSET was added in 2.2, so some old blogs don't have this
-		if ( defined( 'DB_CHARSET' ) ) {
-			if( ! $db->set_charset( DB_CHARSET ) ) {
-				$this->error = 'A problem occured while trying to setting the DB character set to ' . DB_CHARSET . ': ' . $db->error;
-				$this->display_errors();
-				exit;
-			}
-		}
-		
-		return $db;
-	}
-
 	function array_to_multipart( $data ) {
 		if ( !$data || !is_array( $data ) ) {
 			return $data;
@@ -359,12 +389,13 @@ class WP_Migrate_DB_Pro {
 		return $result;
 	}
 
-	function is_json( $string ) {
-		$json = @json_decode( $string );
+	function is_json( $string, $strict = false ) {
+		$json = @json_decode( $string, true );
+		if( $strict == true && ! is_array( $json ) ) return false;
 		return ! ( $json == NULL || $json == false );
 	}
 
-	function remote_post( $url, $data, $scope, $args = array(), $expecting_json = false ) {
+	function remote_post( $url, $data, $scope, $args = array(), $expecting_serial = false ) {
 		$this->set_time_limit();
 
 		if( function_exists( 'fsockopen' ) && strpos( $url, 'https://' ) === 0 && $scope == 'ajax_prepare_remote_connection' ) {
@@ -393,6 +424,7 @@ class WP_Migrate_DB_Pro {
 		$args['method'] = 'POST';
 		$args['body'] = $this->array_to_multipart( $data );
 		$args['headers']['Content-Type'] = 'multipart/form-data; boundary=' . $this->multipart_boundary;
+		$args['headers']['Referer'] = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 
 		$this->attempting_to_connect_to = $url;
 
@@ -402,7 +434,7 @@ class WP_Migrate_DB_Pro {
 			if( strpos( $url, 'https://' ) === 0 && $scope == 'ajax_prepare_remote_connection' ) {
 				$url = substr_replace( $url, 'http', 0, 5 );
 				// needs testing
-				if( $response = $this->remote_post( $url, $data, $scope, $args, $expecting_json ) ) {
+				if( $response = $this->remote_post( $url, $data, $scope, $args, $expecting_serial ) ) {
 					return $response;
 				}
 				else {
@@ -412,7 +444,7 @@ class WP_Migrate_DB_Pro {
 			else if( isset( $response->errors['http_request_failed'][0] ) && strstr( $response->errors['http_request_failed'][0], 'timed out' ) ) {
 				$this->error = 'The connection to the remote server has timed out, no changes have been committed. (#134 - scope: ' . $scope . ')';
 			}
-			else if ( isset( $response->errors['http_request_failed'][0] ) && strstr( $response->errors['http_request_failed'][0], 'Could not resolve host' ) ) {
+			else if ( isset( $response->errors['http_request_failed'][0] ) && ( strstr( $response->errors['http_request_failed'][0], 'Could not resolve host' ) || strstr( $response->errors['http_request_failed'][0], 'couldn\'t connect to host' ) ) ) {
 				$this->error = 'We could not find: ' . $_POST['url'] . '. Are you sure this is the correct URL?';
 				$url_bits = parse_url( $_POST['url'] );
 				if( strstr( $_POST['url'], 'dev.' ) || strstr( $_POST['url'], '.dev' ) || ! strstr( $url_bits['host'], '.' ) ) {
@@ -420,7 +452,7 @@ class WP_Migrate_DB_Pro {
 				}
 			}
 			else {
-				$this->error = 'The connection failed, an unexpected error occured, please contact support. (#121 - scope: ' . $scope . ')';
+				$this->error = 'The connection failed, an unexpected error occurred, please contact support. (#121 - scope: ' . $scope . ')';
 			}
 			$this->log_error( $this->error, $response );
 			return false;
@@ -429,12 +461,17 @@ class WP_Migrate_DB_Pro {
 			if( strpos( $url, 'https://' ) === 0 && $scope == 'ajax_prepare_remote_connection' ) {
 				$url = substr_replace( $url, 'http', 0, 5 );
 				// needs testing
-				if( $response = $this->remote_post( $url, $data, $scope, $args, $expecting_json ) ) {
+				if( $response = $this->remote_post( $url, $data, $scope, $args, $expecting_serial ) ) {
 					return $response;
 				}
 				else {
 					return false;
 				}
+			}
+			else if( $response['response']['code'] == '401' ) {
+				$this->error = 'The remote site is protected with Basic Authentication. Please enter the username and password above to continue. (401 Unauthorized)';
+				$this->log_error( $this->error, $response );
+				return false;	
 			}
 			else {
 				$this->error = 'Unable to connect to the remote server, please check the connection details - ' . $response['response']['code'] . ' ' . $response['response']['message'] . ' (#129 - scope: ' . $scope . ')';
@@ -442,8 +479,8 @@ class WP_Migrate_DB_Pro {
 				return false;
 			}
 		}
-		elseif ( $expecting_json && $this->is_json( $response['body'] ) == false ) {
-			$this->error = 'There was a problem with the AJAX request, we were expecting a JSON response, instead we received:<br />' . $response['body'];
+		elseif ( $expecting_serial && is_serialized( $response['body'] ) == false ) {
+			$this->error = 'There was a problem with the AJAX request, we were expecting a serialized response, instead we received:<br />' . htmlentities( $response['body'] );
 			$this->log_error( $this->error, $response );
 			return false;
 		}
@@ -475,8 +512,9 @@ class WP_Migrate_DB_Pro {
 		update_option( 'wpmdb_error_log', $log );
 	}
 
-	function get_sql_dump_file_name( $type = 'migrate' ) {
-		return $this->upload_dir . DS . sanitize_title_with_dashes( DB_NAME ) . '-' . $type . '-' . $_POST['datetime'] . '.sql';
+	function get_sql_dump_file_name( $type = 'migrate', $datetime = false ) {
+		$datetime = ( $datetime ? $datetime : $_POST['datetime'] );
+		return $this->get_upload_info() . DS . sanitize_title_with_dashes( DB_NAME ) . '-' . $type . '-' . $datetime . '.sql';
 	}
 
 	function parse_migration_form_data( $data ) {
@@ -550,29 +588,37 @@ class WP_Migrate_DB_Pro {
 		_e( 'MySQL', 'wp-app-store' ); echo ': ';
 		if ( function_exists( 'mysql_get_server_info' ) ) echo esc_html( mysql_get_server_info() );
 		echo "\r\n";
-
-		_e( 'max_allowed_packet_size', 'wp-app-store' ); echo ': ';
-		echo wp_convert_bytes_to_hr( $this->get_max_allowed_packet_size() );
-		echo "\r\n";
 		
 		_e( 'WP Memory Limit', 'wp-app-store' ); echo ': ';
 		echo WP_MEMORY_LIMIT;
 		echo "\r\n";
 
 		_e( 'WPMDB Bottleneck', 'wp-app-store' ); echo ': ';
-		echo wp_convert_bytes_to_hr( $this->get_bottleneck() );
+		echo size_format( $this->get_bottleneck() );
 		echo "\r\n";
+		
+		if ( function_exists( 'ini_get' ) && $suhosin_limit = ini_get( 'suhosin.post.max_value_length' ) ) {
+			_e( 'Suhosin Post Max Value Length', 'wp-app-store' ); echo ': ';
+			echo is_numeric( $suhosin_limit ) ? size_format( $suhosin_limit ) : $suhosin_limit;
+			echo "\r\n";
+		}
+
+		if ( function_exists( 'ini_get' ) && $suhosin_limit = ini_get( 'suhosin.request.max_value_length' ) ) {
+			_e( 'Suhosin Request Max Value Length', 'wp-app-store' ); echo ': ';
+			echo is_numeric( $suhosin_limit ) ? size_format( $suhosin_limit ) : $suhosin_limit;
+			echo "\r\n";
+		}
 		
 		_e( 'Debug Mode', 'wp-app-store' ); echo ': ';
 		if ( defined('WP_DEBUG') && WP_DEBUG ) { echo 'Yes'; } else { echo 'No'; }
 		echo "\r\n";
 		
 		_e( 'WP Max Upload Size', 'wp-app-store' ); echo ': ';
-		echo wp_convert_bytes_to_hr( wp_max_upload_size() );
+		echo size_format( wp_max_upload_size() );
 		echo "\r\n";
 		
 		_e( 'PHP Post Max Size', 'wp-app-store' ); echo ': ';
-		echo wp_convert_bytes_to_hr( $this->get_post_max_size() );
+		echo size_format( $this->get_post_max_size() );
 		echo "\r\n";
 		
 		_e( 'PHP Time Limit', 'wp-app-store' ); echo ': ';
@@ -631,27 +677,43 @@ class WP_Migrate_DB_Pro {
 		$plugin = str_replace( WP_PLUGIN_DIR, '', $name );
 		return substr( $plugin, 1 );
 	}
+
+	function fire_migration_complete() {
+		$filtered_post = $this->filter_post_elements( $_POST, array( 'action', 'url' ) );
+		if ( ! $this->verify_signature( $filtered_post, $this->settings['key'] ) ) {
+			echo $this->invalid_content_verification_error . ' (#123)';
+			exit;
+		}
+
+		do_action( 'wpmdb_migration_complete', 'pull', $_POST['url'] );
+		exit;
+	}
 	
 	// After table migration, delete old tables and rename new tables removing the temporarily prefix
 	function ajax_finalize_backup() {
 		global $wpdb;
 		// This particular function can be accessed by non logged in users AND logged in users
 		if ( ! current_user_can( 'manage_options' ) ) {
-			if ( ! $this->verify_signature( $_POST, $this->settings['key'] ) ) {
+			$filtered_post = $this->filter_post_elements( $_POST, array( 'action', 'intent', 'url', 'key', 'form_data', 'datetime', 'stage', 'prefix', 'type', 'location' ) );
+			if ( ! $this->verify_signature( $filtered_post, $this->settings['key'] ) ) {
 				echo $this->invalid_content_verification_error . ' (#123)';
 				exit;
 			}
 		}
 
-		$log = get_option( 'wpmdb_error_log' );
-		if( ! $log ) {
-			$log = '';
-		}
-		$log = esc_sql( $log );
-
 		if ( $_POST['intent'] == 'pull' ) {
 			$temp_tables = $this->get_tables( 'temp' );
 			$sql = '';
+
+			$preserved_options = array( 'wpmdb_settings', 'wpmdb_error_log' );
+
+			$this->form_data = $this->parse_migration_form_data( $_POST['form_data'] );
+			if( isset( $this->form_data['keep_active_plugins'] ) ) {
+				$preserved_options[] = 'active_plugins';
+			}
+
+			$preserved_options = apply_filters( 'wpmdb_preserved_options', $preserved_options );
+
 			foreach ( $temp_tables as $table ) {
 				$sql .= 'DROP TABLE IF EXISTS ' . $this->backquote( substr( $table, strlen( $this->temp_prefix ) ) ) . ';';
 				$sql .= "\n";
@@ -659,16 +721,38 @@ class WP_Migrate_DB_Pro {
 				$sql .= "\n";
 			}
 
-			// reset the wpmdb options after everything has migrated
-			$sql .= 'DELETE FROM `' . $_POST['prefix'] . 'options` WHERE `option_name` = \'wpmdb_error_log\';';
-			$sql .= 'INSERT INTO `' . $_POST['prefix'] . 'options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES (NULL, \'wpmdb_error_log\', \'' . $log . '\', \'yes\');';
-			$sql .= 'UPDATE `' . $_POST['prefix'] . 'options` SET `option_value` =\'' . serialize( $this->settings ) . '\' WHERE `option_name` = \'wpmdb_settings\';';
+			$preserved_options_data = $wpdb->get_results( sprintf( "SELECT * FROM %soptions WHERE `option_name` IN ('%s')", $wpdb->prefix, implode( "','", $preserved_options ) ), ARRAY_A );
+
+			foreach( $preserved_options_data as $option ) {
+				$sql .= $wpdb->prepare( "DELETE FROM `{$_POST['prefix']}options` WHERE `option_name` = %s;\n", $option['option_name'] );
+				$sql .= $wpdb->prepare( "INSERT INTO `{$_POST['prefix']}options` ( `option_id`, `option_name`, `option_value`, `autoload` ) VALUES ( NULL , %s, %s, %s );\n", $option['option_name'], $option['option_value'], $option['autoload'] );
+			}
+
 			$this->process_chunk( $sql );
+
+			$type = ( isset( $_POST['type'] ) ? 'push' : 'pull' );
+			$location = ( isset( $_POST['location'] ) ? $_POST['location'] : $_POST['url'] );
+
+			if( ! isset( $_POST['location'] ) ) {
+				$data = array();
+				$data['action'] = 'wpmdb_fire_migration_complete';
+				$data['url'] = home_url();
+				$data['sig'] = $this->create_signature( $data, $_POST['key'] );
+				$ajax_url = trailingslashit( $_POST['url'] ) . 'wp-admin/admin-ajax.php';
+				$response = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
+				echo $response;
+				$this->display_errors();
+			}
+
+			do_action( 'wpmdb_migration_complete', $type, $location );
 		}
 		else {
+			do_action( 'wpmdb_migration_complete', 'push', $_POST['url'] );
 			$data = $_POST;
 			$data['intent'] = 'pull';
 			$data['prefix'] = $wpdb->prefix;
+			$data['type'] = 'push';
+			$data['location'] = home_url();
 			$data['sig'] = $this->create_signature( $data, $data['key'] );
 			$ajax_url = trailingslashit( $_POST['url'] ) . 'wp-admin/admin-ajax.php';
 			$response = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
@@ -682,7 +766,9 @@ class WP_Migrate_DB_Pro {
 		// We need to strip before signature verification, otherwise verification will fail
 		$_POST['chunk'] = stripslashes( $_POST['chunk'] );
 
-		if ( !$this->verify_signature( $_POST, $this->settings['key'] ) ) {
+		$filtered_post = $this->filter_post_elements( $_POST, array( 'action', 'chunk', 'table' ) );
+
+		if ( !$this->verify_signature( $filtered_post, $this->settings['key'] ) ) {
 			echo $this->invalid_content_verification_error . ' (#130)';
 			exit;
 		}
@@ -698,20 +784,17 @@ class WP_Migrate_DB_Pro {
 
 	function process_chunk( $chunk ) {
 		// prepare db
+		global $wpdb;
 		$this->set_time_limit();
-		$db = $this->get_db_object();
-		$i = 1;
-		if ( $db->multi_query( $chunk ) ) { 
-			do {
-				$i++;
-			} while ( $db->next_result() ); 
+
+		$queries = array_filter( explode( ";\n", $chunk ) );
+
+		$wpdb->show_errors();
+		foreach( $queries as $query ) {
+			if( false === $wpdb->query( $query ) ) {
+				exit;
+			}
 		}
-		if ( $db->errno ) {
-			echo "Error executing statement $i in the following batch of queries.\n";
-			echo $chunk . "\n";
-			echo $db->error;
-		}
-		$db->close();
 	}
 
 	function create_signature( $data, $key ) {
@@ -736,7 +819,8 @@ class WP_Migrate_DB_Pro {
 		global $wpdb;
 		// Check that the user is valid and is allowed to perform a table migration
 		if ( ! current_user_can( 'manage_options' ) ) {
-			if ( ! $this->verify_signature( $_POST, $this->settings['key'] ) ) {
+			$filtered_post = $this->filter_post_elements( $_POST, array( 'action', 'intent', 'url', 'key', 'table', 'form_data', 'datetime', 'stage', 'bottleneck', 'prefix', 'current_row' ) );
+			if ( ! $this->verify_signature( $filtered_post, $this->settings['key'] ) ) {
 				echo $this->invalid_content_verification_error . ' (#119)';
 				exit;
 			}
@@ -752,10 +836,12 @@ class WP_Migrate_DB_Pro {
 				$data['intent'] = 'pull';
 				$ajax_url = trailingslashit( $_POST['url'] ) . 'wp-admin/admin-ajax.php';
 				$data['sig'] = $this->create_signature( $data, $data['key'] );
-				$this->remote_post( $ajax_url, $data, __FUNCTION__ );
+				$response = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
 				$this->display_errors();
+				echo $response;
 			}
 			else {
+				$this->maximum_chunk_size = $this->get_bottleneck();
 				$sql_dump_file_name = $this->get_sql_dump_file_name( 'backup' );
 				if ( isset( $this->form_data['gzip_file'] ) ) {
 					unset( $this->form_data['gzip_file'] );
@@ -774,6 +860,7 @@ class WP_Migrate_DB_Pro {
 
 		// Pull and push need to be handled differently for obvious reasons, trigger different code depending on the migration intent (push or pull)
 		if ( $_POST['intent'] == 'push' || $_POST['intent'] == 'savefile' ) {
+			$this->maximum_chunk_size = $this->get_bottleneck();
 			if ( isset( $_POST['bottleneck'] ) ) {
 				$this->maximum_chunk_size = (int) $_POST['bottleneck'];
 			}
@@ -799,7 +886,7 @@ class WP_Migrate_DB_Pro {
 		else {
 			$data = $_POST;
 			$data['action'] = 'wpmdb_process_pull_request';
-			$data['pull_limit'] = $this->get_max_allowed_packet_size();
+			$data['pull_limit'] = $this->get_sensible_pull_limit();
 			$data['prefix'] = $wpdb->prefix;
 			if ( isset( $data['sig'] ) ) {
 				unset( $data['sig'] );
@@ -808,26 +895,24 @@ class WP_Migrate_DB_Pro {
 			$row_tracker = '';
 			$data['sig'] = $this->create_signature( $data, $data['key'] );
 
-			while ( $row_tracker != -1 ) {
-				$response = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
-				$this->display_errors();
+			$response = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
+			$this->display_errors();
 
-				if( strpos( $response, ';' ) === false ) {
-					echo $response;
-					exit;
-				}
-
-				// returned data is just a big string like this query;query;query;33
-				// need to split this up into a chunk and row_tracker
-				$row_tracker = substr( strrchr( $response, ';' ), 1 );
-				$chunk = substr( $response, 0, strrpos( $response, ';' ) + 1 );
-
-				if ( ! empty( $chunk ) ) {
-					$this->process_chunk( $chunk );
-				}
-				$data['current_row'] = ( empty( $row_tracker ) ? 0 : $row_tracker );
-				$data['sig'] = $this->create_signature( $data, $data['key'] );
+			if( strpos( $response, ';' ) === false ) {
+				echo $response;
+				exit;
 			}
+
+			// returned data is just a big string like this query;query;query;33
+			// need to split this up into a chunk and row_tracker
+			$row_tracker = substr( strrchr( $response, ';' ), 1 );
+			$chunk = substr( $response, 0, strrpos( $response, ';' ) + 1 );
+
+			if ( ! empty( $chunk ) ) {
+				$this->process_chunk( $chunk );
+			}
+
+			echo trim( $row_tracker );
 		}
 		exit;
 	}
@@ -889,7 +974,8 @@ class WP_Migrate_DB_Pro {
 	// End point for the above AJAX call, ensures that the verification string is valid before continuing with the migration
 	function ajax_respond_initiate_migration() {
 		$return = array();
-		if ( $this->verify_signature( $_POST, $this->settings['key'] ) ) {
+		$filtered_post = $this->filter_post_elements( $_POST, array( 'action', 'intent', 'form_data' ) );
+		if ( $this->verify_signature( $filtered_post, $this->settings['key'] ) ) {
 			if ( isset( $this->settings['allow_' . $_POST['intent']] ) && $this->settings['allow_' . $_POST['intent']] == true ) {
 				$return['error'] = 0;
 			}
@@ -972,18 +1058,24 @@ class WP_Migrate_DB_Pro {
 			exit;
 		}
 
-		// TODO: this is horrible, needs to be cleaned up (in the JS too)
-		$response = json_decode( $response, true );
-		$response['scheme'] = $url_bits['scheme'];
-		$return = json_encode( $response );
+		$response = unserialize( $response );
 
 		if ( isset( $response['error'] ) && $response['error'] == 1 ) {
 			$return = array( 'wpmdb_error' => 1, 'body' => $response['message'] );
+			echo json_encode( $return );
+			exit;
 		}
 
-		echo json_encode( $return );
+		$response['scheme'] = $url_bits['scheme'];
+		$return = json_encode( $response );
 
+		echo $return;
 		exit;
+	}
+
+	function format_table_sizes( $size ) {
+		$size *= 1024;
+		return size_format( $size );
 	}
 
 	// AJAX end point for the above AJAX call, returns table information, absolute file path, table prefix, etc
@@ -992,35 +1084,27 @@ class WP_Migrate_DB_Pro {
 		
 		$return = array();
 		
-		if ( !$this->verify_signature( $_POST, $this->settings['key'] ) ) {
+		$filtered_post = $this->filter_post_elements( $_POST, array( 'action', 'intent' ) );
+		if ( !$this->verify_signature( $filtered_post, $this->settings['key'] ) ) {
 			$return['error'] = 1;
 			$return['message'] = $this->invalid_content_verification_error . ' (#120) <a href="#" class="try-again js-action-link">Try again?</a>';
-			echo json_encode( $return );
-			exit;
-		}
-
-		if ( false == function_exists( 'mysqli_connect' ) ) {
-			$return = array(
-				'error' 	=> 1,
-				'message'	=> 'Oops, looks like PHP\'s mysqli extension is not
-					installed on the remote server. Please contact your web
-					host or system administrator to install it and
-					continue using WP Migrate DB Pro.'
-			);
-			echo json_encode( $return );
+			echo serialize( $return );
 			exit;
 		}
 
 		if ( !isset( $this->settings['allow_' . $_POST['intent']] ) || $this->settings['allow_' . $_POST['intent']] != true ) {
 			$return['error'] = 1;
 			$return['message'] = 'The connection succeeded but the remote site is configured to reject ' . $_POST['intent'] . ' connections. You can change this in the "settings" tab on the remote site. (#122) <a href="#" class="try-again js-action-link">Try again?</a>';
-			echo json_encode( $return );
+			echo serialize( $return );
 			exit;
 		}
 
 		$plugin_info = get_plugin_data( $this->plugin_file_path, false, false );
 		$return['tables'] = $this->get_tables();
+		$return['prefixed_tables'] = $this->get_tables( 'prefix' );
 		$return['table_sizes'] = $this->get_table_sizes();
+		$return['table_rows'] = $this->get_table_row_count();
+		$return['table_sizes_hr'] = array_map( array( $this, 'format_table_sizes' ), $this->get_table_sizes() );
 		$return['path'] = $this->absolute_root_file_path;
 		$return['url'] = home_url();
 		$return['prefix'] = $wpdb->prefix;
@@ -1028,7 +1112,7 @@ class WP_Migrate_DB_Pro {
 		$return['error'] = 0;
 		$return['plugin_version'] = $plugin_info['Version'];
 		$return['domain'] = ( defined( 'DOMAIN_CURRENT_SITE' ) ? DOMAIN_CURRENT_SITE : '' );
-		echo json_encode( $return );
+		echo serialize( $return );
 		exit;
 	}
 
@@ -1053,7 +1137,7 @@ class WP_Migrate_DB_Pro {
 		$prefix = ( $scope == 'temp' ? $this->temp_prefix : $wpdb->prefix );
 		$tables = $wpdb->get_results( 'SHOW FULL TABLES', ARRAY_N );
 		foreach ( $tables as $table ) {
-			if ( 0 !== strpos( $table[0], $prefix ) || $table[1] == 'VIEW' ) {
+			if ( ( ( $scope == 'temp' || $scope == 'prefix' ) && 0 !== strpos( $table[0], $prefix ) ) || $table[1] == 'VIEW' ) {
 				continue;
 			}
 			$clean_tables[] = $table[0];
@@ -1069,13 +1153,28 @@ class WP_Migrate_DB_Pro {
 		return $this->settings['profiles'][$profile_id];
 	}
 
-	function get_table_sizes() {
+	function get_table_row_count() {
 		global $wpdb;
+		$results = $wpdb->get_results( $wpdb->prepare(
+			'SELECT table_name, TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = %s', DB_NAME
+			), ARRAY_A
+		);
+		$return = array();
+		foreach( $results as $results ) {
+			$return[$results['table_name']] = $results['TABLE_ROWS'];
+		}
+		return $return;
+	}
+
+	function get_table_sizes( $scope = 'regular' ) {
+		global $wpdb;
+		$prefix = ( $scope == 'temp' ? $this->temp_prefix : $wpdb->prefix );
 		$results = $wpdb->get_results( $wpdb->prepare(
 				'SELECT TABLE_NAME AS "table",
 							ROUND((data_length + index_length)/1024,0) AS "size"
 							FROM information_schema.TABLES
-							WHERE information_schema.TABLES.table_schema="%s"', DB_NAME
+							WHERE information_schema.TABLES.table_schema="%s"
+							AND information_schema.TABLES.table_type="%s"', DB_NAME, "BASE TABLE"
 			), ARRAY_A
 		);
 
@@ -1106,23 +1205,42 @@ class WP_Migrate_DB_Pro {
 		return $val;
 	}
 
-	function get_max_allowed_packet_size() {
-		global $wpdb;
-		// Need to limit max allowed packet to a sensible size, here we allow a max size of 25mb
-		$max_allowed_packet_upper_size = apply_filters( 'wpmdb_max_allowed_packet_upper_size', 26214400 );
-		$size = $wpdb->get_results( 'SHOW VARIABLES LIKE \'max_allowed_packet\'', ARRAY_A );
-		$max_allowed_packet_value = ( empty( $size[0]['Value'] ) ? $this->max_allowed_packet_default : $size[0]['Value'] );
-		return min( $max_allowed_packet_upper_size, $max_allowed_packet_value );
+	function get_sensible_pull_limit() {
+		return apply_filters( 'wpmdb_sensible_pull_limit', min( 26214400, $this->settings['max_request'] ) );
 	}
 
-	function get_bottleneck() {
+	function get_bottleneck( $type = 'regular' ) {
+		$suhosin_limit = false;
+		$suhosin_request_limit = false;
+		$suhosin_post_limit = false;
+
+		if ( function_exists( 'ini_get' ) ) {
+			$suhosin_request_limit = ini_get( 'suhosin.request.max_value_length' );
+			$suhosin_post_limit = ini_get( 'suhosin.post.max_value_length' );
+		}
+
+		if ( $suhosin_request_limit && $suhosin_post_limit ) {
+			$suhosin_limit = min( $suhosin_request_limit, $suhosin_post_limit );
+		}
+
 		// we have to account for HTTP headers and other bloating, here we minus 1kb for bloat
-		$calculated_bottleneck = min( ( $this->get_post_max_size() - 1024 ), $this->get_max_allowed_packet_size() );
+		$post_max_upper_size = apply_filters( 'wpmdb_post_max_upper_size', 26214400 );
+		$calculated_bottleneck = min( ( $this->get_post_max_size() - 1024 ), $post_max_upper_size );
+
+		if ( $suhosin_limit ) {
+			$calculated_bottleneck = min( $calculated_bottleneck, $suhosin_limit - 1024 );
+		}
+
+		if( $type != 'max' ) {
+			$calculated_bottleneck = min( $calculated_bottleneck, $this->settings['max_request'] );
+		}
+
 		return apply_filters( 'wpmdb_bottleneck', $calculated_bottleneck );
 	}
 
 	function ajax_process_pull_request() {
-		if ( ! $this->verify_signature( $_POST, $this->settings['key'] ) ) {
+		$filtered_post = $this->filter_post_elements( $_POST, array( 'action', 'intent', 'url', 'key', 'table', 'form_data', 'datetime', 'stage', 'bottleneck', 'prefix', 'pull_limit', 'current_row' ) );
+		if ( ! $this->verify_signature( $filtered_post, $this->settings['key'] ) ) {
 			echo $this->invalid_content_verification_error . ' (#124)';
 			exit;
 		}
@@ -1168,11 +1286,14 @@ class WP_Migrate_DB_Pro {
 			}
 			?>
 
-			<?php
-			if ( $msg = $this->get_new_beta_version_msg() ) {
-				echo '<div class="updated" style="margin: 10px 0 0 0;"><p>', $msg, '</p></div>';
-			}
-			?>
+			<div class="updated warning ie-warning" style="margin: 10px 0 0 0;">
+				<p>
+					<strong>Internet Explorer Not Supported</strong> &mdash; 
+					Less than 2% of our customers use IE, so we've decided not to spend time supporting it.
+					We ask that you use Firefox or a Webkit-based browser like Chrome or Safari instead.
+					If this is a problem for you, please let us know.
+				</p>
+			</div>
 
 			<div id="wpmdb-main">
 
@@ -1187,21 +1308,7 @@ class WP_Migrate_DB_Pro {
 					if ( isset( $_POST['import-db'] ) ) {
 						$this->import_db();
 					}
-					if( function_exists( 'mysqli_connect' ) == false ) : ?>
-					<div class="mysqli-notice migrate-tab content-tab">
-						<p>
-							<strong>MySQLi PHP Extension Not Installed</strong> &mdash;
-							Oops, looks like PHP's mysqli extension is not
-							installed on this server. Please contact your web
-							host or system administrator to install it and
-							continue using WP Migrate DB Pro.
-						</p>
-					</div>
-					<?php
-					else :
 					$this->template( 'migrate' );
-					endif;
-
 				}
 
 				$this->template( 'settings' );
@@ -1256,8 +1363,14 @@ class WP_Migrate_DB_Pro {
 		}
 
 		$current_row = -1;
-		if ( isset( $_POST['current_row'] ) ) {
-			$current_row = $_POST['current_row'];
+		if ( ! empty( $_POST['current_row'] ) ) {
+			$current_row = trim( $_POST['current_row'] );
+			if ( ! empty( $current_row ) ) {
+				$current_row = (int) $current_row;
+			}
+			else {
+				$current_row = -1;
+			}
 		}
 
 		if ( $current_row == -1 ) {
@@ -1298,7 +1411,7 @@ class WP_Migrate_DB_Pro {
 
 			$create_table[0][1] = apply_filters( 'wpmdb_create_table_query', $create_table[0][1] );
 
-			$this->stow( $create_table[0][1] . ' ;' );
+			$this->stow( $create_table[0][1] . ";\n" );
 
 			// Comment in SQL-file
 			if ( $this->form_data['action'] == 'savefile' || $_POST['stage'] == 'backup' ) {
@@ -1358,15 +1471,27 @@ class WP_Migrate_DB_Pro {
 			$where = '';
 			// We need ORDER BY here because with LIMIT, sometimes it will return
 			// the same results from the previous query and we'll have duplicate insert statements 
-			if ( isset( $this->form_data['exclude_spam'] ) && $wpdb->comments == $table ) {
-				$where = ' WHERE comment_approved != "spam" ORDER BY comment_ID';
-			} elseif ( isset( $this->form_data['exclude_revisions'] ) && $wpdb->posts == $table ) {
+			if ( isset( $this->form_data['exclude_spam'] ) ) {
+				if ( $wpdb->comments == $table ) {
+					$where = ' WHERE comment_approved != "spam" ORDER BY comment_ID';
+				}
+				elseif ( $wpdb->commentmeta == $table ) {
+					$where = sprintf( ' INNER JOIN %1$s
+						ON %1$s.comment_ID = %2$s.comment_id AND %1$s.comment_approved != \'spam\'
+						ORDER BY %2$s.meta_id',
+						$this->backquote( $wpdb->comments ), $this->backquote( $wpdb->commentmeta ) );
+				}
+			}
+			elseif ( isset( $this->form_data['exclude_revisions'] ) && $wpdb->posts == $table ) {
 				$where = ' WHERE post_type != "revision" ORDER BY ID';
 			}
 
 			$where = apply_filters( 'wpmdb_rows_where', $where, $table );
 
-			$table_data = $wpdb->get_results( "SELECT * FROM " . $this->backquote( $table ) . " $where LIMIT {$row_start}, {$row_inc}" );
+			$sql = "SELECT " . $this->backquote( $table ) . ".* FROM " . $this->backquote( $table ) . " $where LIMIT {$row_start}, {$row_inc}";
+			$sql = apply_filters( 'wpmdb_rows_sql', $sql );
+
+			$table_data = $wpdb->get_results( $sql );
 
 			if ( $table_data ) {
 				foreach ( $table_data as $row ) {
@@ -1383,7 +1508,7 @@ class WP_Migrate_DB_Pro {
 							}
 							else {
 
-								if ( 'guid' != $key || ( isset( $this->form_data['replace_guids'] ) && $wpdb->posts == $table ) ) {
+								if ( 'guid' != $key || ( isset( $this->form_data['replace_guids'] ) && ( $wpdb->posts == $table || preg_match( '/' . $wpdb->prefix . '[0-9]+_posts/', $table ) ) ) ) {
 									if ( $_POST['stage'] != 'backup' ) {
 										$value = $this->recursive_unserialize_replace( $value );
 									}
@@ -1397,18 +1522,16 @@ class WP_Migrate_DB_Pro {
 					$insert_line = '(' . implode( ', ', $values ) . '),';
 					$insert_line .= "\n";
 
-					if ( isset( $_POST['intent'] ) && ( $_POST['intent'] == 'pull' || $_POST['intent'] == 'push' ) && $_POST['stage'] != 'backup' ) {
-						if ( ( strlen( $this->current_chunk ) + strlen( $insert_line ) + strlen( $insert_buffer ) + 10 ) > $this->maximum_chunk_size ) {
-							if( $insert_buffer != $insert_query_template ) {
-								$insert_buffer = rtrim( $insert_buffer, "\n," );
-								$insert_buffer .= " ;\n";
-								$this->stow( $insert_buffer );
-								$insert_buffer = $insert_query_template;
-								$query_size = 0;
-							}
-							$this->transfer_chunk();
+					if ( ( strlen( $this->current_chunk ) + strlen( $insert_line ) + strlen( $insert_buffer ) + 10 ) > $this->maximum_chunk_size ) {
+						if( $insert_buffer != $insert_query_template ) {
+							$insert_buffer = rtrim( $insert_buffer, "\n," );
+							$insert_buffer .= " ;\n";
+							$this->stow( $insert_buffer );
+							$insert_buffer = $insert_query_template;
+							$query_size = 0;
 						}
-					} 
+						$this->transfer_chunk();
+					}
 
 					if ( ( $query_size + strlen( $insert_line ) ) > $this->max_insert_string_len && $insert_buffer != $insert_query_template ) {
 						$insert_buffer = rtrim( $insert_buffer, "\n," );
@@ -1446,16 +1569,8 @@ class WP_Migrate_DB_Pro {
 			$this->stow( "\n" );
 		}
 
-		// required for pull, tells the remote machine to stop sending pull requests
-		if ( isset( $_POST['intent'] ) && $_POST['intent'] == 'pull' && $_POST['stage'] != 'backup' ) {
-			$this->row_tracker = -1;
-			$this->transfer_chunk();
-		}
-
-		// required for push, sends any remaining data left over in the current_chunk buffer to the remote machine
-		if ( $this->form_data['action'] != 'savefile' && ! empty( $this->current_chunk ) && $_POST['stage'] != 'backup' ) {
-			$this->transfer_chunk();
-		}
+		$this->row_tracker = -1;
+		$this->transfer_chunk();
 
 	} // end backup_table()
 
@@ -1473,6 +1588,7 @@ class WP_Migrate_DB_Pro {
 	 */
 	function recursive_unserialize_replace( $data, $serialized = false, $parent_serialized = false ) {
 
+		$is_json = false;
 		// some unseriliased data cannot be re-serialized eg. SimpleXMLElements
 		try {
 
@@ -1499,12 +1615,26 @@ class WP_Migrate_DB_Pro {
 				$data = $_tmp;
 				unset( $_tmp );
 			}
+			elseif ( $this->is_json( $data, true ) ) {
+				$_tmp = array( );
+				$data = json_decode( $data, true );
+				foreach ( $data as $key => $value ) {
+					$_tmp[ $key ] = $this->recursive_unserialize_replace( $value, false, $parent_serialized );
+				}
+
+				$data = $_tmp;
+				unset( $_tmp );	
+				$is_json = true;
+			}
 			elseif ( is_string( $data ) ) {
 				$data = $this->apply_replaces( $data, $parent_serialized );
 			}
 
 			if ( $serialized )
 				return serialize( $data );
+
+			if ( $is_json )
+				return json_encode( $data );
 
 		} catch( Exception $error ) {
 
@@ -1541,6 +1671,7 @@ class WP_Migrate_DB_Pro {
 	}
 
 	function stow( $query_line, $replace = true ) {
+		$this->current_chunk .= $query_line;
 		if ( $this->form_data['action'] == 'savefile' || $_POST['stage'] == 'backup' ) {
 			if ( $this->gzip() && isset( $this->form_data['gzip_file'] ) ) {
 				if ( ! @gzwrite( $this->fp, $query_line ) ) {
@@ -1555,13 +1686,8 @@ class WP_Migrate_DB_Pro {
 				}
 			}
 		}
-		else {
-			
-			$this->current_chunk .= $query_line;
-			if ( $_POST['intent'] == 'pull' ) {
-				echo $query_line;
-			}
-
+		else if ( $_POST['intent'] == 'pull' ) {
+			echo $query_line;
 		}
 	}
 
@@ -1569,6 +1695,12 @@ class WP_Migrate_DB_Pro {
 	function transfer_chunk() {
 
 		if ( $_POST['intent'] == 'pull' ) {
+			echo $this->row_tracker;
+			exit;
+		}
+
+		if( $_POST['intent'] == 'savefile' || $_POST['stage'] == 'backup' ) {
+			$this->close( $this->fp );
 			echo $this->row_tracker;
 			exit;
 		}
@@ -1592,6 +1724,9 @@ class WP_Migrate_DB_Pro {
 
 		// reset our chunk values back to the default
 		$this->current_chunk = '';
+
+		echo $this->row_tracker;
+		exit;
 	}
 
 	/**
@@ -1649,6 +1784,10 @@ class WP_Migrate_DB_Pro {
 		$src = plugins_url( 'asset/js/script.js', dirname( __FILE__ ) );
 		wp_enqueue_script( 'wp-migrate-db-pro-script', $src, array( 'jquery' ), $this->get_installed_version(), true );
 
+		wp_enqueue_script('jquery');
+		wp_enqueue_script('jquery-ui-core');
+		wp_enqueue_script('jquery-ui-slider');
+
 		// PressTrends
 		$this->presstrends();
 	}
@@ -1662,7 +1801,7 @@ class WP_Migrate_DB_Pro {
 		} 
 
 		$filename = sanitize_title_with_dashes( DB_NAME ) . '-migrate-' . $_GET['download'] . '.sql';
-		$diskfile = $this->upload_dir . DS . $filename ;
+		$diskfile = $this->get_sql_dump_file_name( 'migrate', $_GET['download'] );
 
 		if ( isset( $_GET['gzip'] ) ) {
 			$diskfile .= '.gz';
@@ -1693,8 +1832,10 @@ class WP_Migrate_DB_Pro {
 			var wpmdb_this_path = '<?php echo addslashes( $this->absolute_root_file_path ); ?>';
 			var wpmdb_this_domain = '<?php echo ( defined( 'DOMAIN_CURRENT_SITE' ) ? DOMAIN_CURRENT_SITE : '' ); ?>';
 			var wpmdb_this_tables = '<?php echo json_encode( $this->get_tables() ); ?>';
+			var wpmdb_this_prefixed_tables = '<?php echo json_encode( $this->get_tables( 'prefix' ) ); ?>';
 			var wpmdb_this_table_sizes = '<?php echo json_encode( $this->get_table_sizes() ); ?>';
-			var wpmdb_this_upload_url = '<?php echo addslashes( trailingslashit( $this->upload_url ) ); ?>';
+			var wpmdb_this_table_rows = '<?php echo json_encode( $this->get_table_row_count() ); ?>';
+			var wpmdb_this_upload_url = '<?php echo addslashes( trailingslashit( $this->get_upload_info( 'url' ) ) ); ?>';
 			var wpmdb_this_website_name = '<?php echo sanitize_title_with_dashes( DB_NAME ); ?>';
 			var wpmdb_this_download_url = '<?php echo network_admin_url( $this->plugin_base . '&download=' ); ?>';
 			var wpmdb_this_prefix = '<?php echo $table_prefix; ?>';
@@ -1702,6 +1843,8 @@ class WP_Migrate_DB_Pro {
 			var wpmdb_is_multisite = <?php echo ( is_multisite() ? 'true' : 'false' ); ?>;
 			var wpmdb_openssl_available = <?php echo ( $this->open_ssl_enabled() ? 'true' : 'false' ); ?>;
 			var wpmdb_plugin_version = '<?php echo $plugin_info['Version']; ?>';
+			var wpmdb_max_request = '<?php echo $this->settings['max_request'] ?>';
+			var wpmdb_bottleneck = '<?php echo $this->get_bottleneck( 'max' ); ?>';
 		</script>
 		<?php
 	}
@@ -1761,39 +1904,6 @@ class WP_Migrate_DB_Pro {
 			wp_remote_get( $url );
 			set_transient( 'presstrends_cache_data', $data, $this->transient_timeout );
 		}
-	}
-
-	function get_new_beta_version_msg() {
-		$latest = $this->get_beta_version_data();
-		if ( !isset( $latest['version'] ) || !isset( $latest['msg'] ) ) return false;
-
-		$plugin = get_plugin_data( $this->plugin_file_path, false, false );
-
-		if ( !isset( $plugin['Version'] ) ) return false;
-
-		if ( version_compare( $plugin['Version'], $latest['version'], '>=' ) ) {
-			return false;
-		}
-
-		return $latest['msg'];
-	}
-
-	function get_beta_version_data() {
-		$key = 'wpmdb_beta_notice';
-		$info = get_site_transient( $key );
-		if ( $info ) return $info;
-
-		$url = 'http://cdn.deliciousbrains.com/beta/data.json';
-		$data = wp_remote_get( $url, array( 'timeout' => 30 ) );
-
-		if ( !is_wp_error( $data ) && 200 == $data['response']['code'] ) {
-			if ( $info = json_decode( $data['body'], true ) ) {
-				set_site_transient( $key, $info, $this->transient_timeout );
-				return $info;
-			}
-		}
-
-		return false;
 	}
 
 	function get_installed_version() {
