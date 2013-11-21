@@ -95,7 +95,7 @@ foreach($custom_terms as $custom_term) {
           <!--   <li><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $post->post_name; ?>.png"></li> -->
 
 
-           <li><?php echo get_the_post_thumbnail( $post->ID, array(100,100) ); ?></li>
+          <!--  <li><?php echo get_the_post_thumbnail( $post->ID, array(100,100) ); ?></li> -->
 
             <?php
           
