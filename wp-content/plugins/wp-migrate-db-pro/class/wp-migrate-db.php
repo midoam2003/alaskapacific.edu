@@ -904,6 +904,7 @@ class WP_Migrate_DB_Pro {
 		// Check that the user is valid and is allowed to perform a table migration
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$filtered_post = $this->filter_post_elements( $_POST, array( 'action', 'intent', 'url', 'key', 'table', 'form_data', 'stage', 'bottleneck', 'prefix', 'current_row', 'dump_filename', 'last_table', 'gzip', 'primary_keys' ) );
+			$filtered_post['primary_keys'] = stripslashes( $filtered_post['primary_keys'] );
 			if ( ! $this->verify_signature( $filtered_post, $this->settings['key'] ) ) {
 				echo $this->invalid_content_verification_error . ' (#119)';
 				exit;
@@ -919,6 +920,7 @@ class WP_Migrate_DB_Pro {
 				// flip the intent so we can trigger the else statement below
 				$data['intent'] = 'pull';
 				$ajax_url = trailingslashit( $_POST['url'] ) . 'wp-admin/admin-ajax.php';
+				$data['primary_keys'] = stripslashes( $data['primary_keys'] );
 				$data['sig'] = $this->create_signature( $data, $data['key'] );
 				$response = $this->remote_post( $ajax_url, $data, __FUNCTION__ );
 				$this->display_errors();
