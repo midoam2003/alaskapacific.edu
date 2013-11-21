@@ -56,10 +56,30 @@ function template_add_custom_content(){
         genesis_image(array('format'=>'html', 'size'=>'people_bio', 'attr' => 'class=alignleft post-image'));
     }
 
-    echo $the_content;
+$id = get_the_ID();
+    $terms = wp_get_post_terms( $id, 'levels');
+
+    if ($terms[0]->slug == 'aa' || $terms[0]->slug == 'ba' || $terms[0]->slug == 'bs') {
+
+        $level = "undergraduate";;
+    } else {
+
+        $level = "graduate";
+    }
+
+    if (get_post($id)->post_name == "early-honors") {
+
+        $level = "early-honors";
+    }
+?>
+
+
+    <a href="<? echo get_bloginfo('url');?>/apply/<? echo $level ?>" class="button" style="font-size: 24px !important;">Apply Today</a>
+    <? echo $the_content; ?>
+    <?
     
-    $id = get_the_ID();
     $custom_fields = get_post_custom($id);
+
     $people_title = $custom_fields['title'][0];
     $people_phone = $custom_fields['phone'][0];
     $people_email = $custom_fields['email'][0];

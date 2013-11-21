@@ -81,8 +81,10 @@ foreach($custom_terms as $custom_term) {
         while($loop->have_posts()) : $loop->the_post();
             //$levels = get_terms('levels');
                 $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
-                  
+                  if ($levels[0]) {
             ?><li><a href="<?php echo get_permalink() ?>"><?php echo $levels[0] ?></a></li><?php
+
+        }
         endwhile;
         ?>
         </ul>
