@@ -60,6 +60,8 @@ jQuery(document).ready(function ($) {
     $('.filters a').click(function (e) { 
 
         e.preventDefault();
+        $('.filters a').removeClass('activated');
+        $(this).addClass('activated');
 
         var selector = $(this).attr('data-filter');
         $('#degrees').isotope({ filter: selector });

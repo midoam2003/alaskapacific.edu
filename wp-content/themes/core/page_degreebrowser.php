@@ -35,15 +35,19 @@ function template_load_mobile(){
 	load_page_menu('admissions-menu');
 	load_quick_links();
 }
+?>
+
+<?
 
  get_header(); 
 
 // content here
  ?>
 
+<div class="degrees-header"><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degree-browser-title.png"></div>
 <!-- <div class="future-splash"><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/future-students/future-students-header.jpg"></div> -->
 
-  <ul class="filters"><li><a href="" data-filter="*">Show all</a></li><li><a href="" data-filter=".aa, .ba, .bs, .certificate">Undergraduate Programs</a></li><li><a href="" data-filter=".ms, .psyd, .ma">Graduate Programs</a></li></ul>
+  <ul class="filters"><li><a href="" data-filter="*" class="activated">Show all</a></li><li><a href="" data-filter=".aa, .ba, .bs, .certificate">Undergraduate Programs</a></li><li><a href="" data-filter=".ms, .psyd, .ma">Graduate Programs</a></li></ul>
         <div id="degrees">
 
 <?php
@@ -69,6 +73,7 @@ foreach($custom_terms as $custom_term) {
          <div class="box<?php
         while($loop->have_posts()) : $loop->the_post(); $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "slugs") ); ?> <?php echo $levels[0] ?><?php
         endwhile;
+
         ?>">
             <h2><a href="<?php echo get_bloginfo('url') ?>/degrees/aa-accounting"><? echo $custom_term->name ?></a></h2>
         <ul class="levels">
@@ -77,21 +82,21 @@ foreach($custom_terms as $custom_term) {
             //$levels = get_terms('levels');
                 $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
                   
-            ?>
-
-                <li><a href="<?php echo get_permalink() ?>"> <?php echo $levels[0] ?> </a></li>
-
-            <?php
+            ?><li><a href="<?php echo get_permalink() ?>"><?php echo $levels[0] ?></a></li><?php
         endwhile;
         ?>
         </ul>
-        <ul class="slideshow" style="background: transparent url('<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $custom_term->slug; ?>-bw.png') no-repeat 0 0;">
+        <ul class="slideshow" style="background: transparent url('<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $custom_term->slug; ?>-bw.jpg') no-repeat 0 0;">
             <?php
         while($loop->have_posts()) : $loop->the_post(); $levels = wp_get_post_terms( $post->ID, 'degrees', array("fields" => "slugs") ); ?>
 
-            <li><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $post->post_name; ?>.png"></li>
+          <!--   <li><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $post->post_name; ?>.png"></li> -->
+
+
+           <li><?php echo get_the_post_thumbnail( $post->ID, array(100,100) ); ?></li>
 
             <?php
+          
         endwhile;
         ?> 
         </ul>
