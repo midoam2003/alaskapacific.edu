@@ -1,0 +1,10 @@
+[26-May-2012 03:00:42] PHP Fatal error:  Call to undefined function  remove_theme_support() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-structure.php on line 3
+[26-May-2012 03:01:22] PHP Fatal error:  Call to undefined function  add_shortcode() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-shortcodes.php on line 13
+[21-Aug-2012 16:14:20] PHP Fatal error:  Call to undefined function  add_shortcode() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-shortcodes.php on line 13
+[21-Aug-2012 16:14:20] PHP Fatal error:  Call to undefined function  remove_theme_support() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-structure.php on line 3
+[27-Aug-2012 06:22:33] PHP Fatal error:  Call to undefined function  remove_theme_support() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-structure.php on line 3
+[27-Aug-2012 07:02:58] PHP Fatal error:  Call to undefined function  add_shortcode() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-shortcodes.php on line 13
+[10-Apr-2013 01:48:02] PHP Fatal error:  Call to undefined function  remove_theme_support() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-structure.php on line 3
+[10-Apr-2013 01:58:58] PHP Fatal error:  Call to undefined function  add_shortcode() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-shortcodes.php on line 13
+[17-Jul-2013 22:36:11] PHP Fatal error:  Call to undefined function  remove_theme_support() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-structure.php on line 3
+[17-Jul-2013 23:33:47] PHP Fatal error:  Call to undefined function  add_shortcode() in /home/alaskapa/public_html/wp-content/themes/core/tools/theme-shortcodes.php on line 13

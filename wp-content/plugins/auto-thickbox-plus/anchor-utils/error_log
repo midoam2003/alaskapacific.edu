@@ -1,0 +1,1 @@
+[26-Jan-2013 00:04:00] PHP Fatal error:  Call to undefined function  add_filter() in /home/alaskapa/public_html/wp-content/plugins/auto-thickbox-plus/anchor-utils/anchor-utils.php on line 297

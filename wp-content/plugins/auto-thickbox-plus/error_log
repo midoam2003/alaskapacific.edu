@@ -1,0 +1,3 @@
+[06-Jan-2013 11:35:30] PHP Fatal error:  Call to undefined function  add_action() in /home/alaskapa/public_html/wp-content/plugins/auto-thickbox-plus/auto-thickbox.php on line 855
+[18-Jan-2013 18:56:38] PHP Fatal error:  Call to undefined function  add_action() in /home/alaskapa/public_html/wp-content/plugins/auto-thickbox-plus/auto-thickbox.php on line 855
+[17-Apr-2013 10:34:32] PHP Fatal error:  Call to undefined function  add_action() in /home/alaskapa/public_html/wp-content/plugins/auto-thickbox-plus/auto-thickbox.php on line 855
