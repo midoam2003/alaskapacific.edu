@@ -2599,7 +2599,7 @@ opacity: .85;
 
 
 
-.closure { font-size: 21px; line-height: 1.5; color: #ff525e; }
+.closure { font-size: 21px !important; line-height: 1.5; color: #ff525e; }
 .closure span { color: #444; display: block; font-size: 18px; }
 
 
