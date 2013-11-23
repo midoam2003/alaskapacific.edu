@@ -76,18 +76,7 @@ foreach($custom_terms as $custom_term) {
 
         ?>">
             <h2><a href="<?php echo get_bloginfo('url') ?>/degrees/aa-accounting"><? echo $custom_term->name ?></a></h2>
-        <ul class="levels">
-        <?php
-        while($loop->have_posts()) : $loop->the_post();
-            //$levels = get_terms('levels');
-                $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
-                  if ($levels[0]) {
-            ?><li><a href="<?php echo get_permalink() ?>"><?php echo $levels[0] ?></a></li><?php
 
-        }
-        endwhile;
-        ?>
-        </ul>
         <ul class="slideshow" style="background: transparent url('<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $custom_term->slug; ?>-bw.jpg') no-repeat 0 0;">
             <?php
         while($loop->have_posts()) : $loop->the_post(); $levels = wp_get_post_terms( $post->ID, 'degrees', array("fields" => "slugs") ); ?>
@@ -101,6 +90,19 @@ foreach($custom_terms as $custom_term) {
           
         endwhile;
         ?> 
+        </ul>
+
+        <ul class="levels">
+        <?php
+        while($loop->have_posts()) : $loop->the_post();
+            //$levels = get_terms('levels');
+                $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
+                  if ($levels[0]) {
+            ?><li><a href="<?php echo get_permalink() ?>"><?php echo $levels[0] ?></a></li><?php
+
+        }
+        endwhile;
+        ?>
         </ul>
 
 </div>
