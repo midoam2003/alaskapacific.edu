@@ -93,16 +93,19 @@ foreach($custom_terms as $custom_term) {
         </ul>
 
         <ul class="levels">
-        <?php
-        while($loop->have_posts()) : $loop->the_post();
-            //$levels = get_terms('levels');
-                $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
-                  if ($levels[0]) {
-            ?><li><a href="<?php echo get_permalink() ?>"><?php echo $levels[0] ?></a></li><?php
+          <?php
+        while($loop->have_posts()) : $loop->the_post(); $levels = wp_get_post_terms( $post->ID, 'degrees'); ?>
+        <li><a href="<?php echo get_permalink() ?>"><?php echo $post->post_title; ?></a></li>
+          <!--   <li><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $post->post_name; ?>.png"></li> -->
 
-        }
+
+          <!--  <li><?php echo get_the_post_thumbnail( $post->ID, array(100,100) ); ?></li> -->
+
+            <?php
+          
         endwhile;
-        ?>
+        ?> 
+
         </ul>
 
 </div>
