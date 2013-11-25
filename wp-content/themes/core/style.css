@@ -2520,7 +2520,7 @@ opacity: .85;
 
 .page-template-page_degreebrowser-php .box .levels li a { display: block; color: #4d454a; font-size: 14px; background: #f1ead6; padding: 6px 12px 6px 12px; border-radius: 3px; font-weight: bold; text-decoration: none; position: relative;}
 
-.page-template-page_degreebrowser-php .box .levels li a.degree { padding-left: 62px; }
+.page-template-page_degreebrowser-php .box .levels li.degrees a { padding-left: 62px; }
 
 .page-template-page_degreebrowser-php .box .levels li a:hover { background-color: #f28e15; color: #fff;}
 
