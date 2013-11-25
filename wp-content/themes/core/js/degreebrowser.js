@@ -16,7 +16,7 @@ jQuery(document).ready(function ($) {
 });
 
 jQuery(document).ready(function ($) { 
-    
+
  console.log($);
 
     $('#degrees').isotope({
@@ -24,7 +24,13 @@ jQuery(document).ready(function ($) {
           itemSelector : '.box',
           layoutMode : 'masonry',
           animateEngine: 'best-available'
-    });
+      },
+          function () {
+
+
+            $(this).css('opacity',1);
+          }
+    );
 
 
 

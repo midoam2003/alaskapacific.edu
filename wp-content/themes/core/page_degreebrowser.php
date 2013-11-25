@@ -53,6 +53,7 @@ function template_load_mobile(){
 <?php
 $custom_terms = get_terms('programs');
 
+
 foreach($custom_terms as $custom_term) {
     wp_reset_query();
     $args = array('orderby' => 'title', 'order' => 'ASC', 'post_type' => 'degrees',
@@ -68,6 +69,8 @@ foreach($custom_terms as $custom_term) {
      $loop = new WP_Query($args);
      if($loop->have_posts()) {
 
+        $program_name = $custom_term->name;
+        $i = 0;
         ?>
 
          <div class="box<?php
@@ -75,26 +78,30 @@ foreach($custom_terms as $custom_term) {
         endwhile;
 
         ?>">
-            <h2><a href="<?php echo get_bloginfo('url') ?>/degrees/aa-accounting"><? echo $custom_term->name ?></a></h2>
-
-        <ul class="slideshow" style="background: transparent url('<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $custom_term->slug; ?>-bw.jpg') no-repeat 0 0;">
-            <?php
-        while($loop->have_posts()) : $loop->the_post(); $levels = wp_get_post_terms( $post->ID, 'degrees', array("fields" => "slugs") ); ?>
-
-          <!--   <li><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $post->post_name; ?>.png"></li> -->
-
-
-          <!--  <li><?php echo get_the_post_thumbnail( $post->ID, array(100,100) ); ?></li> -->
-
-            <?php
-          
-        endwhile;
-        ?> 
-        </ul>
+           
 
         <ul class="levels">
           <?php
         while($loop->have_posts()) : $loop->the_post(); $levels = wp_get_post_terms( $post->ID, 'degrees'); ?>
+        <? if ($i==0) { ?>
+
+        <li class="header">
+            
+             <h2><a href="<?php echo get_permalink() ?>"><? echo $custom_term->name ?></a></h2>
+
+        <ul class="slideshow" style="background: transparent url('<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $custom_term->slug; ?>-bw.jpg') no-repeat 0 0;">
+
+        </ul>
+
+        </li>
+
+         <li class="<?php $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "slugs") );
+            if ($levels[0]) { ?> <?php echo $levels[0] ?> degrees<?php } ?>"><a href="<?php echo get_permalink() ?>"><?php $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
+            if ($levels[0]) { ?><span><?php echo $levels[0] ?></span><?php } ?><?php echo $post->post_title; ?></a></li>
+
+
+
+        <? } else { ?>
         <li class="<?php $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "slugs") );
             if ($levels[0]) { ?> <?php echo $levels[0] ?> degrees<?php } ?>"><a href="<?php echo get_permalink() ?>"><?php $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
             if ($levels[0]) { ?><span><?php echo $levels[0] ?></span><?php } ?><?php echo $post->post_title; ?></a></li>
@@ -104,7 +111,9 @@ foreach($custom_terms as $custom_term) {
           <!--  <li><?php echo get_the_post_thumbnail( $post->ID, array(100,100) ); ?></li> -->
 
             <?php
-          
+          } 
+
+          $i++;
         endwhile;
         ?> 
 
