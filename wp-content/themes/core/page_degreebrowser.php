@@ -47,7 +47,7 @@ function template_load_mobile(){
 <div class="degrees-header"><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degree-browser-title.png"></div>
 <!-- <div class="future-splash"><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/future-students/future-students-header.jpg"></div> -->
 
-  <ul class="filters"><li><a href="" data-filter="*" class="activated">Show all</a></li><li><a href="" data-filter=".aa, .ba, .bs, .certificate">Undergraduate Programs</a></li><li><a href="" data-filter=".ms, .psyd, .ma">Graduate Programs</a></li></ul>
+  <ul class="filters"><li><a href="#showall" data-filter="*" class="activated">Show all</a></li><li><a href="#undergraduate" data-filter=".aa, .ba, .bs, .certificate">Undergraduate Programs</a></li><li><a href="#graduate" data-filter=".ms, .psyd, .ma">Graduate Programs</a></li></ul>
         <div id="degrees">
 
 <?php
@@ -95,7 +95,9 @@ foreach($custom_terms as $custom_term) {
         <ul class="levels">
           <?php
         while($loop->have_posts()) : $loop->the_post(); $levels = wp_get_post_terms( $post->ID, 'degrees'); ?>
-        <li><a href="<?php echo get_permalink() ?>"><?php echo $post->post_title; ?></a></li>
+        <li class="<?php $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "slugs") );
+            if ($levels[0]) { ?> <?php echo $levels[0] ?><?php } ?>"><a href="<?php echo get_permalink() ?>"><span><?php $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
+            if ($levels[0]) { ?><?php echo $levels[0] ?><?php } ?></span><?php echo $post->post_title; ?></a></li>
           <!--   <li><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $post->post_name; ?>.png"></li> -->
 
 
@@ -105,6 +107,9 @@ foreach($custom_terms as $custom_term) {
           
         endwhile;
         ?> 
+
+
+
 
         </ul>
 

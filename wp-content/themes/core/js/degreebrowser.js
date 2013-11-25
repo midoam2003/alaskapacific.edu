@@ -60,6 +60,9 @@ jQuery(document).ready(function ($) {
     $('.filters a').click(function (e) { 
 
         e.preventDefault();
+        var filter = $(this).attr('href').substring(1);
+        $('#degrees').removeClass().addClass('isotope ' + filter);
+        
         $('.filters a').removeClass('activated');
         $(this).addClass('activated');
 

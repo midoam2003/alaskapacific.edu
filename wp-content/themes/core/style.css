@@ -2518,9 +2518,15 @@ opacity: .85;
 
 .page-template-page_degreebrowser-php .box .levels li { display: block;  margin-bottom: 4px; }
 
-.page-template-page_degreebrowser-php .box .levels li a { display: block; color: #4d454a; font-size: 14px; background: #f1ead6; padding: 6px 12px 6px 12px; border-radius: 3px; font-weight: bold; text-decoration: none; }
+.page-template-page_degreebrowser-php .box .levels li a { display: block; color: #4d454a; font-size: 14px; background: #f1ead6; padding: 6px 12px 6px 62px; border-radius: 3px; font-weight: bold; text-decoration: none; position: relative;}
 
 .page-template-page_degreebrowser-php .box .levels li a:hover { background-color: #f28e15; color: #fff;}
+
+.page-template-page_degreebrowser-php .box .levels li a span { font-family: Helvetica; text-align: center; padding: 7px 0 0 0px; position: absolute; left: 0; top: 0; bottom: 0; width: 50px; vertical-align: middle; font-size: 11px; font-weight: bold !important; background: #e7dec4; border-radius: 3px 0 0 3px; color: #777777; }
+
+
+.page-template-page_degreebrowser-php .box .levels li a:hover span { background: #d29031; color: #ffedd5; }
+
 
 .page-template-page_degreebrowser-php .box .slideshow { overflow: hidden;position: relative; list-style: none; margin: 0 0 10px 0; padding: 0; height: 160px; width: 100%; /*border-bottom:  1px solid transparent;  -webkit-transition: border-color 0.4s ease; */}
 
@@ -2532,6 +2538,21 @@ opacity: .85;
 /*.box .slideshow  li.color { -webkit-transition: opacity 0.5s ease; opacity: 0; position: absolute; top; left: 0; bottom: 0; right:0; }
 .box.hover .slideshow  li.color { opacity: 1; }
 */
+
+
+/* Degree level filters */
+
+#degrees.undergraduate .box .levels li.ms, #degrees.undergraduate .box .levels li.ma, #degrees.undergraduate .box .levels li.pysd { display: none; 
+
+
+
+}
+
+#degrees.graduate .box .levels li.ba, #degrees.graduate .box .levels li.bs, #degrees.graduate .box .levels li.aa { display: none; 
+
+
+
+}
 
 
 .page-template-page_degreebrowser-php .box.hover .slideshow li.active {  opacity: 1; }
