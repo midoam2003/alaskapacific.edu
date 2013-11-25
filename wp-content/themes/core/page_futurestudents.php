@@ -34,7 +34,6 @@ function template_load_mobile(){
 		<h2><span>Discover Campus</span></h2>
 		<ul>
 			<li><a href="http://www.alaskapacific.edu/apply/visit-campus/">Schedule a Tour</a></li>
-			<li><a href="http://www.youvisit.com/tour/alaskapacific">Take a Virtual Tour</a></li>
 			<li><a href="http://www.alaskapacific.edu/apply/visit-campus/apu-experience/">Attend an Open House</a></li>
 			<li><a href="http://www.alaskapacific.edu/explore-apu/student-life/housing/housing-options/">Living on Campus</a></li>
 		</ul>
