@@ -2503,9 +2503,9 @@ opacity: .85;
 
 .page-template-page_degreebrowser-php .box.hover { border-color: #f28e15; }
 
-.page-template-page_degreebrowser-php .box h2 { font-size: 24px; -webkit-transition: color 0.3s ease; font-family: 'Oswald', 'MS Trebuchet', sans-serif; font-weight: 400; color: #327598; line-height: 50px; margin: 0; padding: 0; height: 50px;  width: 100%; display: block; }
+.page-template-page_degreebrowser-php .box h2 { font-size: 24px; -webkit-transition: color 0.3s ease; font-family: 'Oswald', 'MS Trebuchet', sans-serif; font-weight: 400; color: #327598; margin: 0; padding: 0;  width: 100%; display: block; }
 
-.page-template-page_degreebrowser-php .box h2 a { font-size: 24px; -webkit-transition: color 0.3s ease; font-family: 'Oswald', 'MS Trebuchet', sans-serif; font-weight: 400; color: #327598; line-height: 50px; margin: 0; padding: 0; height: 50px;  width: 100%; display: block; }
+.page-template-page_degreebrowser-php .box h2 a { font-size: 24px; -webkit-transition: color 0.3s ease; font-family: 'Oswald', 'MS Trebuchet', sans-serif; font-weight: 400; color: #327598;margin: 0; padding: 0;  width: 100%; display: block; padding: 8px 0 8px 0; }
 
 .page-template-page_degreebrowser-php .box.hover h2 a { color: #f28e15;}
 
@@ -2544,13 +2544,13 @@ opacity: .85;
 
 /* Degree level filters */
 
-#degrees.undergraduate .box .levels li.ms, #degrees.undergraduate .box .levels li.ma, #degrees.undergraduate .box .levels li.pysd { display: none; 
+#degrees.undergraduate .box .levels li.ms, #degrees.undergraduate .box .levels li.ma, #degrees.undergraduate .box .levels li.pysd, #degrees.undergraduate .box .levels li.mba-2 { display: none; 
 
 
 
 }
 
-#degrees.graduate .box .levels li.ba, #degrees.graduate .box .levels li.bs, #degrees.graduate .box .levels li.aa { display: none; 
+#degrees.graduate .box .levels li.ba, #degrees.graduate .box .levels li.bs, #degrees.graduate .box .levels li.aa, #degrees.undergraduate .box .levels li.ctf { display: none; 
 
 
 

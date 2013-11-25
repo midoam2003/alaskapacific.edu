@@ -24,7 +24,6 @@ function template_load_js() {
 
     ?>
 <script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/jquery.isotope.min.js"></script>
-<script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/jquery-responsive-headlines.min.js"></script>
 <script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/degreebrowser.js"></script>
 <?php
 }
@@ -115,6 +114,8 @@ foreach($custom_terms as $custom_term) {
         </ul>
 
 </div>
+
+
         <?php
 
 
@@ -124,7 +125,15 @@ foreach($custom_terms as $custom_term) {
 
 ?>
 
+
+
         </div>
+
+        <div class="alternative">
+    
+
+    Didn't find a program you're interested in?
+</div>
 
 
 <?php

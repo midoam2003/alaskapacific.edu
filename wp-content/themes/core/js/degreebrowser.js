@@ -16,11 +16,7 @@ jQuery(document).ready(function ($) {
 });
 
 jQuery(document).ready(function ($) { 
-
-    $('#degrees .box h2 a').each(function() {
-                $(this).responsiveHeadlines({ useThrottleDebounce: false, container: 'box', maxFontSize: 24 });
-                 });
-
+    
  console.log($);
 
     $('#degrees').isotope({
