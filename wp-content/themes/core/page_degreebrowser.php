@@ -96,8 +96,8 @@ foreach($custom_terms as $custom_term) {
           <?php
         while($loop->have_posts()) : $loop->the_post(); $levels = wp_get_post_terms( $post->ID, 'degrees'); ?>
         <li class="<?php $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "slugs") );
-            if ($levels[0]) { ?> <?php echo $levels[0] ?><?php } ?>"><a href="<?php echo get_permalink() ?>"><?php $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
-            if ($levels[0]) { ?><span><?php echo $levels[0] ?></span><?php } ?><?php echo $post->post_title; ?></a></li>
+            if ($levels[0]) { ?> <?php echo $levels[0] ?><?php } ?>"><a href="<?php echo get_permalink() ?>"<?php $levels = wp_get_post_terms( $post->ID, 'levels', array("fields" => "names") );
+            if ($levels[0]) { ?>class="degree"><span><?php echo $levels[0] ?></span><?php } ?><?php echo $post->post_title; ?></a></li>
           <!--   <li><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $post->post_name; ?>.png"></li> -->
 
 
