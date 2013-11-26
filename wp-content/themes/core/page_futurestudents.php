@@ -34,6 +34,14 @@ function template_load_mobile(){
 		<h2><span>Discover Campus</span></h2>
 		<ul>
 			<li><a href="http://www.alaskapacific.edu/apply/visit-campus/">Schedule a Tour</a></li>
+			<li>
+			<a href="http://www.youvisit.com" class="virtualtour_embed"
+	alt = "Virtual Tour"
+	data-inst="60370"
+	data-loc="80519"
+	data-platform="v"
+>Take a Virtual Tour</a>
+<script src="http://www.youvisit.com/tour/Embed/js2"></script></li>
 			<li><a href="http://www.alaskapacific.edu/apply/visit-campus/apu-experience/">Attend an Open House</a></li>
 			<li><a href="http://www.alaskapacific.edu/explore-apu/student-life/housing/housing-options/">Living on Campus</a></li>
 		</ul>
@@ -41,6 +49,7 @@ function template_load_mobile(){
 	<div class="box degree-browser">
 		<h2><span>Find Your Degree</span></h2>
 		<ul>
+			<li><a href="http://www.alaskapacific.edu/degrees">Browse Degree Programs</a></li>
 			<li><a href="http://catalog.alaskapacific.edu/content.php?catoid=6&navoid=120">2013-2014 Course Catalog</a></li>
 			<li><a href="https://ssl.alaskapacific.edu/CourseOffering/Offering.aspx">Search Course Offerings</a></li>
 		</ul>
