@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
     $('#degrees').isotope({
           // options
           itemSelector : '.box',
-          layoutMode : 'masonry',
+          layoutMode : 'fitRows',
           animateEngine: 'best-available'
       },
           function () {
