@@ -45,16 +45,34 @@ remove_action('genesis_after_header', 'genesis_do_subnav');
 // }  
 
 remove_action( 'genesis_post_title', 'genesis_do_post_title' );
-add_action('genesis_before_content_sidebar_wrap', 'section_do_title', 20);
-function section_do_title(){
-    ?> <div class="tab-title"><h1><a href="<?php echo get_permalink(get_the_ID()); ?>"><?php echo get_the_title(); ?></a></h1></div><?php
+
+ remove_action( 'genesis_post_content', 'genesis_do_post_content' );
+ 
+
+remove_action( 'genesis_entry_content', 'genesis_do_post_content' );
+    remove_action( 'genesis_post_content', 'genesis_do_post_content' );
+ remove_action( 'genesis_post_content', 'the_content' );
+
+remove_action('genesis_loop', 'genesis_do_loop');
+add_action('genesis_loop', 'template_add_custom_content');
+function custom_do_cat_loop() {
+print_r($post);
+    the_content();
+global $query_args; // any wp_query() args
+$args= array('cat' => '30');
+genesis_custom_loop(wp_parse_args($query_args, $args));
 }
 
-add_action( 'genesis_post_content', 'template_add_custom_content', 3 );
+
+//add_action( 'genesis_post_content', 'template_add_custom_content', 3 );
 function template_add_custom_content(){
-    if(has_post_thumbnail()){
-        genesis_image(array('format'=>'html', 'size'=>'people_bio', 'attr' => 'class=alignleft post-image'));
-    }
+    // if(has_post_thumbnail()){
+    //     genesis_image(array('format'=>'html', 'size'=>'people_bio', 'attr' => 'class=post-image'));
+    // }
+
+
+
+
 
 $id = get_the_ID();
     $terms = wp_get_post_terms( $id, 'levels');
@@ -72,31 +90,47 @@ $id = get_the_ID();
         $level = "early-honors";
     }
 ?>
+    <div class="header-image"></div>
+
+    <div class="title"><h2 class="return"><a href="<? echo get_bloginfo('url');?>/degrees">&larr; Return to Degrees</a></h2><h1><?php echo get_the_title(); ?></h1></div>
+    <div class="body-copy">
+ <?php while( have_posts() ): the_post(); the_content(); endwhile;?>
+ </div>
 
 
-    <a href="<? echo get_bloginfo('url');?>/apply/<? echo $level ?>" class="button" style="font-size: 24px !important;">Apply Today</a>
-    <? echo $the_content; ?>
-    <?
-    
-    $custom_fields = get_post_custom($id);
+    <a href="<? echo get_bloginfo('url');?>/apply/<? echo $level ?>" class="apply-button" style="font-size: 24px !important;">Apply Today</a>
 
-    $people_title = $custom_fields['title'][0];
-    $people_phone = $custom_fields['phone'][0];
-    $people_email = $custom_fields['email'][0];
-    $people_resume = $custom_fields['resume'][0];
+ <!--    <div class="extras">
+
+        <div class="list program">
+            <h2>Degree Levels</h2>
+
+            <ul>
+
+                <li>df</li>
+            </ul>
+
+
+        </div>
+
+        <div class="list interests">
+            <h2>You might also like...</h2>
+
+            <ul>
+
+                <li>df</li>
+            </ul>
+
+
+
+        </div>
+
+    </div> -->
     
-    ?>
-    
-    <p class="people-details">
-    <?php if($people_title != '') echo $people_title . '<br />'; ?>
-    <?php if($people_phone != '') echo $people_phone . '<br />'; ?>
-    <?php if($people_email != '') echo '<a href="'. get_bloginfo('url') . '/contact/index.php?person='. $id .'" title="Contact '. get_the_title() .'" >Contact</a><br />'; ?>
-    <?php if($people_resume != '') echo '<a href="'.$people_resume . '" title="Download CV for '. get_the_title() .'" target="_blank" >Download CV</a><br />'; ?>
-    </p>
     
     <?php
 }
-
+remove_action('genesis_post_content', 'genesis_do_post_content');
 remove_action( 'genesis_after_post', 'genesis_get_comments_template' );
 remove_action( 'genesis_sidebar', 'genesis_do_sidebar' );
 genesis();
