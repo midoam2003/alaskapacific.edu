@@ -2609,20 +2609,40 @@ opacity: .85;
 
 
 
+/* Degree Page */
 
+.single-degrees #inner { margin-top: 0; padding: 0; max-width: 875px; }
+.single-degrees #content-sidebar-wrap { padding: 0; border: 0;  }
+.single-degrees #content { padding: 0; border: 0;  }
+.single-degrees .header-image { width: 100%; }
 
 .single-degrees #sidebar {display:none;}
 .single-degrees #content { width: 100%; }
 
+.single-degrees .title { text-align: center; line-height: 1.2; margin-bottom: 40px; }
 
+.single-degrees .title h1 { font-family: "Oswald", "Trebuchet MS", Verdana, serif; font-weight: 500; padding: 25px 20px 0 20px;}
 
+.single-degrees .title h2 {   width: 40%; margin: 30px auto 0 auto; font-size: 16px; }
+.single-degrees .title h2 a { display: block; border: 1px solid #d7d7d7; color: #ffb64f; padding: 6px 0; border-radius: 3px; }
+
+.single-degrees .title h2 a:hover { border-color: #f48f00; color: #f48f00;}
 
 .closure { font-size: 21px !important; line-height: 1.5; color: #ff525e; }
 .closure span { color: #444; display: block; font-size: 18px; }
 
 
+.single-degrees .apply-button { width: 50%; text-align: center; margin: 0 auto; background: #f48f00; padding: 15px 0 15px 0; text-decoration: none; color: #fff; display: block; border-radius: 3px; margin-bottom: 40px; }
+.single-degrees .body-copy { padding: 0 40px 0 40px; font-size: 21px; margin-bottom: 40px; line-height: 1.6; }
 
 
+
+.single-degrees .extras { padding: 0 20px;}
+
+.single-degrees .extras .list { float: left; width: 45%; }
+
+.single-degrees .extras .program { border-right: 1px solid #d9d9d9; }
+.single-degrees .extras .interests { margin-left: 15px;  }
 
 
 
