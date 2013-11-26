@@ -2508,7 +2508,7 @@ opacity: .85;
 .post-type-archive-degrees .box.hover .levels {}
 
 .post-type-archive-degrees .box .levels li { display: block;  margin-bottom: 4px; }
-.post-type-archive-degrees .box .levels li a { display: block; color: #4d454a; font-size: 14px; background: #f1ead6; padding: 6px 12px 6px 12px; border-radius: 3px; font-weight: bold; text-decoration: none; position: relative;}
+.post-type-archive-degrees .box .levels li a { display: block; color: #4d454a; font-size: 14px; background: #f1ead6; padding: 6px 12px 6px 12px; border-radius: 3px; font-weight: bold; text-decoration: none; position: relative; line-height: 1.3; }
 .post-type-archive-degrees .box .levels li.degrees a { padding-left: 62px; }
 .post-type-archive-degrees .box .levels li a:hover { background-color: #f28e15; color: #fff;}
 

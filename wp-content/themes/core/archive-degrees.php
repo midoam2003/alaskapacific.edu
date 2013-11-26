@@ -47,7 +47,7 @@ function template_load_mobile(){
 <div class="degrees-header"><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degree-browser-title.png"></div>
 <!-- <div class="future-splash"><img src="<?php echo get_bloginfo('stylesheet_directory'); ?>/images/future-students/future-students-header.jpg"></div> -->
 
-  <ul class="filters"><li><a href="#showall" data-filter="*" class="activated">Show all</a></li><li><a href="#undergraduate" data-filter=".aa, .ba, .bs, .certificate">Undergraduate Programs</a></li><li><a href="#graduate" data-filter=".ms, .psyd, .ma">Graduate Programs</a></li></ul>
+  <ul class="filters"><li><a href="#showall" data-filter="*" class="activated">Show all</a></li><li><a href="#undergraduate" data-filter=".aa, .ba, .bs, .certificate">Undergraduate Programs</a></li><li><a href="#graduate" data-filter=".ms, .psyd, .ma, .mba-2">Graduate Programs</a></li></ul>
         <div id="degrees">
 
 <?php
@@ -140,8 +140,8 @@ foreach($custom_terms as $custom_term) {
 
         <div class="alternative">
     
-
-    Didn't find a program you're interested in?
+<!-- 
+    Didn't find a program you're interested in? -->
 </div>
 
 
