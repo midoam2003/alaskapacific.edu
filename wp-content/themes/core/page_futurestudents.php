@@ -76,9 +76,6 @@ function template_load_mobile(){
 	</div>
 </div>
 
-
-
-
 <div class="video-splash">
 <div class="video-splash-wrap">
 <div class="copy">
@@ -88,6 +85,21 @@ function template_load_mobile(){
 </div>	
 <div class="video"><iframe src="//player.vimeo.com/video/60010026?title=0&amp;byline=0&amp;portrait=0" width="100%" height="242" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
 </div>
+</div>
+
+<div class="testimonials">
+<h2>Student Success</h2>
+
+<ul><li><p class="quote">"Since coming to APU, I’ve had many incredible experiences that have allowed me to grow into the person I am today, and the person I want to be tomorrow. Through educational experiences and active learning, I was able to create my own focus based on my personal goals and interests. I couldn’t have asked for a better education."</p><p class="source">— Devin Littlefield, Outdoor Studies</p></li>
+
+<li><p class="quote">"APU provides some of the most unique class experiences. For example, my second semester of my freshman year, I took a dog mushing course. Yup, I was able to learn how to mush a six dog team for college credit. It was one of the most incredible things I have experienced. My advice is to just take a chance on APU, you never know what hidden passion you will discover here at APU."</p><p class="source">— Amber Peterson, Environmental Sciences</p></li>
+
+<li><p class="quote">"Alaska Pacific University is an opportunity that few people get to experience. Fortunately, I have had the great fortune to be exposed to a rigorous program and benefiting from in as an adult and member of the scientific community. Marine biology has always been my dream and APU has given me the tools and map to build myself a firm future. It is because of the faculty, staff, and students that I have deepened my knowledge of what active learning truly means and with my coming graduation, I will successfully be able to apply it to my career.
+"</p><p class="source">— Nicholas Tucker, Marine Biology</p></li>
+
+
+</ul>
+
 </div>
 
 <div class="news">

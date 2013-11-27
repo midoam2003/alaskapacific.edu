@@ -2457,9 +2457,9 @@ opacity: .85;
 .page-template-page_futurestudents-php .video-splash .copy p strong { font-variant: small-caps;}
 .page-template-page_futurestudents-php .video-splash .video { float: right; max-width: 100%; width: 430px; height: 242px; box-shadow: 0 3px 15px rgba(0,0,0,0.5); }
 
-.page-template-page_futurestudents-php .news, .page-template-page_futurestudents-php .meet { margin: 0 auto; width: 930px; max-width: 100%; margin-bottom: 60px; }
+.page-template-page_futurestudents-php .news, .page-template-page_futurestudents-php .testimonials, .page-template-page_futurestudents-php .meet { margin: 0 auto; width: 930px; max-width: 100%; margin-bottom: 60px; }
 
-.page-template-page_futurestudents-php .news h2, .page-template-page_futurestudents-php .meet > h2 { font-family: "Oswald", "Trebuchet MS", Verdana, serif; font-weight: 400; font-size: 36px; color: #ffcb40; margin-bottom: 30px; }
+.page-template-page_futurestudents-php .news h2, .page-template-page_futurestudents-php .testimonials h2, .page-template-page_futurestudents-php .meet > h2 { font-family: "Oswald", "Trebuchet MS", Verdana, serif; font-weight: 400; font-size: 36px; color: #ffcb40; margin-bottom: 30px; }
 
 
 .page-template-page_futurestudents-php .news { display: none; }
@@ -2469,11 +2469,33 @@ opacity: .85;
 
 .page-template-page_futurestudents-php .meet .subtitle { font-family: "Oswald", "Trebuchet MS", Verdana, serif; font-weight: 300; color: #717171; font-size: 24px; margin-bottom: 35px;  }
 
+.page-template-page_futurestudents-php .testimonials { margin-bottom: 100px; }
 
+.page-template-page_futurestudents-php .testimonials ul { height: 250px; position: relative; }
 
+.page-template-page_futurestudents-php .testimonials li { opacity: 0; position: absolute; top: 0; left: 0;  }
 
+.page-template-page_futurestudents-php .testimonials li p.quote { font-style: italic; font-size: 28px; line-height: 1.5; font-family: Georgia, serif; margin-bottom: 25px; }
+
+.page-template-page_futurestudents-php .testimonials li p.source { font-size: 18px; opacity: .8; float: right; }
 
 .page-template-page_futurestudents-php .meet .people { width: 32%; float: left; }
+
+
+
+
+
+.page-template-page_futurestudents-php .testimonials li:nth-child(1) {
+  -webkit-animation: quoteshift 30s 0s infinite linear;
+}
+ 
+.page-template-page_futurestudents-php .testimonials li:nth-child(2) {
+  -webkit-animation: quoteshift 30s 10s infinite linear;
+}
+ 
+.page-template-page_futurestudents-php .testimonials li:nth-child(3) {
+  -webkit-animation: quoteshift 30s 20s infinite linear;
+}
 
 
 
@@ -2827,3 +2849,26 @@ opacity: .85;
 	
 }
 
+
+
+
+
+
+
+@-webkit-keyframes "quoteshift" {
+ 0% {
+   opacity: 0;
+ }
+ 2% {
+   opacity: 1;
+ }
+ 31% {
+   opacity: 1;
+ }
+ 33% {
+   opacity: 0;
+ }
+ 100% {
+   opacity: 0;
+ }
+}
