@@ -50,8 +50,9 @@ function template_load_mobile(){
 		<h2><span>Find Your Degree</span></h2>
 		<ul>
 			<li><a href="http://www.alaskapacific.edu/degrees">Browse Degree Programs</a></li>
-			<li><a href="http://catalog.alaskapacific.edu/content.php?catoid=6&navoid=120">2013-2014 Course Catalog</a></li>
 			<li><a href="https://ssl.alaskapacific.edu/CourseOffering/Offering.aspx">Search Course Offerings</a></li>
+			<li><a href="http://catalog.alaskapacific.edu/content.php?catoid=6&navoid=120">View 2013-2014 Course Catalog</a></li>
+			
 		</ul>
 	</div>
 	<div class="box costs-options">
