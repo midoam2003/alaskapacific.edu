@@ -66,9 +66,11 @@ genesis_custom_loop(wp_parse_args($query_args, $args));
 
 //add_action( 'genesis_post_content', 'template_add_custom_content', 3 );
 function template_add_custom_content(){
-    // if(has_post_thumbnail()){
-    //     genesis_image(array('format'=>'html', 'size'=>'people_bio', 'attr' => 'class=post-image'));
-    // }
+
+
+    if(has_post_thumbnail()){
+        genesis_image(array('format'=>'html', 'size'=>'full', 'attr' => 'class=post-image'));
+    }
 
 
 
