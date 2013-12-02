@@ -2545,6 +2545,7 @@ opacity: .85;
 
 
 
+
 .post-type-archive-degrees .box .slideshow { overflow: hidden;position: relative; list-style: none; margin: 0 0 10px 0; padding: 0; height: 160px; width: 100%; /*border-bottom:  1px solid transparent;  -webkit-transition: border-color 0.4s ease; */}
 .post-type-archive-degrees .box.hover .slideshow { /*border-color: #f28e15;*/ } 
 .post-type-archive-degrees .box .slideshow li { -webkit-transition: opacity .8s ease-in-out; opacity: 0; height: 160px; width: 100%; position: absolute; left: 0; top: 0;  }
@@ -2553,6 +2554,12 @@ opacity: .85;
 /*.box .slideshow  li.color { -webkit-transition: opacity 0.5s ease; opacity: 0; position: absolute; top; left: 0; bottom: 0; right:0; }
 .box.hover .slideshow  li.color { opacity: 1; }
 */
+
+
+.post-type-archive-degrees .box .levels .header .slideshow { display: block; }
+.post-type-archive-degrees .box .levels .header .slideshow li { display: block; opacity: 1; background: transparent; top: 0; left: 0; right: 0; bottom: 0; }
+.post-type-archive-degrees .box .levels .header .slideshow li a { position: absolute; display: block; opacity: 1; background: transparent; top: 0; left: 0; right: 0; bottom: 0; padding: 0; margin: 0;  }
+
 
 
 /* Degree level filters */

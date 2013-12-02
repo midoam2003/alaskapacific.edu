@@ -92,7 +92,7 @@ foreach($custom_terms as $custom_term) {
              <h2><a href="<?php echo get_permalink() ?>"><? echo $custom_term->name ?></a></h2>
 
         <ul class="slideshow" style="background: transparent url('<?php echo get_bloginfo('stylesheet_directory'); ?>/images/degreebrowser/<?php echo $custom_term->slug; ?>-bw.jpg') no-repeat 0 0;">
-
+          <li><a href="<?php echo get_permalink() ?>"></a></li>
         </ul>
 
         </li>

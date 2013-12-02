@@ -15,6 +15,8 @@ jQuery(document).ready(function ($) {
 
 });
 
+
+
 jQuery(document).ready(function ($) { 
 
  console.log($);
@@ -29,6 +31,9 @@ jQuery(document).ready(function ($) {
 
 
             $(this).css('opacity',1);
+     
+
+
           }
     );
 
@@ -38,28 +43,28 @@ jQuery(document).ready(function ($) {
         function() {
             $(this).addClass( "hover" );
         
-            var $slideshow = $(this).find('.slideshow');
-            //$('.fadein img').hide();
+            // var $slideshow = $(this).find('.slideshow');
+            // //$('.fadein img').hide();
 
-            $slideshow.find('li:eq(0)').addClass('active');
+            // $slideshow.find('li:eq(0)').addClass('active');
 
-            window.degreeSlideshow = setInterval(
-                function () { 
-                    //$('.active', $slideshow).removeClass('active').next('li').addClass('active');
+            // window.degreeSlideshow = setInterval(
+            //     function () { 
+            //         //$('.active', $slideshow).removeClass('active').next('li').addClass('active');
 
-                    var $cur = $('.active', $slideshow).removeClass('active');
-                    var $next = $cur.next().length?$cur.next():$slideshow.children().eq(0);
-                    $next.addClass('active');
-                }, 700
-            );
+            //         var $cur = $('.active', $slideshow).removeClass('active');
+            //         var $next = $cur.next().length?$cur.next():$slideshow.children().eq(0);
+            //         $next.addClass('active');
+            //     }, 700
+            // );
 
         }, function() {
             $(this).removeClass( "hover" );
-            var $slideshow = $(this).find('.slideshow');
+            // var $slideshow = $(this).find('.slideshow');
 
-            $slideshow.find('li').removeClass('active').eq(0).addClass('active');
+            // $slideshow.find('li').removeClass('active').eq(0).addClass('active');
            
-            clearInterval(window.degreeSlideshow);
+            // clearInterval(window.degreeSlideshow);
     });
 
 
@@ -79,11 +84,17 @@ jQuery(document).ready(function ($) {
 
     });
 
-    $('#degrees .box h2 a').each(function() {
-        $(this).responsiveHeadlines({ useThrottleDebounce: false, container: 'box', maxFontSize: 24 });
+  
+
+
+});
+
+
+jQuery(window).load(function ($) { 
+
+  
+             jQuery('#degrees .box .header h2 a').each(function() {
+        jQuery(this).responsiveHeadlines({ useThrottleDebounce: false, container: 'box', maxFontSize: 24 });
     });
-
-      
-
 
 });
