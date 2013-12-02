@@ -2539,8 +2539,8 @@ opacity: .85;
 
 
 .post-type-archive-degrees .box .levels .header h2 a { background: transparent; }
-.post-type-archive-degrees .box .levels .header h2 { font-size: 24px; -webkit-transition: color 0.3s ease; font-family: 'Oswald', 'MS Trebuchet', sans-serif; font-weight: 400; color: #327598; margin: 0; padding: 0;  width: 100%; display: block; }
-.post-type-archive-degrees .box .levels .header h2 a { font-size: 24px; -webkit-transition: color 0.3s ease; font-family: 'Oswald', 'MS Trebuchet', sans-serif; font-weight: 400; color: #327598;margin: 0; padding: 0;  width: 100%; display: block; padding: 8px 0 8px 0; }
+.post-type-archive-degrees .box .levels .header h2 { height: 40px; font-size: 24px; -webkit-transition: color 0.3s ease; font-family: 'Oswald', 'MS Trebuchet', sans-serif; font-weight: 400; color: #327598; margin: 0; padding: 0;  width: 100%; display: block; }
+.post-type-archive-degrees .box .levels .header h2 a { height: 40px; font-size: 24px; -webkit-transition: color 0.3s ease; font-family: 'Oswald', 'MS Trebuchet', sans-serif; font-weight: 400; color: #327598; margin: 0; padding: 0;  width: 100%; display: block; padding:0; line-height: 40px; }
 .post-type-archive-degrees .box.hover .levels .header h2 a { color: #f28e15;}
 
 

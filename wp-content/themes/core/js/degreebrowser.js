@@ -77,7 +77,11 @@ jQuery(document).ready(function ($) {
         //return false;
 
 
-    })
+    });
+
+    $('#degrees .box h2 a').each(function() {
+        $(this).responsiveHeadlines({ useThrottleDebounce: false, container: 'box', maxFontSize: 24 });
+    });
 
       
 

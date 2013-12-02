@@ -24,6 +24,8 @@ function template_load_js() {
 
     ?>
 <script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/jquery.isotope.min.js"></script>
+<script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/jquery-responsive-headlines.min.js"></script>
+
 <script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/degreebrowser.js"></script>
 <?php
 }
