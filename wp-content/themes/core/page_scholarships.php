@@ -47,9 +47,10 @@ function template_load_mobile(){
  ?>
 
  <h1>APU Scholarship Application</h1>
-s
-sdf
+<p>Thank you for your interest in APU and the Common Scholarship Application.</p>
 
+<p>The deadline to apply for 2013-2014 scholarships has passed and applications are no longer being accepted. Please continue to monitor this page and the APU website for future scholarship opportunities.</p>
+<br>
 
  <h1>Other Scholarship Opportunities</h1>
 
