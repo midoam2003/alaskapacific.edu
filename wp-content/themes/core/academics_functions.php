@@ -77,7 +77,7 @@ function template_do_home_caption($home_page, $widget_name){
 			<div class="widget widget_text"><h4 class="widgettitle">Strong Statement Here</h4>			<div class="textwidget"><p>See, Do, Become. <br> 
 			Only at APU</p>
 			
-			<a href="<?php echo get_bloginfo('url'); ?>/apply" class="get-started">» Let's Get Started</a></div>
+			<a href="<?php echo get_bloginfo('url'); ?>/apply" class="get-started">» Apply Now</a></div>
 					</div>
 			<?php		
 		endif;

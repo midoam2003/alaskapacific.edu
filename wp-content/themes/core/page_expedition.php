@@ -35,7 +35,7 @@ function template_do_sidebar_menu(){
 	echo apply_filters( 'genesis_do_nav', $nav_output, $nav, $args );
 	
 	?>
-	<div class="widget"><a href="<?php echo get_bloginfo('url'); ?>/apply/" class="get-started">» Let's Get Started</a></div>
+	<div class="widget"><a href="<?php echo get_bloginfo('url'); ?>/apply/" class="get-started">» Apply Now</a></div>
 	
 	
 	<?php
