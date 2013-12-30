@@ -140,7 +140,18 @@ function template_load_mobile(){
 				<img width="100" height="100" src="http://www.alaskapacific.edu/wp-content/uploads/2012/03/Zack-Zartler-100x100.jpg" class="alignleft post-image" alt="Zack-Zartler">				</a>
 				<h2 class="entry-title"><a href="http://www.alaskapacific.edu/blog/people/zack-zartler/" title="Zack Zartler">Zack Zartler</a></h2>
 				<p class="people-details">
-				Undergraduate Admissions Counselor<br>				907-564-8343<br>				<a href="http://www.alaskapacific.edu/contact/index.php?person=4829" title="Contact Zack Zartler">Contact</a><br>								</p>
+				Graduate and Professional Studies Admissions Counselor<br>				907-564-8343<br>				<a href="http://www.alaskapacific.edu/contact/index.php?person=4829" title="Contact Zack Zartler">Contact</a><br>
+
+                <strong>General Walk-In Hours</strong><br>10 a.m. – 1 p.m., Monday/Wednesday/Friday<br>
+
+<strong>After Hours Walk-In</strong><br>5:00 – 6:00 p.m., Monday/Thursday<br>
+Available by phone until 6 p.m. Monday-Friday.<br>
+Other times by appointment only.<br>
+
+						
+
+
+                </p>
 				</div>
 
 </div>
