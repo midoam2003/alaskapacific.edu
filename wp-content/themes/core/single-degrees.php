@@ -100,7 +100,11 @@ $id = get_the_ID();
  </div>
 
 
-    <a href="<? echo get_bloginfo('url');?>/apply/<? echo $level ?>" class="apply-button" style="font-size: 24px !important;">Apply Today</a>
+    <a href="<? echo get_bloginfo('url');?>/apply/<? echo $level ?>" class="apply-button call-to-action" style="font-size: 24px !important;">Apply Now</a>
+
+    <a href="<? echo get_bloginfo('url');?>/info" class="apply-button call-to-action" style="font-size: 24px !important;">Request Information</a>
+
+    <a href="<? echo get_bloginfo('url');?>/apply/visit-campus" class="apply-button call-to-action" style="font-size: 24px !important;">Visit Campus</a>
 
  <!--    <div class="extras">
 

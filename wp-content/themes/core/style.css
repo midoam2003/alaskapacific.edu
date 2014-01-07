@@ -2642,7 +2642,7 @@ opacity: .85;
 
 .single-degrees #inner { margin-top: 0; padding: 0; max-width: 875px; }
 .single-degrees #content-sidebar-wrap { padding: 0; border: 0;  }
-.single-degrees #content { padding: 0; border: 0;  }
+.single-degrees #content { padding: 0 0 30px 0; border: 0;  }
 .single-degrees .header-image { width: 100%; }
 
 .single-degrees #sidebar {display:none;}
@@ -2663,6 +2663,9 @@ opacity: .85;
 
 .single-degrees .apply-button { width: 50%; text-align: center; margin: 0 auto; background: #f48f00; padding: 15px 0 15px 0; text-decoration: none; color: #fff; display: block; border-radius: 3px; margin-bottom: 40px; }
 .single-degrees .body-copy { padding: 0 40px 0 40px; font-size: 21px; margin-bottom: 40px; line-height: 1.6; }
+
+
+.single-degrees .call-to-action { width: 50%; text-align: center; margin: 0 auto; background: #f48f00; padding: 15px 0 15px 0; text-decoration: none; color: #fff; display: block; border-radius: 3px; margin-bottom: 10px; }
 
 
 
@@ -2699,8 +2702,8 @@ opacity: .85;
 
 
 
-
-
+#sidebar .widget.call-to-action { margin-bottom: 0 !important; }
+#sidebar .widget.call-to-action a { margin-bottom: 0 !important; }
 
 
 /* Fat */
