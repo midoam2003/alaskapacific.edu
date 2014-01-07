@@ -288,7 +288,14 @@ function child_do_chat(){
 add_action('genesis_sidebar', 'child_do_sidebar', 20);
 function child_do_sidebar(){
 	?>
-		<div class="widget"><a class="button request" href="<?php switch_to_blog(1); echo get_bloginfo('url'); restore_current_blog();?>/info/" class="information-request">Request Information</a></div>
+		
+		<div class="widget call-to-action"><a class="button request" href="<?php switch_to_blog(1); echo get_bloginfo('url'); restore_current_blog();?>/apply/" class="information-request">Apply Today</a></div>
+		<br />
+		<div class="widget call-to-action"><a class="button request" href="<?php switch_to_blog(1); echo get_bloginfo('url'); restore_current_blog();?>/info/" class="information-request">Request Information</a></div>
+		<br />
+		<div class="widget call-to-action"><a class="button request" href="<?php switch_to_blog(1); echo get_bloginfo('url'); restore_current_blog();?>/apply/visit-campus" class="information-request">Visit Campus</a></div>
+
+		<br />
 		
 		<div class="widget"><!-- BEGIN LivePerson Button Code --><a href='http://server.iad.liveperson.net/hc/17642027/?cmd=file&file=visitorWantsToChat&site=17642027&byhref=1&imageUrl=<?php echo get_bloginfo('url'); ?>/wp-content/themes/core/images/' target='chat17642027'  onClick="lpButtonCTTUrl = 'http://server.iad.liveperson.net/hc/17642027/?cmd=file&file=visitorWantsToChat&site=17642027&imageUrl=<?php echo get_bloginfo('url'); ?>/wp-content/themes/core/images/&referrer='+escape(document.location); lpButtonCTTUrl = (typeof(lpAppendVisitorCookies) != 'undefined' ? lpAppendVisitorCookies(lpButtonCTTUrl) : lpButtonCTTUrl); lpButtonCTTUrl = ((typeof(lpMTag)!='undefined' && typeof(lpMTag.addFirstPartyCookies)!='undefined')?lpMTag.addFirstPartyCookies(lpButtonCTTUrl):lpButtonCTTUrl);window.open(lpButtonCTTUrl,'chat17642027','width=475,height=400,resizable=yes');return false;" >
 		<img src='http://server.iad.liveperson.net/hc/17642027/?cmd=repstate&site=17642027&channel=web&&ver=1&imageUrl=<?php echo get_bloginfo('url'); ?>/wp-content/themes/core/images/' name='hcIcon' border=0></a><!-- END LivePerson Button code --></div>
