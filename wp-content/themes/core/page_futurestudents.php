@@ -67,7 +67,7 @@ function template_load_mobile(){
 	<div class="box apply">
 		<h2><span>Apply Today</span></h2>
 		<ul>
-			<li><a href="http://www.alaskapacific.edu/apply/">Start Applying Now</a></li>
+			<li><a href="http://www.alaskapacific.edu/apply/">Start Your Application Now</a></li>
 			<li><a href="http://catalog.alaskapacific.edu/content.php?catoid=6&navoid=145">Admission Requirements</a></li>
 			<!-- <li><a href="">Dates &amp; Deadlines</a></li> -->
 			<!-- <li><a href="">Online Application</a></li> -->
