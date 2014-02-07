@@ -1,0 +1,101 @@
+== Changelog ==
+
+= 1.8.2: October 22, 2013 =
+* style.css - updated version number
+* template-contact.php - Fixed error messages
+* includes/meta/meta-post.php - fixes a bug with custom CSS
+
+= 1.8.1: October 10, 2013 =
+* style.css - updated version number
+* framework/ - Framework update to latest v2.0.1
+
+= 1.8: September 23, 2013 =
+* style.css - updated version number
+* NEW: StagFramework v2, Compatible and requires plugin StagTools to work
+* NOTE: Full replace of files and folder are required
+
+= 1.7: September 13, 2013 =
+* style.css - updated version number
+* includes/meta/meta-post.css - cache generated post CSS for 24 hours
+* includes/meta/meta-page.css - cache generated page CSS for 24 hours 
+
+= 1.6.3: September 4, 2013 =
+* Update: style.css - updated version number
+* Fix: Fixed issues with post background and link colors (includes/meta/meta-post.hp)
+
+= 1.6.2: July 25, 2013 =
+* style.css - updated version number, twitter widget button link color
+* includes/meta/meta-post.php - refractored CSS generator
+* includes/widgets/widget-twitter.php - remove unnecessary used classes from twitter button
+
+= 1.6.1: June 19, 2013 =
+* style.css - updated version number
+* includes/widgets/widget-twitter.php
+
+** New File(s) **
+* includes/widgets/twitteroauth.php
+
+= 1.6: June 13, 2013 =
+* style.css - updated version number
+* includes/meta/meta-post.php - updated formatting for accent control
+* includes/widgets/widget-twitter.php - updated compatibility with twitter api v1.1
+
+= 1.5: June 10, 2013 =
+* style.css - updated version number
+* functions.php - Added filter for search page for load more pagination
+* assets/js/jquery.custom.js - Pass category and search query arguments
+* search.php - added condition for load more and normal pagination
+
+= 1.4: June 7, 2013 =
+* style.css - updated version number
+* template-contact.php - fixed background display
+* includes/meta/meta-post.php - fixed an issue with pattern
+* includes/meta/meta-page.php - fixed an issue with pattern
+
+= 1.3: May 29, 2013 =
+* style.css - updated version number
+* includes/meta/meta-page.php - fixes an issue where post color/background won't appear for any 
+page other than published status
+* includes/meta/meta-post.php - fixes an issue where post color/background won't appear for any
+post other than published status
+
+= 1.2: April 25, 2013 =
+** Update Files **
+* content-aside.php
+* content-audio.php
+* content-chat.php
+* content-gallery.php
+* content-image.php
+* content-link.php
+* content-quote.php
+* content-video.php
+* content.php
+
+= 1.1.1: April 3, 2013 =
+* Fixes some issues with SoundCloud Player
+
+** Updated Files **
+* style.css - updated version number, remove height auto for iframe
+* content-audio.php - added htmlspecialchars_decode() for embed code for decoding HTML tags
+
+= 1.1: April 2, 2013 =
+* New Background Pattern Support for posts and pages
+* New Prev/Next Pagination Options
+* Audio embed, support for shortcodes too
+* Updated framework v1.0.2.1
+
+*** Updated Files **
+* style.css - updated version number
+* footer.php - added stripcslashes() for removing slashes
+* content-image.php/content.php - Post thumbnail linked to post
+* includes/meta/meta-post.php - Added new meta box for custom background pattern and audio embed
+* includes/meta/meta-page.php - Added new meta box for custom background pattern
+* includes/options/general-settings.php - Pagination field
+* index.php - Pagination condition added
+* archive.php - Pagination condition added
+* content-audio.php - Support for embedding audio players
+* content-background.php - Support for background patterns
+* single.php - support for showing related posts
+
+= 1.0: March 19, 2013 =
+* First release!
