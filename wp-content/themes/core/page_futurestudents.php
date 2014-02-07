@@ -31,7 +31,7 @@ function template_load_mobile(){
 <div class="future-boxes">
 	<div class="box-wrap">
 	<div class="box discover">
-		<h2><span>Discover Campus</span></h2>
+		<h2><a href="http://www.alaskapacific.edu/apply/visit-campus/"><span>Discover Campus</span></a></h2>
 		<ul>
 			<li><a href="http://www.alaskapacific.edu/apply/visit-campus/">Schedule a Tour</a></li>
 			<li>
@@ -47,7 +47,7 @@ function template_load_mobile(){
 		</ul>
 	</div>
 	<div class="box degree-browser">
-		<h2><span>Find Your Degree</span></h2>
+		<h2><a href="http://www.alaskapacific.edu/degrees"><span>Find Your Degree</span></a></h2>
 		<ul>
 			<li><a href="http://www.alaskapacific.edu/degrees">Browse Degree Programs</a></li>
 			<li><a href="https://ssl.alaskapacific.edu/CourseOffering/Offering.aspx">Search Course Offerings</a></li>
@@ -56,7 +56,7 @@ function template_load_mobile(){
 		</ul>
 	</div>
 	<div class="box costs-options">
-		<h2><span>Costs &amp; Options</span></h2>
+		<h2><a href="http://www.alaskapacific.edu/apply/financial-aid/cost-of-attendance/"><span>Costs &amp; Options</span></a></h2>
 		<ul>
 			<li><a href="http://www.alaskapacific.edu/apply/financial-aid/cost-of-attendance/">Cost of Attendance</a></li>
 			<li><a href="https://ssl.alaskapacific.edu/NetCalculator/index.htm">Tuition Net Price Calculator</a></li>
@@ -65,7 +65,7 @@ function template_load_mobile(){
 		</ul>
 	</div>
 	<div class="box apply">
-		<h2><span>Apply Today</span></h2>
+		<h2><a href="http://www.alaskapacific.edu/apply/"><span>Apply Today</span></a></h2>
 		<ul>
 			<li><a href="http://www.alaskapacific.edu/apply/">Start Your Application Now</a></li>
 			<li><a href="http://catalog.alaskapacific.edu/content.php?catoid=6&navoid=145">Admission Requirements</a></li>

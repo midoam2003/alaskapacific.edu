@@ -2414,8 +2414,12 @@ div.gform_wrapper .gform_footer {
 
 .page-template-page_futurestudents-php .future-boxes .box { position: relative; width: 465px; height: 310px; margin: 0 auto; float: left; max-width: 100%; }
 
-.page-template-page_futurestudents-php .future-boxes .box h2 { font-family: "Oswald", "Trebuchet MS", Verdana, serif; color: #fff; height: 62px; padding: 0; margin: 0; line-height: 62px; font-weight: 400; font-size: 28px; background: transparent url('images/future-students/paper-texture.png') repeat 0 0; }
-.page-template-page_futurestudents-php .future-boxes h2 span { padding: 0 0 0 85px; display: block; margin: 0; }
+.page-template-page_futurestudents-php .future-boxes .box h2 {  height: 62px; padding: 0; margin: 0; line-height: 62px; font-weight: 400; font-size: 28px; background: transparent url('images/future-students/paper-texture.png') repeat 0 0; }
+
+.page-template-page_futurestudents-php .future-boxes h2 a  { font-family: "Oswald", "Trebuchet MS", Verdana, serif; color: #fff; }
+.page-template-page_futurestudents-php .future-boxes h2 a span { padding: 0 0 0 85px; display: block; margin: 0; }
+
+
 .page-template-page_futurestudents-php .future-boxes .box ul { padding-top: 20px; opacity: .85; position: absolute; top: 62px; left: 0; bottom: 0; right: 0; background: transparent url('images/future-students/paper-texture.png') repeat 0 0; }
 
 .page-template-page_futurestudents-php .future-boxes .box li { margin-bottom: 3px; }
@@ -2706,9 +2710,38 @@ opacity: .85;
 #sidebar .widget.call-to-action a { margin-bottom: 0 !important; }
 
 
-/* Fat */
+/* Wide */
 
 .page-template-page_scholarships-php #inner { background: #fff;  }
+
+
+
+
+
+
+/* New Apply section */
+
+.page-template-page_apply-php #inner { background: #fff; }
+
+.page-template-page_apply-php #degrees { width: 60%; margin: 0 auto; }
+
+.page-template-page_apply-php #degrees .degree { cursor: pointer; right: 0;  padding: 30px; height: 100px; border-radius: 5px; background: #ece9e6; margin: 0 auto 15px auto; }
+.page-template-page_apply-php #degrees .degree h3 { text-shadow: 1px 1px #fff;  color: #998878; margin: 0 0 15px 0; padding: 0; font-size: 28px; line-height: 1.2;}
+
+
+.page-template-page_apply-php #degrees .degree .features li { text-shadow: 1px 1px #fff;  border: 1px solid #d0cecb; border-radius: 3px; padding: 5px 10px 5px 10px; float: left; color: #b3a79c; }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
