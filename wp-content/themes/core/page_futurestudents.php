@@ -95,7 +95,7 @@ function template_load_mobile(){
 </div>
 
 <div class="testimonials">
-<h2>Student Success</h2>
+<h2>Student Successes</h2>
 
 <ul><li><p class="quote">"Since coming to APU, I’ve had many incredible experiences that have allowed me to grow into the person I am today, and the person I want to be tomorrow. Through educational experiences and active learning, I was able to create my own focus based on my personal goals and interests. I couldn’t have asked for a better education."</p><p class="source">— Devin Littlefield, Outdoor Studies</p></li>
 
