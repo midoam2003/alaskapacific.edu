@@ -10,8 +10,14 @@ function template_load_scripts(){
 			background: url("<?php echo get_bloginfo('stylesheet_directory'); ?>/images/nav-bg.png") repeat-x 0 11px transparent !important;
 		}
 	</style>
+
+	<script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/future-students.js"></script>
 	<?php
 }
+
+
+
+
 
 //Mobile Menu
 add_action('genesis_before', 'template_load_mobile');

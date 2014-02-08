@@ -2477,7 +2477,7 @@ opacity: .85;
 
 .page-template-page_futurestudents-php .testimonials ul { height: 250px; position: relative; }
 
-.page-template-page_futurestudents-php .testimonials li { opacity: 0; position: absolute; top: 0; left: 0;  }
+/*.page-template-page_futurestudents-php .testimonials li { opacity: 0; position: absolute; top: 0; left: 0;  }*/
 
 .page-template-page_futurestudents-php .testimonials li p.quote { font-style: italic; font-size: 28px; line-height: 1.5; font-family: Georgia, serif; margin-bottom: 25px; }
 
@@ -2486,8 +2486,10 @@ opacity: .85;
 .page-template-page_futurestudents-php .meet .people { width: 32%; float: left; }
 
 
+.testimonials ul { position:relative;  height:250px; }
+.testimonials ul li { position:absolute; left:0; top:0; }
 
-
+/*
 
 .page-template-page_futurestudents-php .testimonials li:nth-child(1) {
   -webkit-animation: quoteshift 30s 0s infinite linear;
@@ -2500,7 +2502,7 @@ opacity: .85;
 .page-template-page_futurestudents-php .testimonials li:nth-child(3) {
   -webkit-animation: quoteshift 30s 20s infinite linear;
 }
-
+*/
 
 
 
@@ -2932,7 +2934,7 @@ opacity: .85;
 
 
 
-@-webkit-keyframes "quoteshift" {
+/*@-webkit-keyframes "quoteshift" {
  0% {
    opacity: 0;
  }
@@ -2948,4 +2950,4 @@ opacity: .85;
  100% {
    opacity: 0;
  }
-}
+}*/
