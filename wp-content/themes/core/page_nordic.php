@@ -11,7 +11,7 @@ function template_load_scripts(){
 		}
 		
 		#wrap{
-			background-image: url("<?php echo get_bloginfo('wpurl'); ?>/wp-content/uploads/2012/02/nordicl.jpg");
+			/*background-image: url("<?php echo get_bloginfo('wpurl'); ?>/wp-content/uploads/2012/02/nordicl.jpg");*/
 		}
 	</style>
 	<?php
