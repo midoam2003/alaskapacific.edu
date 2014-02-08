@@ -2721,7 +2721,7 @@ opacity: .85;
 
 /* New Apply section */
 
-.page-template-page_apply-php #inner { background: #fff; }
+.page-template-page_apply-php #inner { /*background: #fff;*/ }
 
 .page-template-page_apply-php #degrees { width: 60%; margin: 0 auto; }
 
