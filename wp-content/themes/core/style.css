@@ -2724,17 +2724,12 @@ ol li, ul li { margin-left: 20px; }
 
 /* New Apply section */
 
+.page-template-page_apply-php { line-height: normal !important; }
+
+.page-template-page_apply-php h1, .page-template-page_apply-php h2 { font-family: "Soho" !important; }
+
 .page-template-page_apply-php #wrap { background: #fff; }
 .page-template-page_apply-php div#inner { /*background: #fff;*/ width: 100%; margin: 0; padding: 0; max-width: 100%; }
-
-.page-template-page_apply-php #degrees { width: 60%; margin: 0 auto; }
-
-.page-template-page_apply-php #degrees .degree { cursor: pointer; right: 0;  padding: 30px; height: 100px; border-radius: 5px; background: #ece9e6; margin: 0 auto 15px auto; }
-.page-template-page_apply-php #degrees .degree h3 { text-shadow: 1px 1px #fff;  color: #998878; margin: 0 0 15px 0; padding: 0; font-size: 28px; line-height: 1.2;}
-
-
-.page-template-page_apply-php #degrees .degree .features li { text-shadow: 1px 1px #fff;  border: 1px solid #d0cecb; border-radius: 3px; padding: 5px 10px 5px 10px; float: left; color: #b3a79c; }
-
 
 
 
@@ -2743,36 +2738,37 @@ ol li, ul li { margin-left: 20px; }
 #apply-page .splash .overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #e8b324; opacity: .5; z-index: 1; }
 
 /*header:after { opacity: .5; content: ''; display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: orange; }*/
+
 #apply-page header { position: relative; z-index: 2; width: 900px; padding-top: 100px; margin: 0 auto; color: #fff; }
 
-#apply-page header h1 { line-height: normal !important; font-family: "Soho" !important; color: #fff; margin: 0px 0 0 0; font-weight: 500; font-size: 72px; text-shadow: 0 0 10px #765a00; }
+#apply-page header h1 { line-height: normal !important; font-family: "Soho" !important; color: #fff; margin: 0px 0 0 0; font-weight: 500 !important; font-size: 72px; text-shadow: 0 0 10px #765a00; }
 #apply-page header h2 { line-height: normal !important; font-family: "Soho" !important; color: #fff; margin: 0; font-weight: 100; font-size: 36px; text-shadow: 0 0 10px #765a00; }
 
 #apply-page .main { color: #444; width: 900px; margin: 0 auto; }
 
-#apply-page .main h1 { position: relative;  font-size: 24px; }
+#apply-page .main h1 { font-weight: 500 !important; position: relative;  font-size: 24px; }
 
-#apply-page .main h1 small { width: 80px; display: block; float: left; line-height: 33px; font-variant: small-caps; font-weight: 400; }
+#apply-page .main h1 small { width: 80px; display: block;  line-height: 33px; font-variant: small-caps; font-weight: 400 !important; position: absolute; left: -80px; }
 
 #apply-page .options { position: absolute; top: 0; bottom: 0; right: 0; opacity: .7; }
 
-#apply-page .main h1 .options.legend .option { font-size: 14px; margin-left: 15px; border: 1px solid #d8d8d8; border-radius: 3px; padding: 10px 14px 10px 12px; font-family: "Helvetica";}
-
+#apply-page .main h1 .options.legend .option { font-size: 14px; margin-left: 15px; border: 1px solid #d8d8d8; border-radius: 3px; padding: 10px 14px 10px 12px; font-family: "Helvetica"; font-weight: bold !important; }
+ 
 #apply-page .main p { font-family: "Open Sans", sans-serif; line-height: 1.5; }
 
 
-#apply-page .main h2 { text-transform: uppercase; letter-spacing: 2px;  color: #37739f;  font-family: "Soho"; font-weight: 500; font-size: 14px; margin-top: 40px; }
+#apply-page .main h2 { text-transform: uppercase; letter-spacing: 2px;  color: #37739f;  font-family: "Soho"; font-weight: 500 !important; font-size: 14px; margin-top: 40px; }
 
-#apply-page .main .degrees { margin-left: 80px; margin-bottom: 40px; }
+#apply-page .main .degrees { margin-left: 0px; margin-bottom: 40px; }
 
-#apply-page .main .degrees ul { list-style: none; margin: 0; padding:0; border-top: 1px solid #d8d8d8;}
+#apply-page .main ul { list-style: none; margin: 0; padding:0; border-top: 1px solid #d8d8d8;}
 
-#apply-page .main .degrees li { position: relative;  cursor: pointer; padding: 10px 0 10px 0px; font-family: Helvetica; font-weight: bold; font-size: 18px; border-bottom: 1px solid #d8d8d8; }
+#apply-page .main .degrees li { list-style-type: none; position: relative;  cursor: pointer; padding: 10px 0 10px 0px; font-family: Helvetica; font-weight: bold; font-size: 18px; border-bottom: 1px solid #d8d8d8; margin: 0; }
 
 #apply-page .main .degrees li {
-/*
+
      opacity: 0;
-    display: none;*/
+    display: none;
     
 }
 
@@ -2818,6 +2814,8 @@ ol li, ul li { margin-left: 20px; }
 #apply-page .step { clear: both; }
 
 #apply-page .main .step { margin-bottom: 40px; }
+
+#apply-page .main .step h1 { font-weight: 500px; }
 
 #apply-page .main #step-4 { overflow: hidden; }
 #apply-page .main #step-4 .box { border: 1px solid #e8b324; float: left; border-radius: 3px; font-size: 18px; font-weight: bold; padding: 10px 12px 10px 12px;  margin-right: 15px; }

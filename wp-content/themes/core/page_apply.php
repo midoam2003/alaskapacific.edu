@@ -6,7 +6,7 @@ add_action('genesis_meta', 'template_load_css');
 
 function template_load_css() { 
 	?>
-
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo get_bloginfo('stylesheet_directory'); ?>/fonts/soho.css">
 
 	<?
@@ -34,7 +34,7 @@ function template_load_js() {
 
 
 
-<script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/jquery.isotope.min.js"></script>
+<script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/jquery.mixitup.min.js"></script>
 <script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/apply.js"></script>
 
 
@@ -84,7 +84,7 @@ function template_load_mobile(){
 	            	<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ba,bs' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php echo $url[0];  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -98,7 +98,7 @@ function template_load_mobile(){
 	            <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ma,mba-2,ms' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php echo $url[0];  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -111,7 +111,7 @@ function template_load_mobile(){
 	               <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'psyd' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php echo $url[0];  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -123,7 +123,7 @@ function template_load_mobile(){
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'aa' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php echo $url[0];  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -135,7 +135,7 @@ function template_load_mobile(){
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'certificate' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php echo $url[0];  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -147,7 +147,7 @@ function template_load_mobile(){
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'high-school' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php echo $url[0];  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>

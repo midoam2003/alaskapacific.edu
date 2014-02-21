@@ -1,114 +1,117 @@
-jQuery(function($) {
-    // WebFont.load({
-    //     google: {
-    //         families: ['Oswald']
-    //     },
-    //     active: function() {
-    //          $('#degrees .box h2').each(function() {
-    //                 $(this).responsiveHeadlines({ useThrottleDebounce: false, container: 'box', maxFontSize: 24 });
-    //              });
-    //     }
-    // });
-});
-
 jQuery(document).ready(function ($) { 
 
+
+
+    $('#mix').mixitup({
+    targetSelector: 'li',
+    filterSelector: '.filter',
+    sortSelector: '.sort',
+    buttonEvent: 'click',
+    effects: ['fade'],
+    listEffects: null,
+    easing: 'smooth',
+    layoutMode: 'list',
+    targetDisplayGrid: 'inline-block',
+    targetDisplayList: 'block',
+    gridClass: '',
+    listClass: '',
+    transitionSpeed: 600,
+    showOnLoad: 'all',
+    sortOnLoad: false,
+    multiFilter: false,
+    filterLogic: 'or',
+    resizeContainer: true,
+    minHeight: 0,
+    failClass: 'fail',
+    perspectiveDistance: '3000',
+    perspectiveOrigin: '50% 50%',
+    animateGridList: true,
+    onMixLoad: null,
+    onMixStart: null,
+    onMixEnd: null
 });
 
+    $('#mix2').mixitup({
+    targetSelector: 'li',
+    filterSelector: '.filter',
+    sortSelector: '.sort',
+    buttonEvent: 'click',
+    effects: ['fade'],
+    listEffects: null,
+    easing: 'smooth',
+    layoutMode: 'list',
+    targetDisplayGrid: 'inline-block',
+    targetDisplayList: 'block',
+    gridClass: '',
+    listClass: '',
+    transitionSpeed: 600,
+    showOnLoad: 'all',
+    sortOnLoad: false,
+    multiFilter: false,
+    filterLogic: 'or',
+    resizeContainer: true,
+    minHeight: 0,
+    failClass: 'fail',
+    perspectiveDistance: '3000',
+    perspectiveOrigin: '50% 50%',
+    animateGridList: true,
+    onMixLoad: null,
+    onMixStart: null,
+    onMixEnd: null
+});
+
+$('.degrees li').on('click', function() { 
+
+    if ($('.degrees li').hasClass('current')) {
+
+        $('.degrees .current').removeClass('current');
+        $('#mix').mixitup('filter','all');
+    $('#mix2').mixitup('filter','all');
+$('.degrees h2').fadeTo(200,1, function() { $(this).show(); });
 
 
-jQuery(document).ready(function ($) { 
 
- console.log($);
+    } else {
 
-    $('#degrees').isotope({
-          // options
-          itemSelector : '.degree',
-          layoutMode : 'straightDown',
-          animateEngine: 'best-available'
-      },
-          function () {
+        $(this).addClass('current');
+    $('#mix').mixitup('filter','current');
+    $('#mix2').mixitup('filter','current');
+    $('.degrees h2').fadeTo(200,0, function() { $(this).hide(); });
+    $('html, body').animate({
+    scrollTop: $(".splash").offset().top
+ }, 500);
 
-            // $(this).css('opacity',1);
+
+    }
     
-          }
-    );
-
-
-
-    $('#degrees .degree').on('click',function() { 
-
-        $('#degrees .degree').removeClass('selected');
-
-        $(this).addClass('selected');
-
-
-        $('#degrees').isotope({ filter: '.selected' });
-
-        $("html, body").animate({ scrollTop: "150px" });
-
-        //window.scrollTo(0,0);
-
-    });
-
-
-
-    // $('.box').hover(
-    //     function() {
-    //         $(this).addClass( "hover" );
-        
-    //         // var $slideshow = $(this).find('.slideshow');
-    //         // //$('.fadein img').hide();
-
-    //         // $slideshow.find('li:eq(0)').addClass('active');
-
-    //         // window.degreeSlideshow = setInterval(
-    //         //     function () { 
-    //         //         //$('.active', $slideshow).removeClass('active').next('li').addClass('active');
-
-    //         //         var $cur = $('.active', $slideshow).removeClass('active');
-    //         //         var $next = $cur.next().length?$cur.next():$slideshow.children().eq(0);
-    //         //         $next.addClass('active');
-    //         //     }, 700
-    //         // );
-
-    //     }, function() {
-    //         $(this).removeClass( "hover" );
-    //         // var $slideshow = $(this).find('.slideshow');
-
-    //         // $slideshow.find('li').removeClass('active').eq(0).addClass('active');
-           
-    //         // clearInterval(window.degreeSlideshow);
-    // });
-
-
-    // $('.filters a').click(function (e) { 
-
-    //     e.preventDefault();
-    //     var filter = $(this).attr('href').substring(1);
-    //     $('#degrees').removeClass().addClass('isotope ' + filter);
-        
-    //     $('.filters a').removeClass('activated');
-    //     $(this).addClass('activated');
-
-    //     var selector = $(this).attr('data-filter');
-    //     $('#degrees').isotope({ filter: selector });
-    //     //return false;
-
-
-    // });
-
-  
-
-
 });
-
-
-jQuery(window).load(function ($) { 
-
-  
-    //          jQuery('#degrees .box .header h2 a').each(function() {
-    //     jQuery(this).responsiveHeadlines({ useThrottleDebounce: false, container: 'box', maxFontSize: 24 });
+    // $('#degrees').isotope({
+    //   // options
+    //   itemSelector : 'li',
+    //   layoutMode : 'vertical'
     // });
+
+
+ //    $('#degrees li').on('click', function() { 
+ //        console.log(this);
+ //        $degreeLists.addClass('hide');
+ //        $(this).clone().appendTo('#selected');
+
+ //        $('#main').removeClass();
+ //       $('#main').addClass($(this).parent().attr('data-portal'));
+        
+ //        $('html, body').animate({
+ //    scrollTop: $("#splash").offset().top
+ // }, 500);
+
+ //    });
+
+ //    $('#selected').on('click', function() { 
+ //        console.log(this);
+ //        $degreeLists.removeClass('hide');
+ //        $(this).empty();
+        
+ //    });
+
 
 });
