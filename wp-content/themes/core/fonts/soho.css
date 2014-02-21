@@ -1,0 +1,39 @@
+@font-face {
+    font-family: "Soho";
+    src: url("soho/sohostd-light-webfont.eot");
+    src: url("soho/sohostd-light-webfont.woff") format("woff"),
+    url("soho/sohostd-light-webfont.ttf") format("truetype"),
+    url("soho/sohostd-light-webfont.svg") format("svg");
+    font-weight: 300;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "Soho";
+    src: url("soho/sohostd-regular-webfont.eot");
+    src: url("soho/sohostd-regular-webfont.woff") format("woff"),
+    url("soho/sohostd-regular-webfont.ttf") format("truetype"),
+    url("soho/sohostd-regular-webfont.svg") format("svg");
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "Soho";
+    src: url("soho/sohostd-medium-webfont.eot");
+    src: url("soho/sohostd-medium-webfont.woff") format("woff"),
+    url("soho/sohostd-medium-webfont.ttf") format("truetype"),
+    url("soho/sohostd-medium-webfont.svg") format("svg");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Soho";
+    src: url("soho/sohostd-bold-webfont.eot");
+    src: url("soho/sohostd-bold-webfont.woff") format("woff"),
+    url("soho/sohostd-bold-webfont.ttf") format("truetype"),
+    url("soho/sohostd-bold-webfont.svg") format("svg");
+    font-weight: 600;
+    font-style: normal;
+}
