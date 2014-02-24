@@ -65,36 +65,35 @@ function template_load_mobile(){
 
 	    <div class="degrees">
 			<h2>Bachelor's Degrees</h2>
-			<ul id="mix" data-portal="undergrad">
-				<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ba,bs' ) ); ?>
+			<ul data-portal="undergrad">
+				<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ba,bs', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 				<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-					<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+					<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span> Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 				<?php endwhile; ?>
 	        </ul>
 
 	        <h2>Graduate Degrees</h2>
-			<ul id="mix2" data-portal="graduate">
-			<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ma,mba-2,ms' ) ); ?>
+			<ul data-portal="graduate">
+			<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ma,mba-2,ms', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-				<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink() ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 			<?php endwhile; ?>
 			</ul>
 
 			<h2>Doctoral Degrees</h2>
 	        <ul data-portal="graduate">
-	        <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'psyd' ) ); ?>
+	        <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'psyd', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-				<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 			<?php endwhile; ?>
 	        </ul>
 
 	            <h2>Associate's Degrees</h2>
 
 	            <ul data-portal="undergrad">
-	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'aa' ) ); ?>
+	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'aa', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -103,10 +102,9 @@ function template_load_mobile(){
 	            <h2>Certificates</h2>
 
 	            <ul data-portal="undergrad">
-	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'certificate' ) ); ?>
+	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ctf', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -115,10 +113,10 @@ function template_load_mobile(){
 	            <h2>High School Student Programs</h2>
 
 	            <ul data-portal="high-school">
-	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'high-school' ) ); ?>
+	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'high-school', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -146,62 +144,63 @@ function template_load_mobile(){
 
 	                <h1><small>Step 2.</small>Review important dates <span class="amp">&amp;</span> deadlines</h1>
 
-	                <div class="fafsa">
+	                <div class="cup deadline">
+		                <h2>Registration Deadlines</h2>
+		                <p>1 month prior to the start of block or session class.</p>
+	                </div>
 
-	                June 30th, 2014 federal deadline for FAFSA
+	                <div class="ps deadline">
+
+		                <h2>Registration Deadlines</h2>
+		                <p>1 month prior to the start of block, session, or module class.</p>
 
 	                </div>
 
-	                <div class="undergrad">
+	                <div class="other deadline">
 
-	                Priority deadline 1 month prior to start of classes. Spring and Fall Start terms.
-
-	                </div>
-
-	                <div class="mba">
-
-	                August 1st deadline for fall
-	                December 1st deadline for spring
-	                April 1st deadline for summer
-
+	                	<h2>Registration Deadlines</h2>
+		                <p>August 1st for Fall, December 1st for Spring, April 1st for Summers (unless otherwise noted).</p>
 
 	                </div>
 
-	                <div class="map">
+	                <div class="ms-environmental-science deadline">
 
-	                August 1st deadline for fall
-	December 1st deadline for spring
-	April 1st deadline for summer
-
-	                </div>
-
-	                 <div class="mses">
-
-	                 Priority deadline for fall: Feb 15th (must complete application for graduate assistantship consideration)
-	June 1st deadline for fall
-	Nov 1st deadline for spring
+	                	<h2>Registration Deadlines</h2>
+		                <p>June 1st for Fall, November 1st for Spring.</p>
 
 	                </div>
 
-	                <div class="msoee">
+	                <div class="ms-outdoor-environmental-education deadline">
 
-	                July 1st deadline for fall 
-	                Nov 1st deadline for spring
+	                	<h2>Registration Deadlines</h2>
+		                <p>July 1st for Fall, November 1st for Spring.</p>
 
 	                </div>
 
-	                <div class="early-honors">
-	                June 1st deadline for fall
+	                <div class="ms-counseling-psychology deadline">
+
+	                	<h2>Registration Deadlines</h2>
+		                <p>March 1st for Fall.</p>
+		                
+
 	                </div>
 
-	                <div class="mscp">
-	                March 1st deadline for fall
+	                <div class="psyd-counseling-psychology deadline">
+
+	                	<h2>Registration Deadlines</h2>
+		                <p>February 1st for Summer.</p>
+		                
+
 	                </div>
 
-	                <div class="psyd">
-	                Feb 1st deadline for summer
-	                </div>     
+	                <div class="ehp deadline">
+	                	<h2>Registration Deadlines</h2>
+		                <p>June 1st deadline for fall.</p> 
+	                </div>
 
+	                <a class="newbutton" href=""><i class="fa fa-user"></i>&nbsp;&nbsp;View the Academic Calendar</a>
+
+<!-- 
 	                <div class="international">
 
 	                All International students regardless of program. Must also meet deadline requirements for their program of choice: 
@@ -210,7 +209,7 @@ function template_load_mobile(){
 	Sept 1st deadline for spring
 
 
-	                </div>          
+	                </div>           -->
 
 	            </div>
 
