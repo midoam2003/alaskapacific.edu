@@ -2854,6 +2854,12 @@ ol li, ul li { margin-left: 20px; }
 #step-2[data-switch="ms-counseling-psychology"] .ms-counseling-psychology { display: block; }
 #step-2[data-switch="psyd-counseling-psychology"] .psyd-counseling-psychology { display: block; }
 
+#step-4 .docs { display: none; }
+#step-4[data-switch="cup"] .cup { display: block; }
+#step-4[data-switch="ps"] .ps { display: block; }
+#step-4[data-switch="doct"] .doct { display: block; }
+#step-4[data-switch="ehp"] .ehp { display: block; }
+
 
 /** Media Queries **/
 /* Desktops, laptops and iPads (landscape) ----------- */

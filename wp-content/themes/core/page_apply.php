@@ -214,13 +214,13 @@ function template_load_mobile(){
 	            </div>
 
 	            <div id="step-3" class="step">
-	            <h1><small>Step 3.</small>Complete the online application</h1>
+		            <h1><small>Step 3.</small>Complete the online application</h1>
 
-	            <p>Please note you will need to create a new account to begin your online application. This new username and password is only for the application and will cease to be valid once you submit the completed application. An Admissions Counselor will contact you within a week after receiving your application to discuss any other documents necessary to complete your application.</p>
+		            <p>Please note you will need to create a new account to begin your online application. This new username and password is only for the application and will cease to be valid once you submit the completed application. An Admissions Counselor will contact you within a week after receiving your application to discuss any other documents necessary to complete your application.</p>
 
-	            <br />
+		            <br />
 
-	            <a class="sign-up newbutton" href=""><i class="fa fa-user"></i>&nbsp;&nbsp;Create your account</a><a href="" class="login newbutton"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Resume an application</a>
+		            <a class="sign-up newbutton" href=""><i class="fa fa-user"></i>&nbsp;&nbsp;Create your account</a><a href="" class="login newbutton"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Resume an application</a>
 
 	            </div>
 
@@ -228,7 +228,7 @@ function template_load_mobile(){
 
 	                <h1><small>Step 4.</small>Submit additional supporting documents</h1>
 
-	                <div class="cup">
+	                <div class="cup docs">
 
 	                    <h2>Official Transcripts</h2>
 
@@ -260,7 +260,7 @@ function template_load_mobile(){
 
 	                </div>
 
-	                <div class="ps">
+	                <div class="ps docs">
 
 	                    <h2>Official Transcripts</h2>
 
@@ -272,22 +272,55 @@ function template_load_mobile(){
 
 	                    <p>You will need to compose a 1-2 page essay about your goals. We ask you to describe your goals, how you feel your degree will help you accomplish these goals, and the impact it may have on your family, community, or self. Please note this also serves as your writing sample.</p>
 
-	                    <h2>Statement of Goals</h2>
+	                    <h2>Current Résumé</h2>
+
+	                    <p>The classrooms at Alaska Pacific University are filled with students who come from many different professional backgrounds. Your résumé will help your academic adviser better understand your professional background.</p>
 
 	                </div>
 
-	                <div class="ehp">
+	                <div class="doct docs">
+
+	                    <h2>Résumé</h2>
+
+	                    <p>Send us your current professional Cirriculum Vitae or Résumé.
+
+	                    <h2>Letters of Reference</h2>
+
+	                    <p>Three letters of reference (note recommendation letters should include an appraisal of your ability to work in a significantly self-directed program at the doctoral level as well as your critical thinking, analytical, and communications skills. Referrals should include the writer’s address, telephone number and/or email, and their relationship to you.</p>
+
+	                    <h2>Autobiography</h2>
+
+	                    <p>A one or two page autobiography (personal as opposed to professional) that highlights your strengths. We want to get to know you and have a sense of what strengths you will bring to the cohort.</p>
+
+	                    <h2>Essay</h2>
+
+	                    <p>An essay that addresses the following questions:</p>
+
+	                    <ul>
+	                        <li>What are your reasons for wanting a Psy. D. from APU at this time?</li>
+	                        <li>What are your short and long term personal and professional goals? How do you see yourself contributing to the improvement of the community or larger society with the Psy. D.?</li>
+	                        <li>Describe your abilities and desires regarding rigorous independent work within a cohort setting or model along with your plans to enter into Track 1 or 2.</li>
+	                        <li>Describe your plan to balance graduate school, work, and personal life should you be admitted to the program.</li>
+	                    </ul>
+
+	                    <h2>Writing Sample</h2>
+
+	                    <p>Academic writing sample. APA format preferred.</p>
+
+	                </div>
+
+	                <div class="ehp docs">
 
 	                    <h2>Official Transcripts</h2>
 
 	                    <p>To be fully-admitted, we will need to receive an official transcript from your high school. A transcript is "official" only when we receive it in a sealed envelope from the high school. You may have them sent directly to us or deliver it yourself as long as it is still sealed.</p>
 
 	                    <h2>Test Scores &amp; Placement Testing</h2>
-	<p>Early Honors applicants may be required to submit standardized test scores (Pre-SAT, SAT, ACT) or take APU math and writing placement tests to be considered for admission into the program and/or to determine best placement into APU course sequences.</p>
+						<p>Early Honors applicants may be required to submit standardized test scores (Pre-SAT, SAT, ACT) or take APU math and writing placement tests to be considered for admission into the program and/or to determine best placement into APU course sequences.</p>
 
-	<p>ACT scores may be requested online (ACT Reporting Code: 0062)</p>
+						<p>ACT scores may be requested online (ACT Reporting Code: 0062)</p>
 
-	<p>SAT scores may be requested online (SAT Reporting Code: 4201)</p>
+						<p>SAT scores may be requested online (SAT Reporting Code: 4201)</p>
 
 	                    <h2>Essay</h2>
 
@@ -302,16 +335,16 @@ function template_load_mobile(){
 
 	                    <h2>Letters of Recommendation</h2>
 
-	                    Submit two Letters of Recommendation. Letter of recommendation form
+	                    <p>Submit two Letters of Recommendation.
 
-	                    http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/uploads/2012/01/Undergraduate_LetterOfRec.pdf
-
-	Students who attend Alaska Pacific University excel both in and out of the classroom. We want to hear about your success! Please submit two letters of recommendations from your, teachers, counselors, or employers. You may request a written letter or use our teacher recommendation form. Letters may be emailed to admissions@alaskapacific.edu or mailed to:
+	                    <p><a class="newbutton recommendation" href="http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/uploads/2012/01/Undergraduate_LetterOfRec.pdf"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;Download the Letter of Recommendation template form</a></p>
+	                    
+	                    <p>Students who attend Alaska Pacific University excel both in and out of the classroom. We want to hear about your success! Please submit two letters of recommendations from your, teachers, counselors, or employers. You may request a written letter or use our teacher recommendation form.</p>
 
 	                </div>
 
 
-	                <div class="credit-by-choice">
+	                <div class="credit-by-choice docs">
 
 	                    <h2>Application Fee</h2>
 

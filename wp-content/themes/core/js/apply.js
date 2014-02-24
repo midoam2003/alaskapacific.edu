@@ -88,6 +88,8 @@ $('.degrees li').on('click', function() {
 
         
     $('#step-2').attr('data-switch','');
+
+    $('#step-4').attr('data-switch','');
         
 
     } else {
@@ -120,6 +122,7 @@ $('.degrees li').on('click', function() {
                 $('#step-2').attr('data-switch',portal);
                 break;
         }
+        $('#step-4').attr('data-switch',portal);
 
         switch (portal)
         {
