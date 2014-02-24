@@ -3,50 +3,50 @@ jQuery(document).ready(function ($) {
 
 
     $('.degrees ul').mixitup({
-    targetSelector: 'li',
-    filterSelector: '.filter',
-    sortSelector: '.sort',
-    buttonEvent: 'click',
-    effects: ['fade'],
-    listEffects: null,
-    easing: 'smooth',
-    layoutMode: 'list',
-    targetDisplayGrid: 'inline-block',
-    targetDisplayList: 'block',
-    gridClass: '',
-    listClass: '',
-    transitionSpeed: 600,
-    showOnLoad: 'all',
-    sortOnLoad: false,
-    multiFilter: false,
-    filterLogic: 'or',
-    resizeContainer: true,
-    minHeight: 0,
-    failClass: 'fail',
-    perspectiveDistance: '3000',
-    perspectiveOrigin: '50% 50%',
-    animateGridList: true,
-    onMixLoad: null,
-    onMixStart: null,
-    onMixEnd: function () { 
+        targetSelector: 'li',
+        filterSelector: '.filter',
+        sortSelector: '.sort',
+        buttonEvent: 'click',
+        effects: ['fade'],
+        listEffects: null,
+        easing: 'smooth',
+        layoutMode: 'list',
+        targetDisplayGrid: 'inline-block',
+        targetDisplayList: 'block',
+        gridClass: '',
+        listClass: '',
+        transitionSpeed: 600,
+        showOnLoad: 'all',
+        sortOnLoad: false,
+        multiFilter: false,
+        filterLogic: 'or',
+        resizeContainer: true,
+        minHeight: 0,
+        failClass: 'fail',
+        perspectiveDistance: '3000',
+        perspectiveOrigin: '50% 50%',
+        animateGridList: true,
+        onMixLoad: null,
+        onMixStart: null,
+        onMixEnd: function () { 
 
-       // console.log('filtering ended')
+           // console.log('filtering ended')
 
-        // $('html, body').animate({
-        //          scrollTop: $('.degrees .current').offset().top - 100
-        //     }, 500);
+            // $('html, body').animate({
+            //          scrollTop: $('.degrees .current').offset().top - 100
+            //     }, 500);
 
 
-        // if ($('.degrees li').hasClass('current')) {
+            // if ($('.degrees li').hasClass('current')) {
 
-           
-        //     //console.log('remove current')
-        // }
+               
+            //     //console.log('remove current')
+            // }
 
-            
+                
 
-    }
-});
+        }
+    });
 
 $('.degrees li').on('click', function() {
 

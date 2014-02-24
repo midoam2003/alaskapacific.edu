@@ -65,7 +65,7 @@ function template_load_mobile(){
 
 	    <div class="degrees">
 			<h2>Bachelor's Degrees</h2>
-			<ul data-portal="undergrad">
+			<ul id="bachelors-degrees" data-portal="undergrad">
 				<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ba,bs', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 				<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 					<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span> Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -73,7 +73,7 @@ function template_load_mobile(){
 	        </ul>
 
 	        <h2>Graduate Degrees</h2>
-			<ul data-portal="graduate">
+			<ul id="graduate-degrees" data-portal="graduate">
 			<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ma,mba-2,ms', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink() ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -81,7 +81,7 @@ function template_load_mobile(){
 			</ul>
 
 			<h2>Doctoral Degrees</h2>
-	        <ul data-portal="graduate">
+	        <ul id="doctoral-degrees" data-portal="graduate">
 	        <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'psyd', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -90,7 +90,7 @@ function template_load_mobile(){
 
 	            <h2>Associate's Degrees</h2>
 
-	            <ul data-portal="undergrad">
+	            <ul id="associates-degrees" data-portal="undergrad">
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'aa', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 <li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -101,7 +101,7 @@ function template_load_mobile(){
 
 	            <h2>Certificates</h2>
 
-	            <ul data-portal="undergrad">
+	            <ul id="certificates" data-portal="undergrad">
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ctf', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 <li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -112,7 +112,7 @@ function template_load_mobile(){
 
 	            <h2>High School Student Programs</h2>
 
-	            <ul data-portal="high-school">
+	            <ul id="high-school-programs" data-portal="high-school">
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'high-school', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
@@ -124,7 +124,7 @@ function template_load_mobile(){
 
 	            <h3>Still undecided? You can still apply with the following option:</h3>
 
-	            <ul>
+	            <ul id="non-degree-seeking">
 	                <li class="single"><span class="icon"><i class="fa fa-chevron-right"></i></span>Non-Degree Seeking<a href="" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 	            </ul>
 
@@ -228,7 +228,7 @@ function template_load_mobile(){
 
 	                <h1><small>Step 4.</small>Submit additional supporting documents</h1>
 
-	                <div class="undergrad">
+	                <div class="cup">
 
 	                    <h2>Official Transcripts</h2>
 
@@ -260,16 +260,23 @@ function template_load_mobile(){
 
 	                </div>
 
-	                <div 
+	                <div class="ps">
 
+	                    <h2>Official Transcripts</h2>
 
+	                    <p>Send us your official transcripts you have earned from schools you have attended.</p>
 
+	                    <p>To be fully-admitted, we will need to receive official transcripts from all universities and postsecondary schools that you have attended. If you have less than 30 transferable college credits, we will also need an official high school or GED transcript. Credits are considered transferable if they are from 100 level or higher courses with a "C" or better average from an accredited university. A transcript is "official" only when we receive it in a sealed envelope from the awarding institution. You may have them sent directly to us or deliver it yourself as long as it is still sealed.</p>
 
+	                    <h2>Statement of Goals</h2>
 
+	                    <p>You will need to compose a 1-2 page essay about your goals. We ask you to describe your goals, how you feel your degree will help you accomplish these goals, and the impact it may have on your family, community, or self. Please note this also serves as your writing sample.</p>
 
+	                    <h2>Statement of Goals</h2>
 
+	                </div>
 
-	                <div class="early-honors">
+	                <div class="ehp">
 
 	                    <h2>Official Transcripts</h2>
 
