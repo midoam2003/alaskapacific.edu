@@ -68,7 +68,7 @@ function template_load_mobile(){
 			<ul data-portal="undergrad">
 				<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ba,bs', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 				<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-					<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span> Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+					<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span> Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 				<?php endwhile; ?>
 	        </ul>
 
@@ -76,7 +76,7 @@ function template_load_mobile(){
 			<ul data-portal="graduate">
 			<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ma,mba-2,ms', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink() ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink() ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 			<?php endwhile; ?>
 			</ul>
 
@@ -84,7 +84,7 @@ function template_load_mobile(){
 	        <ul data-portal="graduate">
 	        <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'psyd', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 			<?php endwhile; ?>
 	        </ul>
 
@@ -93,7 +93,7 @@ function template_load_mobile(){
 	            <ul data-portal="undergrad">
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'aa', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -104,7 +104,7 @@ function template_load_mobile(){
 	            <ul data-portal="undergrad">
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ctf', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -116,13 +116,13 @@ function template_load_mobile(){
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'high-school', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
 	            </ul>
 
-	            <h2>Non-Degree Seeking</h2>
+	            <h3>Still undecided? You can still apply with the following option:</h3>
 
 	            <ul>
 	                <li class="single"><span class="icon"><i class="fa fa-chevron-right"></i></span>Non-Degree Seeking<a href="" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -198,7 +198,7 @@ function template_load_mobile(){
 		                <p>June 1st deadline for fall.</p> 
 	                </div>
 
-	                <a class="newbutton" href=""><i class="fa fa-user"></i>&nbsp;&nbsp;View the Academic Calendar</a>
+	                <p><a class="newbutton calendar" href="http://www.alaskapacific.edu/university-calendar/"><i class="fa fa-calendar"></i>&nbsp;&nbsp;View the University Calendar for upcoming dates</a></p>
 
 <!-- 
 	                <div class="international">

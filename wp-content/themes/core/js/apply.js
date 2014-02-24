@@ -78,7 +78,7 @@ $('.degrees li').on('click', function() {
 
         $('.degrees ul').mixitup('filter','all');
 
-        $('.degrees h2').fadeTo(200,1, function() { $(this).show(); });
+        $('.degrees h2, .degrees h3').fadeTo(200,1, function() { $(this).show(); });
 
         // //console.log($current.offset().top);
 
@@ -161,7 +161,7 @@ $('.degrees li').on('click', function() {
 
         $('.degrees ul').mixitup('filter','current');
 
-        $('.degrees h2').fadeTo(200,0, function() { $(this).hide(); });
+        $('.degrees h2, .degrees h3').fadeTo(200,0, function() { $(this).hide(); });
 
         $('html, body').animate({
             scrollTop: $('.splash').offset().top

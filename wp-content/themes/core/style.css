@@ -2761,7 +2761,7 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main .degrees { margin-left: 0px; margin-bottom: 40px; }
 
-#apply-page .main ul { list-style: none; margin: 0; padding:0; border-top: 1px solid #d8d8d8;}
+#apply-page .main ul { list-style: none; margin: 0; padding:0; }
 
 #apply-page .main .degrees li { list-style-type: none; position: relative;  cursor: pointer; padding: 10px 0 10px 0px; font-family: Helvetica; font-weight: bold; font-size: 18px; border-bottom: 1px solid #d8d8d8; margin: 0; }
 
@@ -2772,7 +2772,11 @@ ol li, ul li { margin-left: 20px; }
     
 }
 
-#apply-page .main .degrees li:hover { color: #e8b324; border-top: 1px solid #e8b324; margin-top: -1px; border-bottom-color: #e8b324; }
+#apply-page .main .degrees ul li:first-child {border-top: 1px solid #d8d8d8; }
+
+
+
+#apply-page .main .degrees li:hover, #apply-page .main .degrees li.current { color: #e8b324; border-top: 1px solid #e8b324; margin-top: -1px; border-bottom-color: #e8b324; }
 
 #apply-page .main .degrees li .icon { padding-top: 15px; line-height: 33px; display: none; position: absolute; top: 0; bottom: 0; width: 50px; left: -50px; }
 
@@ -2780,7 +2784,7 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main .degrees li:hover .icon { display: block; }
 
-#apply-page .main .degrees li:hover span { opacity: .7; }
+#apply-page .main .degrees li:hover span, #apply-page .main .degrees li.current span { opacity: .7; }
 #apply-page .main .degrees li span { display: block; font-size: 12px; opacity: .6;  }
 
 #apply-page .main .degrees li.single { height: 40px; line-height: 40px; }
@@ -2789,7 +2793,7 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main .degrees li a.more { line-height: 16px; float: right; display: block; position: absolute; right: 0; top: 9px; border-radius: 3px;  color: #444; border: 1px solid #d8d8d8; padding: 10px; font-size: 12px; text-decoration: none;  }
 
-#apply-page .main .degrees li:hover a.more { color: #e8b324; border-color: #e8b324; }
+#apply-page .main .degrees li:hover a.more, #apply-page .main .degrees li.current a.more { color: #e8b324; border-color: #e8b324; }
 
 #apply-page .main .degrees .options .option {font-size: 21px; float: left; margin-left: 5px;}
 
@@ -2797,15 +2801,29 @@ ol li, ul li { margin-left: 20px; }
 
 .main .degrees li span.options i { display: block; float: left; height: 100%; vertical-align: middle; font-size: 2.5em; line-height: 60px; }*/
 
+#apply-page .main .degrees li .cancel {  padding-top: 15px; line-height: 33px; display: none; position: absolute; top: 0; bottom: 0; width: 50px; left: -50px; }
+
+#apply-page .main .degrees li .cancel i { opacity: .3; color: #444; font-size: 42px; line-height: 26px;  vertical-align: middle;}
+
+#apply-page .main .degrees li.current .icon { display: none; }
+
+#apply-page .main .degrees li.current .cancel { display: block; }
+
+#apply-page .main .degrees li.current .cancel:hover i { opacity: 1; color: #e8b324; }
+
 
 #apply-page .amp { font-family: "Baskerville"; font-style: italic; font-weight: normal; padding-right: 1px; }
 
 
-#apply-page .main #step-3 .newbutton { font-size: 18px; border: 1px solid #e8b324; border-radius: 3px; padding: 10px 12px 10px 12px;  text-decoration: none; color: #fff; background: #e8b324; margin-right: 15px; }
+#apply-page .main .step .newbutton { font-size: 18px; border: 1px solid #e8b324; border-radius: 3px; padding: 10px 12px 10px 12px;  text-decoration: none; color: #fff; background: #e8b324; margin-right: 15px; }
+
+#apply-page .main .newbutton.calendar { font-size: 14px; border-color: #37739f; background: #68abdc; }
 
 #apply-page .degrees .hide { opacity: 0; display: none;  -webkit-transition: opacity .5s ease-in-out}
 
 #apply-page ul#selected { border-top: 0px !important; }
+
+#apply-page #step-2 .deadline { margin-bottom: 30px; }
 
 
 #apply-page .main.undergrad .undergrad { display: block; }
