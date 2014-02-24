@@ -2818,7 +2818,9 @@ ol li, ul li { margin-left: 20px; }
 #apply-page .main .step h1 { font-weight: 500px; }
 
 #apply-page .main #step-4 { overflow: hidden; }
-#apply-page .main #step-4 .box { border: 1px solid #e8b324; float: left; border-radius: 3px; font-size: 18px; font-weight: bold; padding: 10px 12px 10px 12px;  margin-right: 15px; }
+#apply-page .main #step-4 .box { background: #fff2c5; border: 1px solid #e8b324; float: left; border-radius: 3px; font-size: 14px; font-weight: bold; padding: 10px 20px 10px 50px;  margin-right: 15px; color: #9b7800; text-transform: uppercase; letter-spacing: .05em; line-height: 1.7; position: relative;  }
+
+#apply-page .main #step-4 .box .icon { position: absolute; left: 20px; top: 15px; }
 
 
 

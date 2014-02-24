@@ -5,13 +5,10 @@
 add_action('genesis_meta', 'template_load_css');
 
 function template_load_css() { 
-	?>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-	<link rel="stylesheet" href="<?php echo get_bloginfo('stylesheet_directory'); ?>/fonts/soho.css">
-
-	<?
-
-
+?>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="<?php echo get_bloginfo('stylesheet_directory'); ?>/fonts/soho.css">
+<?
 }
 //Load necessary scripts
 add_action('genesis_before', 'template_load_scripts');
@@ -19,20 +16,16 @@ function template_load_scripts(){
 ?>
 
 <style>
-		#menu-item-409 a{
-			background: url("<?php echo get_bloginfo('stylesheet_directory'); ?>/images/nav-bg.png") repeat-x 0 11px transparent !important;
-		}
-	</style>
-	<?php
+	#menu-item-409 a{
+		background: url("<?php echo get_bloginfo('stylesheet_directory'); ?>/images/nav-bg.png") repeat-x 0 11px transparent !important;
+	}
+</style>
+<?php
 }
 
 add_action('genesis_after', 'template_load_js');
 function template_load_js() { 
-
-    ?>
-
-
-
+?>
 
 <script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/jquery.mixitup.min.js"></script>
 <script src="<?php echo get_bloginfo('stylesheet_directory'); ?>/js/apply.js"></script>
@@ -54,68 +47,46 @@ function template_load_mobile(){
 // content here
  ?>
 
-
-
-
 <div id="apply-page">
 
 	<div class="splash">
-	        <div class="overlay"></div>
-	        <header>
-
+        <div class="overlay"></div>
+        <header>
 	        <h1>Apply to APU</h1>
 	        <h2>Launching your future? Developing professional skills?<br />
 	Follow these easy steps and you’ll be on your way!</h2>
-	        
-	        </header>
-	        </div>
+        </header>
+    </div>
 
-	        <div class="main">
+    <div class="main">
 
-	        <div id="step-1" class="step">
-	            <h1><small>Step 1.</small>Select a degree program<span class="options legend"><span class="option"><i class="fa fa-moon-o fa-lg"></i>&nbsp;&nbsp;=&nbsp;&nbsp;Evening Courses</span><span class="option"><i class="fa fa-laptop fa-lg"></i>&nbsp;&nbsp;=&nbsp;&nbsp;Online Courses</span></span></h1>
+    <div id="step-1" class="step">
+        <h1><small>Step 1.</small>Select a degree program<span class="options legend"><span class="option"><i class="fa fa-moon-o fa-lg"></i>&nbsp;&nbsp;=&nbsp;&nbsp;Evening Courses</span><span class="option"><i class="fa fa-laptop fa-lg"></i>&nbsp;&nbsp;=&nbsp;&nbsp;Online Courses</span></span></h1>
 
-	            <div class="degrees">
+	    <div class="degrees">
+			<h2>Bachelor's Degrees</h2>
+			<ul id="mix" data-portal="undergrad">
+				<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ba,bs' ) ); ?>
+				<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
+					<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+				<?php endwhile; ?>
+	        </ul>
 
-	            <h2>Bachelor's Degrees</h2>
+	        <h2>Graduate Degrees</h2>
+			<ul id="mix2" data-portal="graduate">
+			<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ma,mba-2,ms' ) ); ?>
+			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
+				<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+			<?php endwhile; ?>
+			</ul>
 
-	            <ul id="mix" data-portal="undergrad">
-
-	            	<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ba,bs' ) ); ?>
-<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
-
-
-<?php endwhile; ?>
-
-	            </ul>
-
-	            <h2>Graduate Degrees</h2>
-
-	            <ul id="mix2" data-portal="graduate">
-
-	            <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ma,mba-2,ms' ) ); ?>
-<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
-
-
-<?php endwhile; ?>
-
-	            </ul>
-
-	            <h2>Doctoral Degrees</h2>
-
-	            <ul data-portal="graduate">
-	               <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'psyd' ) ); ?>
-<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-
-<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
-
-
-<?php endwhile; ?>
-	            </ul>
+			<h2>Doctoral Degrees</h2>
+	        <ul data-portal="graduate">
+	        <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'psyd' ) ); ?>
+			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
+				<li><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+			<?php endwhile; ?>
+	        </ul>
 
 	            <h2>Associate's Degrees</h2>
 
@@ -359,12 +330,12 @@ function template_load_mobile(){
 
 
 
-	                <div class="box address">Office of Admissions<br />
+	                <div class="box address"><span class="icon"><i class="fa fa-building-o fa-lg"></i></span>Office of Admissions<br />
 	Alaska Pacific University<br />
 	4101 University Drive<br />
 	Anchorage, AK 99508</div>
 
-	                <div class="box email">admissions@alaskapacific.edu</div>
+	                <div class="box email"><span class="icon"><i class="fa fa-envelope-o fa-lg"></i></span>admissions@alaskapacific.edu</div>
 
 	            </div>
 
