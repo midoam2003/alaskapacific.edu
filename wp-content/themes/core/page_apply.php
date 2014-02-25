@@ -68,7 +68,7 @@ function template_load_mobile(){
 			<ul id="bachelors-degrees" data-portal="undergrad">
 				<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ba,bs', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 				<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-					<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span> Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+					<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 				<?php endwhile; ?>
 	        </ul>
 
@@ -76,7 +76,7 @@ function template_load_mobile(){
 			<ul id="graduate-degrees" data-portal="graduate">
 			<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ma,mba-2,ms', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink() ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink() ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 			<?php endwhile; ?>
 			</ul>
 
@@ -84,7 +84,7 @@ function template_load_mobile(){
 	        <ul id="doctoral-degrees" data-portal="graduate">
 	        <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'psyd', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 			<?php endwhile; ?>
 	        </ul>
 
@@ -93,7 +93,7 @@ function template_load_mobile(){
 	            <ul id="associates-degrees" data-portal="undergrad">
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'aa', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -104,7 +104,7 @@ function template_load_mobile(){
 	            <ul id="certificates" data-portal="undergrad">
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ctf', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -116,7 +116,7 @@ function template_load_mobile(){
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'high-school', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span>Bachelor of Arts Degree</span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portals'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -125,14 +125,14 @@ function template_load_mobile(){
 	            <h3>Still undecided? You can still apply with the following option:</h3>
 
 	            <ul id="non-degree-seeking">
-	                <li class="single" data-portal="non" data-program="credit-by-choice"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span>Non-Degree Seeking<a href="" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+	                <li class="single" data-portal="non"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span>Non-Degree Seeking<a href="" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 	            </ul>
 
 	            <!-- <h2>Non-degree Seeking</h2>
 
 	            <ul>
 	                <li>C</li>
-	                <li>Credit-by-Choice<span>Bachelor of Arts Degree</span></li>
+	                <li>Credit-by-Choice</li>
 	            </ul> -->
 
 
@@ -279,7 +279,7 @@ function template_load_mobile(){
 
 	                    <h2>Résumé</h2>
 
-	                    <p>Send us your current professional Cirriculum Vitae or Résumé.
+	                    <p>Send us your current professional Cirriculum Vitae or Résumé.</p>
 
 	                    <h2>Letters of Reference</h2>
 
@@ -341,7 +341,7 @@ function template_load_mobile(){
 	                </div>
 
 
-	                <div class="non docs">
+	                <div class="credit-by-choice docs">
 
 	                    <h2>Application Fee</h2>
 
@@ -361,11 +361,23 @@ function template_load_mobile(){
 
 	                </div>
 
-	                <div class="map docs">
+	                <div class="non docs">
+
+	                	<h2>Application Fee</h2>
+
+	                    <p><b>$25.00</b> non-refundable application fee. Please make checks or money orders payable to Alaska Pacific University.</p>
+
+	                </div>
+
+	                <div class="master-of-arts-program docs">
 
 		                <h2>Personal Statement and Study Plan</h2>
 
 						<p>As the central feature of the application, these essays are reviewed by the admissions committee as a demonstration of your writing competence, your ability to fully articulate your goals, the appropriateness of a non-traditional program for attaining your goals, as well as a measurement of your critical thinking skills. The committee will give considerable weight to the thoroughness and genuineness with which you complete your Personal Statement as well as to the specificity and relevance of your curriculum as defined by your Study Plan.</p>
+
+						<h2>Samples of Work</h2>
+
+						<p>If applicable, applicants are required to submit examples of work completed with the portfolio. Depending on the field of study these may include research project narratives, manuscripts, creative writing samples, articles, short stories, photographs or transparencies of artwork, major papers, or other materials and documentation.</p>
 
 					</div>
 
@@ -417,82 +429,86 @@ function template_load_mobile(){
 
 					<div class="master-of-business-administration docs">
 
+						<h2>Test Scores</h2>
 
+						<p>Standardized Test. Submit scores from the Graduate Record Exam (GRE) or the Graduate Management Admission Test (GMAT). Alaska Pacific’s GRE and GMAT reporting code is 4201 (not required for MBAICT program).</p>
 
+						<h2>Résumé</h2>
+
+	                    <p>Send us your current professional Cirriculum Vitae or Résumé.</p>
+
+					</div>
+
+<!-- 
 						Teaching Certification
 
 						Alaska Department of Education and Early Development initial certification test (Praxis I, CBEST or WEST-B). Scores must meet or exceed Alaska State requirements. Alaska Pacific’s Praxis I reporting code is RA-4201. Scores must also be reported to the AK State DOEED at R-7027.
+ -->
 
-						Master of Arts Program
+ 					<div class="master-of-arts-program docs">
 
-						Official Graduate Entrance Examination Scores. MAP cannot accept scores older than five years beyond the official test date. Please contact the MAP Director for assistance in determining which test (the GRE, GMAT, or Miller Analogies Test (MAT)) would be best suited for your application. Alaska Pacific's reporting code is 4201 for GRE and GMAT, and 1841 for MAT. In certain circumstances, the testing requirement may be waived.
+						<h2>Test Scores</h2>
 
-						Master of Business Administration
+						<p>Official Graduate Entrance Examination Scores. MAP cannot accept scores older than five years beyond the official test date. Please contact the MAP Director for assistance in determining which test (the GRE, GMAT, or Miller Analogies Test (MAT)) would be best suited for your application. Alaska Pacific's reporting code is 4201 for GRE and GMAT, and 1841 for MAT. In certain circumstances, the testing requirement may be waived.</p>
 
-						Standardized Test. Submit scores from the Graduate Record Exam (GRE) or the Graduate Management Admission Test (GMAT). Alaska Pacific’s GRE and GMAT reporting code is 4201 (not required for MBAICT program).
-
-						Master of Science in Counseling Psychology
-
-						Standardized Test. Submit scores from the Miller Analogy Test (MAT). Alaska Pacific’s MAT reporting code is 1841.
-
-						Master of Science in Environmental Science
-
-						Submit scores from the Graduate Records Exam (GRE) general test, which are no more than four years old.
-
-						Master of Science Outdoor and Environmental Education
-
-						Submit scores from the Miller Analogy Test (MAT) or the Graduate Records Exam (GRE) general test. Alaska Pacific’s GRE reporting code is 4201, MAT reporting code is 1841.
-
-
-						Exceptions
-						The Master of Science in Environmental Science program will waive test scores in some cases. Applicants who have had exceptional academic achievements and applicable professional experience are good candidates for test waivers.
-
-						Test scores are waived for applicants who already have one master’s degree.
-
-						The TOEFL score is not always required of international applicants. Their essays are used to make a preliminary determination of their command of the English language.
-					
 					</div>
 
+					<div class="ms-counseling-psychology docs">
+
+						<h2>Test Scores</h2>
+
+						<p>Standardized Test. Submit scores from the Miller Analogy Test (MAT). Alaska Pacific’s MAT reporting code is 1841.</p>
+
+					</div>
+
+					<div class="ms-environmental-science docs">
+
+						<h2>Test Scores</h2>
+
+						<p>Submit scores from the Graduate Records Exam (GRE) general test, which are no more than four years old.</p>
+
+						<p>The Master of Science in Environmental Science program will waive test scores in some cases. Applicants who have had exceptional academic achievements and applicable professional experience are good candidates for test waivers.</p>
+
+						<h2>Résumé</h2>
+
+	                    <p>Send us your current professional Cirriculum Vitae or Résumé.</p>
+
+					</div>
+
+
+					<div class="ms-outdoor-environmental-education docs">
+
+						<h2>Test Scores</h2>
+
+						<p>Submit scores from the Miller Analogy Test (MAT) or the Graduate Records Exam (GRE) general test. Alaska Pacific’s GRE reporting code is 4201, MAT reporting code is 1841.</p>
+
+						<h2>Résumé</h2>
+
+	                    <p>Send us your current professional Cirriculum Vitae or Résumé.</p>
+
+					</div>
+		
 					<div class="grad docs">
 
+						<p>Test scores are waived for applicants who already have one master’s degree.</p>
+
+						<p>The TOEFL score is not always required of international applicants. Their essays are used to make a preliminary determination of their command of the English language.</p>
+
 						<h2>GPA scores</h2>
+
 						<p>Graduate candidates who have GPA scores below a 3.0 may be admitted on a provisional basis. Full admission is contingent upon successful completion of the first semester of classes in which they are required to maintain a 3.0 GPA or above.</p>
 
 						<p>Applicants with a GPA between 2.75 and 2.99 may be considered appropriate by the Program Director of the graduate program. If an applicant’s GPA is below a 2.75, the Program Director will make a decision based on the recommendation of the department in which the program is offered. The Program Director has the option of seeking input from the Graduate Studies Committee in uncertain cases. The Program Director will report the admission of students with a GPA below a 2.75 to the Graduate Studies Committee.</p>
 
 					</div>
 
+					<div class="certification-option-for-teachers-k-8 docs">
 
-					<div class="grad docs">
+						<h2>Background Check</h2>
 
-						Teaching Certification Only – Option Program
-
-						In addition, all CO-OP Participants must provide a copy of an Alaska State Troopers Background Check to the Education Department prior to starting the program. Background checks can be done on a walk-in basis at the locations listed online
-
-						Master of Arts Program
-
-						Personal Statement and Study Plan. As the central feature of the application, these essays are reviewed by the admissions committee as a demonstration of your writing competence, your ability to fully articulate your goals, the appropriateness of a non-traditional program for attaining your goals, as well as a measurement of your critical thinking skills. The committee will give considerable weight to the thoroughness and genuineness with which you complete your Personal Statement as well as to the specificity and relevance of your curriculum as defined by your Study Plan.
-
-						Samples of Your Work (if applicable). Applicants are required to submit examples of work completed with the portfolio. Depending on the field of study these may include research project narratives, manuscripts, creative writing samples, articles, short stories, photographs or transparencies of artwork, major papers, or other materials and documentation.
-
-						Master of Business Administration
-
-						Interview with the department.
-
-						Submit a résumé.
-
-						Master of Outdoor and Environmental Education
-
-						Submit a résumé.
-
-						Master of Environmental Science
-
-						Submit a résumé.
+						<p>All CO-OP Participants must provide a copy of an Alaska State Troopers Background Check to the Education Department prior to starting the program. Background checks can be done on a walk-in basis at the locations listed online.</p>
 
 					</div>
-
-
-
 
 
 					<br /><br />

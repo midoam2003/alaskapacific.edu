@@ -90,6 +90,9 @@ $('.degrees li').on('click', function() {
     $('#step-2').attr('data-switch','');
 
     $('#step-4').attr('data-switch','');
+
+    $('#step-4').attr('data-portal','');
+    $('#step-4').attr('data-program','');
         
 
     } else {
@@ -134,7 +137,9 @@ $('.degrees li').on('click', function() {
                 $('#step-2').attr('data-switch',portal);
                 break;
         }
-        $('#step-4').attr('data-switch',portal);
+
+        $('#step-4').attr('data-portal',portal);
+        $('#step-4').attr('data-program',program);
 
         switch (portal)
         {

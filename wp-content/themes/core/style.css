@@ -2765,7 +2765,7 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main ul { list-style: none; margin: 0; padding:0; }
 
-#apply-page .main .degrees li { list-style-type: none; position: relative;  cursor: pointer; padding: 10px 0 10px 0px; font-family: Helvetica; font-weight: bold; font-size: 18px; border-bottom: 1px solid #d8d8d8; margin: 0; }
+#apply-page .main .degrees li { list-style-type: none; position: relative;  cursor: pointer; padding: 15px 0 15px 0px; font-family: Helvetica; font-weight: bold; font-size: 18px; border-bottom: 1px solid #d8d8d8; margin: 0; }
 
 #apply-page .main .degrees li {
 
@@ -2774,7 +2774,8 @@ ol li, ul li { margin-left: 20px; }
     
 }
 
-#apply-page .main .degrees ul li:first-child {border-top: 1px solid #d8d8d8; }
+#apply-page .main .degrees ul li:first-child { border-top: 1px solid #d8d8d8; }
+#apply-page .main .degrees ul li:first-child:hover {border-top: 1px solid #e8b324; margin-top: 0; }
 #apply-page .main table { margin-bottom: 15px; border: 1px solid #37739f; background: #abd8f3; }
 
 #apply-page .main table td, #apply-page .main table th { padding: 6px; width: 50px; text-align: center; }
@@ -2784,20 +2785,22 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main .degrees li:hover, #apply-page .main .degrees li.current { color: #e8b324; border-top: 1px solid #e8b324; margin-top: -1px; border-bottom-color: #e8b324; }
 
+#apply-page .main .degrees li:first-child.current { margin-top: 0; border-top: 1px solid #e8b324; }
+
 #apply-page .main .degrees li .icon { padding-top: 15px; line-height: 33px; display: none; position: absolute; top: 0; bottom: 0; width: 50px; left: -50px; }
 
-#apply-page .main .degrees li .icon i { font-size: 48px; line-height: 33px;  vertical-align: middle;}
+#apply-page .main .degrees li .icon i { font-size: 42px; line-height: 28px;  vertical-align: middle;}
 
 #apply-page .main .degrees li:hover .icon { display: block; }
 
 #apply-page .main .degrees li:hover span, #apply-page .main .degrees li.current span { opacity: .7; }
 #apply-page .main .degrees li span { display: block; font-size: 12px; opacity: .6;  }
 
-#apply-page .main .degrees li.single { height: 40px; line-height: 40px; }
+/*#apply-page .main .degrees li.single { height: 40px; line-height: 40px; }*/
 
 #apply-page .main .degrees .options {padding: 15px 0 10px 0px; right: 115px;}
 
-#apply-page .main .degrees li a.more { line-height: 16px; float: right; display: block; position: absolute; right: 0; top: 9px; border-radius: 3px;  color: #444; border: 1px solid #d8d8d8; padding: 10px; font-size: 12px; text-decoration: none;  }
+#apply-page .main .degrees li a.more { line-height: 12px; float: right; display: block; position: absolute; right: 0; top: 9px; border-radius: 3px;  color: #444; border: 1px solid #d8d8d8; padding: 10px; font-size: 12px; text-decoration: none;  }
 
 #apply-page .main .degrees li:hover a.more, #apply-page .main .degrees li.current a.more { color: #e8b324; border-color: #e8b324; }
 
@@ -2809,7 +2812,7 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main .degrees li .cancel {  padding-top: 15px; line-height: 33px; display: none; position: absolute; top: 0; bottom: 0; width: 50px; left: -50px; }
 
-#apply-page .main .degrees li .cancel i { opacity: .3; color: #444; font-size: 42px; line-height: 26px;  vertical-align: middle;}
+#apply-page .main .degrees li .cancel i { opacity: .3; color: #444; font-size: 42px; line-height: 22px;  vertical-align: middle;}
 
 #apply-page .main .degrees li.current .icon { display: none; }
 
@@ -2863,11 +2866,21 @@ ol li, ul li { margin-left: 20px; }
 #step-2[data-switch="psyd-counseling-psychology"] .psyd-counseling-psychology { display: block; }
 
 #step-4 .docs { display: none; }
-#step-4[data-switch="cup"] .cup { display: block; }
-#step-4[data-switch="ps"] .ps { display: block; }
-#step-4[data-switch="doct"] .doct { display: block; }
-#step-4[data-switch="ehp"] .ehp { display: block; }
-#step-4[data-switch="non"] .non { display: block; }
+#step-4[data-portal="cup"] .cup { display: block; }
+#step-4[data-portal="ps"] .ps { display: block; }
+#step-4[data-portal="doct"] .doct { display: block; }
+#step-4[data-portal="ehp"] .ehp { display: block; }
+#step-4[data-portal="non"] .non { display: block; }
+#step-4[data-portal="grad"] .grad { display: block; }
+
+#step-4[data-program="master-of-arts-program"] .master-of-arts-program { display: block; }
+#step-4[data-program="master-of-business-administration"] .master-of-business-administration { display: block; }
+#step-4[data-program="ms-environmental-science"] .ms-environmental-science { display: block; }
+#step-4[data-program="ms-outdoor-environmental-education"] .ms-outdoor-environmental-education { display: block; }
+#step-4[data-program="psyd-counseling-psychology"] .psyd-counseling-psychology { display: block; }
+#step-4[data-program="credit-by-choice"] .credit-by-choice { display: block; }
+
+
 
 
 /** Media Queries **/
