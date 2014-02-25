@@ -2757,7 +2757,9 @@ ol li, ul li { margin-left: 20px; }
 #apply-page .main p { font-family: "Open Sans", sans-serif; line-height: 1.5; }
 
 
-#apply-page .main h2 { text-transform: uppercase; letter-spacing: 2px;  color: #37739f;  font-family: "Soho"; font-weight: 500 !important; font-size: 14px; margin-top: 40px; }
+#apply-page .main h2, #apply-page .main h3 { text-transform: uppercase; letter-spacing: 2px;  color: #37739f;  font-family: "Soho"; font-weight: 500 !important; font-size: 14px; margin-top: 40px; }
+
+#apply-page .main h3 { text-transform: none; letter-spacing: normal; font-size: 16px; }
 
 #apply-page .main .degrees { margin-left: 0px; margin-bottom: 40px; }
 
@@ -2773,7 +2775,11 @@ ol li, ul li { margin-left: 20px; }
 }
 
 #apply-page .main .degrees ul li:first-child {border-top: 1px solid #d8d8d8; }
+#apply-page .main table { margin-bottom: 15px; border: 1px solid #37739f; background: #abd8f3; }
 
+#apply-page .main table td, #apply-page .main table th { padding: 6px; width: 50px; text-align: center; }
+
+#apply-page .main table th { background: #37739f; color: #fff; border-bottom: 1px solid #37739f;}
 
 
 #apply-page .main .degrees li:hover, #apply-page .main .degrees li.current { color: #e8b324; border-top: 1px solid #e8b324; margin-top: -1px; border-bottom-color: #e8b324; }
@@ -2835,7 +2841,9 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main .step { margin-bottom: 40px; }
 
-#apply-page .main .step h1 { font-weight: 500px; }
+#apply-page .main .step h1 { font-weight: 500; }
+
+
 
 #apply-page .main #step-4 { overflow: hidden; }
 #apply-page .main #step-4 .box { background: #fff2c5; border: 1px solid #e8b324; float: left; border-radius: 3px; font-size: 14px; font-weight: bold; padding: 10px 20px 10px 50px;  margin-right: 15px; color: #9b7800; text-transform: uppercase; letter-spacing: .05em; line-height: 1.7; position: relative;  }
@@ -2859,6 +2867,7 @@ ol li, ul li { margin-left: 20px; }
 #step-4[data-switch="ps"] .ps { display: block; }
 #step-4[data-switch="doct"] .doct { display: block; }
 #step-4[data-switch="ehp"] .ehp { display: block; }
+#step-4[data-switch="non"] .non { display: block; }
 
 
 /** Media Queries **/

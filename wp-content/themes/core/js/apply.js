@@ -94,6 +94,18 @@ $('.degrees li').on('click', function() {
 
     } else {
 
+        $(this).parent()[0].config['onMixStart'] = function () { console.log('filtering ended') 
+
+
+            $('html, body').animate({
+            scrollTop: $('#apply-page .main').offset().top - 50
+            }, 500);
+
+          
+            $(self).parent()[0].config['onMixStart'] = null;
+
+        };
+
         $('#apply-page .step').show().fadeTo(300,1)
 
         console.log('hide em all')
@@ -166,9 +178,7 @@ $('.degrees li').on('click', function() {
 
         $('.degrees h2, .degrees h3').fadeTo(200,0, function() { $(this).hide(); });
 
-        $('html, body').animate({
-            scrollTop: $('.splash').offset().top
-        }, 500);
+        
 
     }
     

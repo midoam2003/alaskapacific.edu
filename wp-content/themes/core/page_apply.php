@@ -125,7 +125,7 @@ function template_load_mobile(){
 	            <h3>Still undecided? You can still apply with the following option:</h3>
 
 	            <ul id="non-degree-seeking">
-	                <li class="single"><span class="icon"><i class="fa fa-chevron-right"></i></span>Non-Degree Seeking<a href="" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+	                <li class="single" data-portal="non" data-program="credit-by-choice"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span>Non-Degree Seeking<a href="" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 	            </ul>
 
 	            <!-- <h2>Non-degree Seeking</h2>
@@ -247,14 +247,11 @@ function template_load_mobile(){
 	                        <tr><td>20</td><td>970</td></tr>
 	                    </table>
 
-
 	                    <p>Students whose test scores do not meet our minimums may be considered for admission if they have submitted an otherwise strong application.</p>
 
-	                    <p>ACT scores may be requested online
-	                    (ACT Reporting Code: 0062)</p>
+	                    <p>Request your ACT scores online (ACT Reporting Code: 0062)</p>
 
-	                    <p>SAT scores may be requested online
-	                    (SAT Reporting Code: 4201) </p>
+	                    <p>SAT scores may be requested online (SAT Reporting Code: 4201) </p>
 
 	                    <p>Standardized test scores are not required if you have graduated from high school more than 3 years ago or you have a GED.</p>
 
@@ -297,7 +294,7 @@ function template_load_mobile(){
 	                    <p>An essay that addresses the following questions:</p>
 
 	                    <ul>
-	                        <li>What are your reasons for wanting a Psy. D. from APU at this time?</li>
+	                        <li>What are your reasons for wanting a Psy.D. from APU at this time?</li>
 	                        <li>What are your short and long term personal and professional goals? How do you see yourself contributing to the improvement of the community or larger society with the Psy. D.?</li>
 	                        <li>Describe your abilities and desires regarding rigorous independent work within a cohort setting or model along with your plans to enter into Track 1 or 2.</li>
 	                        <li>Describe your plan to balance graduate school, work, and personal life should you be admitted to the program.</li>
@@ -335,7 +332,7 @@ function template_load_mobile(){
 
 	                    <h2>Letters of Recommendation</h2>
 
-	                    <p>Submit two Letters of Recommendation.
+	                    <p>Submit two Letters of Recommendation.</p>
 
 	                    <p><a class="newbutton recommendation" href="http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/uploads/2012/01/Undergraduate_LetterOfRec.pdf"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;Download the Letter of Recommendation template form</a></p>
 	                    
@@ -344,11 +341,11 @@ function template_load_mobile(){
 	                </div>
 
 
-	                <div class="credit-by-choice docs">
+	                <div class="non docs">
 
 	                    <h2>Application Fee</h2>
 
-	                    <p>$25.00 non-refundable application fee. Please make checks or money orders payable to Alaska Pacific University.</p>
+	                    <p><b>$25.00</b> non-refundable application fee. Please make checks or money orders payable to Alaska Pacific University.</p>
 
 	                    <h2>Official Transcripts</h2>
 
@@ -364,10 +361,143 @@ function template_load_mobile(){
 
 	                </div>
 
+	                <div class="map docs">
+
+		                <h2>Personal Statement and Study Plan</h2>
+
+						<p>As the central feature of the application, these essays are reviewed by the admissions committee as a demonstration of your writing competence, your ability to fully articulate your goals, the appropriateness of a non-traditional program for attaining your goals, as well as a measurement of your critical thinking skills. The committee will give considerable weight to the thoroughness and genuineness with which you complete your Personal Statement as well as to the specificity and relevance of your curriculum as defined by your Study Plan.</p>
+
+					</div>
+
+					<div class="master-of-business-administration docs">
+
+						<h2>Essay</h2>
+
+						<p>Submit a 500-800 word essay addressing your personal and professional goals as they relate to your motivation to obtain an MBA degree or a Certificate (not required for MBAICT program).</p>
+
+					</div>
+
+					<div class="ms-environmental-science docs">
+
+						<h2>Essay</h2>
+
+						<p>Write and submit a 500-word essay outlining your motivation for seeking the Master of Science in Environmental Science Degree. Include your professional interests, career goals, potential research topics, and the faculty advisor(s) that you would like to work with.</p>
+
+					</div>
+
+					<div class="ms-outdoor-environmental-education docs">
+
+						<h2>Essay</h2>
+
+						<p>Write and submit a 700-1000 word essay outlining your motivations for seeking the Master of Science in Outdoor and Environmental Education degree. Include your professional interests and career goals.</p>
+
+					</div>
+
+					<div class="psyd-counseling-psychology docs">
+
+						<h2>Essay</h2>
+
+						<p>Please address as completely as possible the following areas:</p>
+
+						<ul>
+							<li>What are your reasons for wanting to obtain an advanced degree in Counseling Psychology?</li>
+							<li>What are your short-term and long-term goals, or how do you see yourself as contributing towards the improvement of a social or community problem in your area?</li>
+							<li>The MSCP Program is designed to be an academically intense and experientially demanding program. If admitted, we (the faculty) plan to create and maintain an intellectually and personally challenging experience for you. Therefore, please describe how you plan to balance graduate school, work and personal life (i.e. relationships, family, etc.)</li>
+							<li>Please provide one-page biography. The purpose of this application is to help us learn more about you. Please share any other personal information, which you would like the Admissions Committee to take into consideration during the interview process.</li>
+						</ul>
+
+					</div>
+
+					<div class="grad docs">
+
+						<h2>Letters of Recommendation</h2>
+						<p>Applicants to our graduate programs must submit three letters of recommendation. Feel free to email your letters of recommendation to admissions@alaskapacific.edu or directly to your admissions counselor. You may also use our graduate recommendation form as a substitute for the letters of rec.</p>
+
+					</div>
+
+					<div class="master-of-business-administration docs">
+
+
+
+						Teaching Certification
+
+						Alaska Department of Education and Early Development initial certification test (Praxis I, CBEST or WEST-B). Scores must meet or exceed Alaska State requirements. Alaska Pacific’s Praxis I reporting code is RA-4201. Scores must also be reported to the AK State DOEED at R-7027.
+
+						Master of Arts Program
+
+						Official Graduate Entrance Examination Scores. MAP cannot accept scores older than five years beyond the official test date. Please contact the MAP Director for assistance in determining which test (the GRE, GMAT, or Miller Analogies Test (MAT)) would be best suited for your application. Alaska Pacific's reporting code is 4201 for GRE and GMAT, and 1841 for MAT. In certain circumstances, the testing requirement may be waived.
+
+						Master of Business Administration
+
+						Standardized Test. Submit scores from the Graduate Record Exam (GRE) or the Graduate Management Admission Test (GMAT). Alaska Pacific’s GRE and GMAT reporting code is 4201 (not required for MBAICT program).
+
+						Master of Science in Counseling Psychology
+
+						Standardized Test. Submit scores from the Miller Analogy Test (MAT). Alaska Pacific’s MAT reporting code is 1841.
+
+						Master of Science in Environmental Science
+
+						Submit scores from the Graduate Records Exam (GRE) general test, which are no more than four years old.
+
+						Master of Science Outdoor and Environmental Education
+
+						Submit scores from the Miller Analogy Test (MAT) or the Graduate Records Exam (GRE) general test. Alaska Pacific’s GRE reporting code is 4201, MAT reporting code is 1841.
+
+
+						Exceptions
+						The Master of Science in Environmental Science program will waive test scores in some cases. Applicants who have had exceptional academic achievements and applicable professional experience are good candidates for test waivers.
+
+						Test scores are waived for applicants who already have one master’s degree.
+
+						The TOEFL score is not always required of international applicants. Their essays are used to make a preliminary determination of their command of the English language.
+					
+					</div>
+
+					<div class="grad docs">
+
+						<h2>GPA scores</h2>
+						<p>Graduate candidates who have GPA scores below a 3.0 may be admitted on a provisional basis. Full admission is contingent upon successful completion of the first semester of classes in which they are required to maintain a 3.0 GPA or above.</p>
+
+						<p>Applicants with a GPA between 2.75 and 2.99 may be considered appropriate by the Program Director of the graduate program. If an applicant’s GPA is below a 2.75, the Program Director will make a decision based on the recommendation of the department in which the program is offered. The Program Director has the option of seeking input from the Graduate Studies Committee in uncertain cases. The Program Director will report the admission of students with a GPA below a 2.75 to the Graduate Studies Committee.</p>
+
+					</div>
+
+
+					<div class="grad docs">
+
+						Teaching Certification Only – Option Program
+
+						In addition, all CO-OP Participants must provide a copy of an Alaska State Troopers Background Check to the Education Department prior to starting the program. Background checks can be done on a walk-in basis at the locations listed online
+
+						Master of Arts Program
+
+						Personal Statement and Study Plan. As the central feature of the application, these essays are reviewed by the admissions committee as a demonstration of your writing competence, your ability to fully articulate your goals, the appropriateness of a non-traditional program for attaining your goals, as well as a measurement of your critical thinking skills. The committee will give considerable weight to the thoroughness and genuineness with which you complete your Personal Statement as well as to the specificity and relevance of your curriculum as defined by your Study Plan.
+
+						Samples of Your Work (if applicable). Applicants are required to submit examples of work completed with the portfolio. Depending on the field of study these may include research project narratives, manuscripts, creative writing samples, articles, short stories, photographs or transparencies of artwork, major papers, or other materials and documentation.
+
+						Master of Business Administration
+
+						Interview with the department.
+
+						Submit a résumé.
+
+						Master of Outdoor and Environmental Education
+
+						Submit a résumé.
+
+						Master of Environmental Science
+
+						Submit a résumé.
+
+					</div>
 
 
 
 
+
+					<br /><br />
+
+					<p><b>Please submit all documents via one of the following methods:</b></p>
 
 	                <div class="box address"><span class="icon"><i class="fa fa-building-o fa-lg"></i></span>Office of Admissions<br />
 	Alaska Pacific University<br />
@@ -375,6 +505,8 @@ function template_load_mobile(){
 	Anchorage, AK 99508</div>
 
 	                <div class="box email"><span class="icon"><i class="fa fa-envelope-o fa-lg"></i></span>admissions@alaskapacific.edu</div>
+
+	                </p>
 
 	            </div>
 
@@ -384,11 +516,11 @@ function template_load_mobile(){
 	            <div id="step-5" class="step">
 	            <h1><small>Step 5.</small>Wait for your acceptance decision</h1>
 
-	                <div class="undergrad">
+	                <div class="cup">
 	                    <p>Once all admission requirements are fulfilled your file will be reviewed and you will be contacted within a week.</p>
 	                </div>
 
-	                <div class="graduate">
+	                <div class="grad">
 	                    <p>Each Graduate program requires admission to the University as well as to the program the student wishes to enter. Application documents are collected by the Admissions Office and then sent to the appropriate department for evaluation by the Program Director. When a decision is made regarding admission, the applicant will be notified by the Graduate Program Director and the Graduate Admissions Counselor.</p>
 	                </div>
 	            </div>
