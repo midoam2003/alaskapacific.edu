@@ -2804,6 +2804,8 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main .degrees li:hover a.more, #apply-page .main .degrees li.current a.more { color: #e8b324; border-color: #e8b324; }
 
+#apply-page .main .degrees li:hover a.more:hover { background: #e8b324; color: #fff; }
+
 #apply-page .main .degrees .options .option {font-size: 21px; float: left; margin-left: 5px;}
 
 /*.main .degrees li span.options { opacity: 1; position: absolute; right: 0; top: 0; bottom: 0; display: block;}
@@ -2848,7 +2850,7 @@ ol li, ul li { margin-left: 20px; }
 
 
 
-#apply-page .main #step-4 { overflow: hidden; }
+#apply-page .main #step-4 {}
 #apply-page .main #step-4 .box { background: #fff2c5; border: 1px solid #e8b324; float: left; border-radius: 3px; font-size: 14px; font-weight: bold; padding: 10px 20px 10px 50px;  margin-right: 15px; color: #9b7800; text-transform: uppercase; letter-spacing: .05em; line-height: 1.7; position: relative;  }
 
 #apply-page .main #step-4 .box .icon { position: absolute; left: 20px; top: 15px; }
@@ -2856,10 +2858,13 @@ ol li, ul li { margin-left: 20px; }
 
 #step-2 .deadline { display: none; }
 
+#step-2[data-switch=""] .default { display: block; }
+
 #step-2[data-switch="cup"] .cup { display: block; }
 #step-2[data-switch="ps"] .ps { display: block; }
 #step-2[data-switch="other"] .other { display: block; }
 #step-2[data-switch="ehp"] .ehp { display: block; }
+#step-2[data-switch="grad"] .default { display: block; }
 #step-2[data-switch="ms-environmental-science"] .ms-environmental-science { display: block; }
 #step-2[data-switch="ms-outdoor-environmental-education"] .ms-outdoor-environmental-education { display: block; }
 #step-2[data-switch="ms-counseling-psychology"] .ms-counseling-psychology { display: block; }
@@ -2880,6 +2885,16 @@ ol li, ul li { margin-left: 20px; }
 #step-4[data-program="psyd-counseling-psychology"] .psyd-counseling-psychology { display: block; }
 #step-4[data-program="credit-by-choice"] .credit-by-choice { display: block; }
 
+
+#step-5[data-level="undergrad"] .undergrad { display: block; }
+#step-5[data-level="undergrad"] .grad { display: none; }
+#step-5[data-level="grad"] .undergrad { display: none; }
+#step-5[data-level="grad"] .grad { display: block; }
+
+
+.floats { overflow: hidden; }
+
+#step-6 .people { float: none !important; margin-bottom: 20px; height: 90px;  }
 
 
 

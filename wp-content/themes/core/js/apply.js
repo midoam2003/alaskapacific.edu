@@ -48,7 +48,13 @@ jQuery(document).ready(function ($) {
         }
     });
 
-$('.degrees li').on('click', function() {
+$(".degrees li .more").on('click', function(e) {
+    e.stopPropagation();
+});
+
+$('.degrees li').on('click', function(e) {
+
+
 
     var self = this;
 
@@ -141,31 +147,39 @@ $('.degrees li').on('click', function() {
         $('#step-4').attr('data-portal',portal);
         $('#step-4').attr('data-program',program);
 
+
+
         switch (portal)
         {
             case "cup":
                 $('#step-3 .sign-up').attr('href','https://applicant.alaskapacific.edu/undergraduate/ceCreateAccount.asp');
                 $('#step-3 .login').attr('href','https://applicant.alaskapacific.edu/undergraduate/login.asp');
+                $('#step-5').attr('data-level','undergrad');
                 break;
             case "ps":
                 $('#step-3 .sign-up').attr('href','https://applicant.alaskapacific.edu/professionalstudies/ceCreateAccount.asp');
                 $('#step-3 .login').attr('href','https://applicant.alaskapacific.edu/professionalstudies/login.asp');
+                $('#step-5').attr('data-level','undergrad');
                 break;
             case "doct":
                 $('#step-3 .sign-up').attr('href','https://applicant.alaskapacific.edu/graduate/ceCreateAccount.asp');
                 $('#step-3 .login').attr('href','https://applicant.alaskapacific.edu/graduate/login.asp');
+                $('#step-5').attr('data-level','grad');
                 break;
             case "ehp":
                 $('#step-3 .sign-up').attr('href','https://applicant.alaskapacific.edu/earlyhonors/ceCreateAccount.asp');
                 $('#step-3 .login').attr('href','https://applicant.alaskapacific.edu/earlyhonors/login.asp');
+                $('#step-5').attr('data-level','undergrad');
                 break;
             case "grad":
                 $('#step-3 .sign-up').attr('href','https://applicant.alaskapacific.edu/graduate/ceCreateAccount.asp');
                 $('#step-3 .login').attr('href','https://applicant.alaskapacific.edu/graduate/login.asp');
+                $('#step-5').attr('data-level','grad');
                 break;
             case "non":
                 $('#step-3 .sign-up').attr('href','https://applicant.alaskapacific.edu/nondegree/ceCreateAccount.asp');
                 $('#step-3 .login').attr('href','https://applicant.alaskapacific.edu/nondegree/ceCreateAccount.asp');
+                $('#step-5').attr('data-level','undergrad');
                 break;
             default: 
                 break;
