@@ -68,7 +68,25 @@ function template_load_mobile(){
 			<ul id="bachelors-degrees" data-portal="undergrad">
 				<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ba,bs', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 				<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-					<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+					<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"
+					
+					<?php
+					$deliveries = get_the_terms( $post->ID, 'delivery' );
+
+						if ( $deliveries && ! is_wp_error( $deliveries ) ) : 
+
+							$delivery_array = array();
+
+							foreach ( $deliveries as $delivery ) {
+							$delivery_array[] = $delivery->slug;
+						}
+
+						$delivery_list = join( " ", $delivery_array );
+					?>
+
+					data-delivery="<?php echo $delivery_list; ?>"
+
+					<?php endif; ?>><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 				<?php endwhile; ?>
 	        </ul>
 
@@ -76,7 +94,19 @@ function template_load_mobile(){
 			<ul id="graduate-degrees" data-portal="graduate">
 			<?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ma,mba-2,ms', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink() ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"
+				<?php
+				$deliveries = get_the_terms( $post->ID, 'delivery' );
+				if ( $deliveries && ! is_wp_error( $deliveries ) ) : 
+					$delivery_array = array();
+						foreach ( $deliveries as $delivery ) {
+						$delivery_array[] = $delivery->slug;
+					}
+					$delivery_list = join( ", ", $delivery_array );
+				?>
+				data-delivery="<?php echo $delivery_list; ?>"
+				<?php endif; ?>
+				><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink() ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 			<?php endwhile; ?>
 			</ul>
 
@@ -84,7 +114,18 @@ function template_load_mobile(){
 	        <ul id="doctoral-degrees" data-portal="graduate">
 	        <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'psyd', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order') ); ?>
 			<?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+				<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"
+				<?php
+				$deliveries = get_the_terms( $post->ID, 'delivery' );
+				if ( $deliveries && ! is_wp_error( $deliveries ) ) : 
+					$delivery_array = array();
+						foreach ( $deliveries as $delivery ) {
+						$delivery_array[] = $delivery->slug;
+					}
+					$delivery_list = join( ", ", $delivery_array );
+				?>
+				data-delivery="<?php echo $delivery_list; ?>"
+				<?php endif; ?>><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 			<?php endwhile; ?>
 	        </ul>
 
@@ -93,7 +134,18 @@ function template_load_mobile(){
 	            <ul id="associates-degrees" data-portal="undergrad">
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'aa', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"
+<?php
+				$deliveries = get_the_terms( $post->ID, 'delivery' );
+				if ( $deliveries && ! is_wp_error( $deliveries ) ) : 
+					$delivery_array = array();
+						foreach ( $deliveries as $delivery ) {
+						$delivery_array[] = $delivery->slug;
+					}
+					$delivery_list = join( ", ", $delivery_array );
+				?>
+				data-delivery="<?php echo $delivery_list; ?>"
+				<?php endif; ?>><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -104,7 +156,18 @@ function template_load_mobile(){
 	            <ul id="certificates" data-portal="undergrad">
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'ctf', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
-<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"
+<?php
+				$deliveries = get_the_terms( $post->ID, 'delivery' );
+				if ( $deliveries && ! is_wp_error( $deliveries ) ) : 
+					$delivery_array = array();
+						foreach ( $deliveries as $delivery ) {
+						$delivery_array[] = $delivery->slug;
+					}
+					$delivery_list = join( ", ", $delivery_array );
+				?>
+				data-delivery="<?php echo $delivery_list; ?>"
+				<?php endif; ?>><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
@@ -116,7 +179,18 @@ function template_load_mobile(){
 	                <?php $loop = new WP_Query( array( 'post_type' => 'degrees', 'levels' => 'high-school', 'posts_per_page'=>-1, 'order'=>'ASC', 'orderby'=>'menu_order' ) ); ?>
 <?php while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
+<li data-program="<? echo $post->post_name ?>" data-portal="<?php $portals = get_the_terms($post->ID, 'portal'); $portal = array_pop($portals); echo $portal->slug; ?>"
+<?php
+				$deliveries = get_the_terms( $post->ID, 'delivery' );
+				if ( $deliveries && ! is_wp_error( $deliveries ) ) : 
+					$delivery_array = array();
+						foreach ( $deliveries as $delivery ) {
+						$delivery_array[] = $delivery->slug;
+					}
+					$delivery_list = join( ", ", $delivery_array );
+				?>
+				data-delivery="<?php echo $delivery_list; ?>"
+				<?php endif; ?>><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
 
 
 <?php endwhile; ?>
