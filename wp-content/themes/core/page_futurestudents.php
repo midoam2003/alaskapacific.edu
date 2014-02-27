@@ -125,14 +125,6 @@ function template_load_mobile(){
 	<h2>Meet Your Admissions Counselors</h2>
 	<h3 class="subtitle">Need more guidance? Don’t hesitate to get in touch:</h3>
 
-	<div class="post-10872 people type-people status-publish hentry entry">
-				<a href="http://www.alaskapacific.edu/blog/people/anthony-sallows/" title="Anthony Sallows">
-				<img width="100" height="100" src="http://www.alaskapacific.edu/wp-content/uploads/photo.JPG-100x100.jpeg" class="alignleft post-image" alt="photo.JPG">				</a>
-				<h2 class="entry-title"><a href="http://www.alaskapacific.edu/blog/people/anthony-sallows/" title="Anthony Sallows">Anthony Sallows</a></h2>
-				<p class="people-details">
-				Admissions Counselor<br>				907-564-8300<br>												</p>
-				</div>
-
 				<div class="post-21332 people type-people status-publish hentry entry">
 				<a href="http://www.alaskapacific.edu/blog/people/brian-mcdermott/" title="Brian McDermott">
 				<img width="100" height="100" src="http://www.alaskapacific.edu/wp-content/uploads/BrianMcDermott-100x100.jpg" class="alignleft post-image" alt="BrianMcDermott">				</a>

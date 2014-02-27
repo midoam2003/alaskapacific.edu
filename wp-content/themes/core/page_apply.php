@@ -102,7 +102,7 @@ function template_load_mobile(){
 						foreach ( $deliveries as $delivery ) {
 						$delivery_array[] = $delivery->slug;
 					}
-					$delivery_list = join( ", ", $delivery_array );
+					$delivery_list = join( " ", $delivery_array );
 				?>
 				data-delivery="<?php echo $delivery_list; ?>"
 				<?php endif; ?>
@@ -122,7 +122,7 @@ function template_load_mobile(){
 						foreach ( $deliveries as $delivery ) {
 						$delivery_array[] = $delivery->slug;
 					}
-					$delivery_list = join( ", ", $delivery_array );
+					$delivery_list = join( " ", $delivery_array );
 				?>
 				data-delivery="<?php echo $delivery_list; ?>"
 				<?php endif; ?>><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -142,7 +142,7 @@ function template_load_mobile(){
 						foreach ( $deliveries as $delivery ) {
 						$delivery_array[] = $delivery->slug;
 					}
-					$delivery_list = join( ", ", $delivery_array );
+					$delivery_list = join( " ", $delivery_array );
 				?>
 				data-delivery="<?php echo $delivery_list; ?>"
 				<?php endif; ?>><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -164,7 +164,7 @@ function template_load_mobile(){
 						foreach ( $deliveries as $delivery ) {
 						$delivery_array[] = $delivery->slug;
 					}
-					$delivery_list = join( ", ", $delivery_array );
+					$delivery_list = join( " ", $delivery_array );
 				?>
 				data-delivery="<?php echo $delivery_list; ?>"
 				<?php endif; ?>><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -187,7 +187,7 @@ function template_load_mobile(){
 						foreach ( $deliveries as $delivery ) {
 						$delivery_array[] = $delivery->slug;
 					}
-					$delivery_list = join( ", ", $delivery_array );
+					$delivery_list = join( " ", $delivery_array );
 				?>
 				data-delivery="<?php echo $delivery_list; ?>"
 				<?php endif; ?>><span class="cancel"><i class="fa fa-times"></i></span><span class="icon"><i class="fa fa-chevron-right"></i></span><?php the_title() ?><span class="options"><span class="evening option"><i class="fa fa-moon-o fa-lg"></i></span><span class="option online"><i class="fa fa-laptop fa-lg"></i></span></span><a href="<?php the_permalink()  ?>" class="more">Read More&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></a></li>
@@ -626,14 +626,6 @@ function template_load_mobile(){
 	            </div>
 	            <div id="step-6" class="step">
 	            <h1><small>Step 6.</small>Get in touch with our admissions counselors</h1>
-
-	            <div class="post-10872 people type-people status-publish hentry entry">
-				<a href="http://www.alaskapacific.edu/blog/people/anthony-sallows/" title="Anthony Sallows">
-				<img width="100" height="100" src="http://www.alaskapacific.edu/wp-content/uploads/photo.JPG-100x100.jpeg" class="alignleft post-image" alt="photo.JPG">				</a>
-				<h2 class="entry-title"><a href="http://www.alaskapacific.edu/blog/people/anthony-sallows/" title="Anthony Sallows">Anthony Sallows</a></h2>
-				<p class="people-details">
-				Admissions Counselor<br>				907-564-8300<br>												</p>
-				</div>
 
 				<div class="post-21332 people type-people status-publish hentry entry">
 				<a href="http://www.alaskapacific.edu/blog/people/brian-mcdermott/" title="Brian McDermott">
