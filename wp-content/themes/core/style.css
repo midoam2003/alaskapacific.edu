@@ -2901,7 +2901,7 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main .degrees li[data-delivery~="online"] .options .online { display: block; }
 #apply-page .main .degrees li[data-delivery~="mixed"] .options .online { display: block; }
-#apply-page .main .degrees li[data-delivery~="evenings"] .options .evenings { display: block; }
+#apply-page .main .degrees li[data-delivery~="evenings"] .options .evening { display: block; }
 
 
 /** Media Queries **/
