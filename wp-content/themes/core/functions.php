@@ -9,11 +9,12 @@ require_once(CHILD_DIR . '/campus_map.php');
 require_once(CHILD_DIR . '/people_post_type.php');
 require_once(CHILD_DIR . '/sundog_category_widget.php');
 
+
 //Change stylesheet to all media types
 remove_action( 'genesis_meta', 'genesis_load_stylesheet' );
 add_action( 'genesis_meta', 'template_load_stylesheet' );
 function template_load_stylesheet() {
-	echo '<link rel="stylesheet" href="'.get_bloginfo( 'stylesheet_url' ).'" type="text/css" media="all" />'."\n";
+	echo '<link rel="stylesheet" href="'.get_bloginfo( 'stylesheet_url' ). '?v='.filemtime( get_stylesheet_directory() . '/style.css' ).'" type="text/css" media="all" />'."\n";
 	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0"/>'."\n";
 	
 }
