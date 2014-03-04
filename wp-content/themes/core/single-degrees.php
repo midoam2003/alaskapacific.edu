@@ -77,20 +77,8 @@ function template_add_custom_content(){
 
 
 $id = get_the_ID();
-    $terms = wp_get_post_terms( $id, 'levels');
 
-    if ($terms[0]->slug == 'aa' || $terms[0]->slug == 'ba' || $terms[0]->slug == 'bs') {
 
-        $level = "undergraduate";;
-    } else {
-
-        $level = "graduate";
-    }
-
-    if (get_post($id)->post_name == "early-honors") {
-
-        $level = "early-honors";
-    }
 ?>
     <div class="header-image"></div>
 
@@ -100,7 +88,7 @@ $id = get_the_ID();
  </div>
 
 
-    <a href="<? echo get_bloginfo('url');?>/apply/<? echo $level ?>" class="apply-button call-to-action" style="font-size: 24px !important;">Apply Now</a>
+    <a href="<? echo get_bloginfo('url');?>/apply/?degree=<? echo get_post($id)->post_name; ?>" class="apply-button call-to-action" style="font-size: 24px !important;">Apply Now</a>
 
     <a href="<? echo get_bloginfo('url');?>/info" class="apply-button call-to-action" style="font-size: 24px !important;">Request Information</a>
 
