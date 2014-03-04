@@ -61,7 +61,7 @@ function template_load_mobile(){
     <div class="main">
 
     <div id="step-1" class="step">
-        <h1><small>Step 1.</small>Select a degree program<span class="options legend"><span class="option"><i class="fa fa-moon-o fa-lg"></i>&nbsp;&nbsp;=&nbsp;&nbsp;Evening Courses</span><span class="option"><i class="fa fa-laptop fa-lg"></i>&nbsp;&nbsp;=&nbsp;&nbsp;Online Courses</span></span></h1>
+        <h1><small>Step 1.</small>Select a degree program<span class="options legend"><span class="option"><i class="fa fa-moon-o fa-lg"></i>&nbsp;&nbsp;=&nbsp;&nbsp;Evening Courses</span><span class="option"><i class="fa fa-laptop fa-lg"></i>&nbsp;&nbsp;=&nbsp;&nbsp;Online Course Options</span></span></h1>
 
 	    <div class="degrees">
 			<h2>Bachelor's Degrees</h2>

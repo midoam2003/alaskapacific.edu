@@ -2800,13 +2800,13 @@ ol li, ul li { margin-left: 20px; }
 
 #apply-page .main .degrees .options {padding: 15px 0 10px 0px; right: 115px;}
 
-#apply-page .main .degrees li a.more { line-height: 12px; float: right; display: block; position: absolute; right: 0; top: 9px; border-radius: 3px;  color: #444; border: 1px solid #d8d8d8; padding: 10px; font-size: 12px; text-decoration: none;  }
+#apply-page .main .degrees li a.more { line-height: 12px; float: right; display: block; position: absolute; right: 0; top: 9px; border-radius: 3px;  color: #444; border: 1px solid transparent; padding: 10px; font-size: 12px; text-decoration: none; opacity: .5; }
 
-#apply-page .main .degrees li:hover a.more, #apply-page .main .degrees li.current a.more { color: #e8b324; border-color: #e8b324; }
+#apply-page .main .degrees li:hover a.more, #apply-page .main .degrees li.current a.more { color: #e8b324; border-color: transparent; }
 
-#apply-page .main .degrees li:hover a.more:hover { background: #e8b324; color: #fff; }
+#apply-page .main .degrees li:hover a.more:hover { background: #e8b324; color: #fff; opacity: 1; }
 
-#apply-page .main .degrees .options .option {font-size: 21px; float: left; margin-left: 5px;}
+#apply-page .main .degrees .options .option {font-size: 21px; float: left; margin-left: 5px; }
 
 /*.main .degrees li span.options { opacity: 1; position: absolute; right: 0; top: 0; bottom: 0; display: block;}
 
