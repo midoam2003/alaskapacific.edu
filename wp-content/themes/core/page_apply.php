@@ -504,7 +504,7 @@ function template_load_mobile(){
 					<div class="grad docs">
 
 						<h2>Letters of Recommendation</h2>
-						<p>Applicants to our graduate programs must submit three letters of recommendation. Feel free to email your letters of recommendation to admissions@alaskapacific.edu or directly to your admissions counselor. You may also use our graduate recommendation form as a substitute for the letters of rec.</p>
+						<p>Applicants to our graduate programs must submit three letters of recommendation. Feel free to email your letters of recommendation to admissions@alaskapacific.edu or directly to your admissions counselor. You may also use our graduate recommendation form as a substitute.</p>
 
 					</div>
 
