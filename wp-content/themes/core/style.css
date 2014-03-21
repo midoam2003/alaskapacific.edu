@@ -1667,6 +1667,7 @@ p.wp-caption-text {
 #sidebar #menu-item-8969 a{ background-image: url('images/menus/president.jpg');}
 #sidebar #menu-item-8957 a{ background-image: url('images/menus/giving.jpg');}
 #sidebar #menu-item-8953 a{ background-image: url('images/menus/glance.jpg');}
+#sidebar #menu-conferencing-service-1 li:first-child a { background-image: url('images/menus/conferencing-services.jpg');}
 
 #sidebar iframe{
 	width: 100%;
