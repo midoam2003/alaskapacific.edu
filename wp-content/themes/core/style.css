@@ -2421,9 +2421,9 @@ div.gform_wrapper .gform_footer {
 .page-template-page_futurestudents-php .future-boxes h2 a span { padding: 0 0 0 85px; display: block; margin: 0; }
 
 
-.page-template-page_futurestudents-php .future-boxes .box ul { padding-top: 20px; opacity: .85; position: absolute; top: 62px; left: 0; bottom: 0; right: 0; background: transparent url('images/future-students/paper-texture.png') repeat 0 0; }
+.page-template-page_futurestudents-php .future-boxes .box ul { padding-top: 20px; opacity: .85; position: absolute; top: 62px; left: 0; bottom: 0; right: 0; background: transparent url('images/future-students/paper-texture.png') repeat 0 0; list-style: none !important; }
 
-.page-template-page_futurestudents-php .future-boxes .box li { margin-bottom: 3px; }
+.page-template-page_futurestudents-php .future-boxes .box li { margin-bottom: 3px; list-style: none !important; }
 
 .page-template-page_futurestudents-php .future-boxes .box li a { line-height: 42px; color: #fff; font-size: 24px; height: 42px; display: block; padding-left: 85px; font-family: "Oswald", "Trebuchet MS", Verdana, serif; font-weight: 300; 
 background: transparent url('images/future-students/apu-arrow.png') no-repeat 33px center;
@@ -2467,7 +2467,63 @@ opacity: .85;
 .page-template-page_futurestudents-php .news h2, .page-template-page_futurestudents-php .testimonials h2, .page-template-page_futurestudents-php .meet > h2 { font-family: "Oswald", "Trebuchet MS", Verdana, serif; font-weight: 400; font-size: 36px; color: #ffcb40; margin-bottom: 30px; }
 
 
-.page-template-page_futurestudents-php .news { display: none; }
+.page-template-page_futurestudents-php .news {  }
+
+.page-template-page_futurestudents-php .news ol { list-style: none; margin: 30px 0 0 0; padding: 0;}
+
+.page-template-page_futurestudents-php .news li { overflow: hidden; list-style: none; margin: 0 0 20px 0; padding: 0; }
+
+
+.page-template-page_futurestudents-php .news .post{
+    border-top: 1px solid #cccccc;  
+    border-bottom: none;
+    padding: 15px 0;
+    margin: 0 !important;
+    min-height: 80px;
+}
+
+
+
+.page-template-page_futurestudents-php .news .thumb { 
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+
+.page-template-page_futurestudents-php .news .thumb img{ 
+  display: block; 
+}
+
+.page-template-page_futurestudents-php .news h2{
+    clear: none;
+    margin-bottom: 0;
+}
+
+.page-template-page_futurestudents-php .news h2 a{
+    padding: 0;
+    margin: 0 0 10px;
+    background: none;
+    color: #32789c;
+    font-family: 'Oswald', 'MS Trebuchet', sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 28px;
+    border: none;
+}
+
+.page-template-page_futurestudents-php .news h2 a:hover{
+    color: #f28e15;
+}
+
+
+.page-template-page_futurestudents-php .news .post p.post-info{
+    margin: 5px 0;
+    display: block;
+}
+
+.page-template-page_futurestudents-php .news .post p{
+    text-align: left;
+}
 
 
 .page-template-page_futurestudents-php .meet > h2 { padding: 0; margin: 0 0 30px 0;  }
@@ -2476,9 +2532,9 @@ opacity: .85;
 
 .page-template-page_futurestudents-php .testimonials { margin-bottom: 100px; }
 
-.page-template-page_futurestudents-php .testimonials ul { height: 250px; position: relative; }
+.page-template-page_futurestudents-php .testimonials ul { height: 250px; position: relative; list-style: none !important; }
 
-/*.page-template-page_futurestudents-php .testimonials li { opacity: 0; position: absolute; top: 0; left: 0;  }*/
+.page-template-page_futurestudents-php .testimonials li { list-style: none !important;   }
 
 .page-template-page_futurestudents-php .testimonials li p.quote { font-style: italic; font-size: 28px; line-height: 1.5; font-family: Georgia, serif; margin-bottom: 25px; }
 

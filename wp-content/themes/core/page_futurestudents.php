@@ -110,16 +110,40 @@ function template_load_mobile(){
 </div>
 
 <div class="news">
-	<h2>News &amp; Announcements</h2>
+	<h2>Admissions News &amp; Announcements</h2>
 	<?php query_posts('category_name=Admissions&showposts=5'); ?>
-<ol>
-<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-<li><?php the_title(); ?></li>
-<?php endwhile; ?>
-</ol>
-<?php endif; ?>
+	<ol>
+		<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+		
 
-</div>
+
+
+			<li>
+
+			<?php $images = get_posts(array( 'post_type' => 'attachment', 'numberposts' => -1, 'post_status' => null, 'post_parent' => $post->ID )); 
+									if ($images) {
+										?><a class="thumb" title="<?php echo $post->post_title; ?>" href="<?php echo get_permalink($post->ID); ?>"><?php
+										echo wp_get_attachment_image( $images[0]->ID, 'Home Page Tabs' );
+										?></a><?php
+									} 
+								?>
+
+	<h2><a title="<?php echo $post->post_title; ?>" href="<?php echo get_permalink($post->ID); ?>"><?php echo $post->post_title ?></a></h2>
+
+	<?php echo the_content_limit(200, 'Read more'); ?> 
+	
+	</li>
+
+
+
+
+
+
+		<?php endwhile; ?>
+	</ol>
+	<?php endif; ?>
+
+	</div>
 
 <div class="meet">
 	<h2>Meet Your Admissions Counselors</h2>
