@@ -411,13 +411,13 @@ function template_load_mobile(){
 	                        <li>Send us a graded, written piece of work of which you are especially proud. Be sure that the work is significant enough to reflect the true level of your thinking and writing abilities. Be sure to include your teacher's comments, and let us know the assignment's requirements.</li>
 	                    </ul>
 
-	                    <h2>Letters of Recommendation</h2>
+	                    <!-- <h2>Letters of Recommendation</h2>
 
 	                    <p>Submit two Letters of Recommendation.</p>
 
 	                    <p><a class="newbutton recommendation" href="http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/uploads/2012/01/Undergraduate_LetterOfRec.pdf"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;Download the Letter of Recommendation template form</a></p>
 	                    
-	                    <p>Students who attend Alaska Pacific University excel both in and out of the classroom. We want to hear about your success! Please submit two letters of recommendations from your, teachers, counselors, or employers. You may request a written letter or use our teacher recommendation form.</p>
+	                    <p>Students who attend Alaska Pacific University excel both in and out of the classroom. We want to hear about your success! Please submit two letters of recommendations from your, teachers, counselors, or employers. You may request a written letter or use our teacher recommendation form.</p> -->
 
 	                </div>
 
