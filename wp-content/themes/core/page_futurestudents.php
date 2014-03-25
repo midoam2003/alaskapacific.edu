@@ -37,9 +37,9 @@ function template_load_mobile(){
 <div class="future-boxes">
 	<div class="box-wrap">
 	<div class="box discover">
-		<h2><a href="http://www.alaskapacific.edu/apply/visit-campus/"><span>Discover Campus</span></a></h2>
+		<h2><a href="http://www.alaskapacific.edu/visit/"><span>Discover Campus</span></a></h2>
 		<ul>
-			<li><a href="http://www.alaskapacific.edu/apply/visit-campus/">Schedule a Tour</a></li>
+			<li><a href="http://www.alaskapacific.edu/visit/campus-visit/">Schedule a Tour</a></li>
 			<li>
 			<a href="http://www.youvisit.com" class="virtualtour_embed"
 	alt = "Virtual Tour"
@@ -48,8 +48,8 @@ function template_load_mobile(){
 	data-platform="v"
 >Take a Virtual Tour</a>
 <script src="http://www.youvisit.com/tour/Embed/js2"></script></li>
-			<li><a href="http://www.alaskapacific.edu/apply/visit-campus/apu-experience/">Attend an Open House</a></li>
-			<li><a href="http://www.alaskapacific.edu/explore-apu/student-life/housing/housing-options/">Living on Campus</a></li>
+			<li><a href="http://www.alaskapacific.edu/visit/open-house/">Attend an Open House</a></li>
+			<li><a href="http://www.alaskapacific.edu/explore-apu/student-life/housing/">Living on Campus</a></li>
 		</ul>
 	</div>
 	<div class="box degree-browser">
