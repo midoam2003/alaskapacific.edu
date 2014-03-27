@@ -276,7 +276,7 @@ function template_load_mobile(){
 
 	                <div class="ehp deadline">
 	                	<h2>Registration Deadlines</h2>
-		                <p>June 1st deadline for fall.</p> 
+		                <p>June 1st deadline for Fall.</p> 
 	                </div>
 
 	                <p><a class="newbutton calendar" href="http://www.alaskapacific.edu/university-calendar/"><i class="fa fa-calendar"></i>&nbsp;&nbsp;View the University Calendar for upcoming dates</a></p>
