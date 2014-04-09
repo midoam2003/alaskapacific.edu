@@ -29,6 +29,7 @@ function template_load_mobile(){
 
  get_header(); 
 
+
 // content here
  ?>
 
@@ -50,6 +51,7 @@ function template_load_mobile(){
 <script src="http://www.youvisit.com/tour/Embed/js2"></script></li>
 			<li><a href="http://www.alaskapacific.edu/visit/open-house/">Attend an Open House</a></li>
 			<li><a href="http://www.alaskapacific.edu/explore-apu/student-life/housing/">Living on Campus</a></li>
+			<li><a href="http://www.alaskapacific.edu/visit/summer-trip/">Summer Visit 2014</a></li>
 		</ul>
 	</div>
 	<div class="box degree-browser">
