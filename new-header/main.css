@@ -1,0 +1,1694 @@
+/*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
+
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+ @import url(https://fonts.googleapis.com/css?family=Oswald);
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+html {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+/*
+ * Remove the gap between images, videos, audio and canvas and the bottom of
+ * their containers: h5bp.com/i/440
+ */
+
+audio,
+canvas,
+img,
+video {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Browse Happy prompt
+   ========================================================================== */
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+#apu_header { }
+
+
+#apu_header #quicklinks { background: #77a5bc; height: 35px; }
+
+#apu_header .wrap { position: relative; max-width: 1140px; margin: 0 auto; height: 100%; }
+
+#apu_header ul { list-style: none; margin:0; padding: 0; }
+
+#apu_header #quicklinks ul { position: absolute; right: 0px; top: 0; bottom: 0; margin: 0; padding: 0;  }
+
+#apu_header #quicklinks li { list-style: none; float: left;  margin-right: 20px; }
+#apu_header #quicklinks li a { color: #fff; font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif; text-decoration: none; line-height: 35px; display: block; }
+
+#apu_header #quicklinks li a:hover { text-decoration: underline; }
+
+#apu_header #quicklinks li.phone { border-left: 1px solid #8eb3b7; padding-left: 20px; }
+#apu_header #quicklinks li.phone a { color: yellow; }
+
+
+
+#apu_header nav { height: 128px; background: #fbfaf7; }
+
+#apu_header nav ul { position: absolute; right: 0; height: 100%; }
+
+#apu_header nav li { float: left; height: 100%; }
+#apu_header nav li a { display: block;  padding: 28px 25px 0 25px; font: normal normal normal 24px/20px Oswald, 'Trebuchet MS', Verdana, serif; text-decoration: none; color: #444; text-transform: uppercase; border-right: 1px solid #ccecf6; height: 100px;}
+
+/*#apu_header nav li a:hover { border-bottom: 8px solid #2e749a; height: 92px; }*/
+
+#apu_header nav li:first-child a { border-left: 1px solid #ccecf6; }
+
+#apu_header nav li a span { text-transform: capitalize; padding-top: 14px; display: block; font-size: 14px; font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;  }
+
+#apu_header nav #logo { margin: 0; padding: 0; height: 128px; width: 266px;  position: absolute; top: 0; left: 0; font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif; }
+#apu_header nav #logo a { display: block; background: url('http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/logo.png') no-repeat 0 0; height: 100%;}
+
+#apu_header #subnav { height: 38px; background: #2e7499; box-shadow: inset 0px 2px 5px rgba(0,0,0,.2); }
+
+#apu_header #subnav ul { text-align: center; list-style: none; margin: 0; padding: 0; height: 100%; }
+#apu_header #subnav li { display: inline-block; margin-right: 3px;  }
+#apu_header #subnav li a { display: block; color: #fff; padding: 0 25px 0 25px; font: normal normal normal 24px/20px Oswald, 'Trebuchet MS', Verdana, serif; font-size: 16px; line-height: 38px; text-decoration: none; }
+
+#apu_header #subnav li:last-child { margin-right: 0; }
+
+#apu_header #subnav li a:hover { background: #6e9fb9; box-shadow: inset 0px 3px 2px rgba(0,0,0,.2); }
+
+
+#top_widgeted_DIV_1 {
+    color: rgb(88, 89, 91);
+    height: 26px;
+    position: relative;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 1920px;
+    z-index: 10;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 960px 17px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 960px 17px;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/top-widgeted-bg.png) repeat scroll 0% 0% / auto padding-box border-box;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+    overflow: hidden;
+    padding: 4px 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_DIV_1*/
+
+#top_widgeted_DIV_2 {
+    color: rgb(88, 89, 91);
+    max-width: 1140px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 1140px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 610px 0px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 610px 0px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px 350px;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 0px 40px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_DIV_2*/
+
+#top_widgeted_DIV_3 {
+    color: rgb(88, 89, 91);
+    float: right;
+    height: 24px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 180px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 90px 12px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 90px 12px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_DIV_3*/
+
+#top_widgeted_FORM_4 {
+    color: rgb(88, 89, 91);
+    height: 22px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 178px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 90px 12px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 90px 12px;
+    background: rgb(220, 221, 221) none repeat scroll 0% 0% / auto padding-box border-box;
+    border: 1px solid rgb(177, 179, 180);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 1px solid rgb(177, 179, 180);
+    -webkit-border-before: 1px solid rgb(177, 179, 180);
+    -webkit-border-end: 1px solid rgb(177, 179, 180);
+    -webkit-border-start: 1px solid rgb(177, 179, 180);
+}/*#top_widgeted_FORM_4*/
+
+#top_widgeted_INPUT_5 {
+    box-sizing: content-box;
+    color: rgb(143, 144, 144);
+    height: 12px;
+    text-decoration: none solid rgb(143, 144, 144);
+    width: 140px;
+    -webkit-appearance: none;
+    -webkit-column-rule-color: rgb(143, 144, 144);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 77px 11px;
+    -webkit-text-emphasis-color: rgb(143, 144, 144);
+    -webkit-text-fill-color: rgb(143, 144, 144);
+    -webkit-text-stroke-color: rgb(143, 144, 144);
+    -webkit-transform-origin: 77px 11px;
+    background: rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box;
+    border: 0px none rgb(143, 144, 144);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 11px/normal 'Trebuchet MS', Verdana, serif;
+    margin: 0px;
+    outline: rgb(143, 144, 144) none 0px;
+    padding: 5px 7px;
+    -webkit-border-after: 0px none rgb(143, 144, 144);
+    -webkit-border-before: 0px none rgb(143, 144, 144);
+    -webkit-border-end: 0px none rgb(143, 144, 144);
+    -webkit-border-start: 0px none rgb(143, 144, 144);
+}/*#top_widgeted_INPUT_5*/
+
+#top_widgeted_INPUT_6 {
+    background-position: 50% 3px;
+    color: rgb(88, 89, 91);
+    cursor: pointer;
+    height: 22px;
+    text-align: center;
+    text-decoration: none solid rgb(88, 89, 91);
+    text-indent: -9999px;
+    white-space: pre;
+    width: 20px;
+    -webkit-appearance: none;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    align-items: flex-start;
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 10px 11px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 10px 11px;
+    -webkit-user-select: none;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/search.gif) no-repeat scroll 50% 3px / auto padding-box border-box;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 11px/normal 'Trebuchet MS', Verdana, serif;
+    margin: 0px;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 5px 10px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_INPUT_6*/
+
+#top_widgeted_DIV_7 {
+    color: rgb(88, 89, 91);
+    float: right;
+    height: 24px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 119px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 59.5px 12px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 59.5px 12px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_DIV_7*/
+
+#top_widgeted_DIV_8 {
+    color: rgb(255, 245, 109);
+    height: 20px;
+    text-decoration: none solid rgb(255, 245, 109);
+    width: 89px;
+    -webkit-column-rule-color: rgb(255, 245, 109);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 59.5px 12px;
+    -webkit-text-emphasis-color: rgb(255, 245, 109);
+    -webkit-text-fill-color: rgb(255, 245, 109);
+    -webkit-text-stroke-color: rgb(255, 245, 109);
+    -webkit-transform-origin: 59.5px 12px;
+    border: 0px none rgb(255, 245, 109);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 15px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    outline: rgb(255, 245, 109) none 0px;
+    padding: 4px 20px 0px 10px;
+    -webkit-border-after: 0px none rgb(255, 245, 109);
+    -webkit-border-before: 0px none rgb(255, 245, 109);
+    -webkit-border-end: 0px none rgb(255, 245, 109);
+    -webkit-border-start: 0px none rgb(255, 245, 109);
+}/*#top_widgeted_DIV_8*/
+
+#top_widgeted_DIV_9 {
+    color: rgb(88, 89, 91);
+    display: none;
+    height: auto;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: auto;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50% 50%;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 50% 50%;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_DIV_9*/
+
+#top_widgeted_A_10 {
+    background-position: 0% 50%;
+    color: rgb(255, 255, 255);
+    display: block;
+    float: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    text-shadow: rgb(68, 68, 68) 1px 1px 1px;
+    text-transform: uppercase;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50% 50%;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 50% 50%;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/mobile-menu.png) no-repeat scroll 0% 50% / auto padding-box border-box;
+    border: 0px none rgb(255, 255, 255);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 18px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px 0px 0px 10px;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 0px 0px 0px 24px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#top_widgeted_A_10*/
+
+#top_widgeted_DIV_11 {
+    color: rgb(88, 89, 91);
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 1140px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 570px 0px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 570px 0px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_DIV_11*/
+
+#top_widgeted_DIV_12 {
+    color: rgb(88, 89, 91);
+    float: right;
+    height: 24px;
+    max-width: 1140px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 684px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 367.5px 12px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 367.5px 12px;
+    border-top: 0px none rgb(88, 89, 91);
+    border-right: 1px solid rgb(143, 179, 183);
+    border-bottom: 0px none rgb(88, 89, 91);
+    border-left: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 2px 10px 0px 0px;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 0px 10px 0px 40px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 1px solid rgb(143, 179, 183);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_DIV_12*/
+
+#top_widgeted_UL_13 {
+    color: rgb(88, 89, 91);
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 684px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 342px 0px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 342px 0px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_UL_13*/
+
+#top_widgeted_LI_14, #top_widgeted_LI_20 {
+    color: rgb(88, 89, 91);
+    display: block;
+    float: right;
+    height: 20px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 45px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 30.5px 12px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 30.5px 12px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 2px 8px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_LI_14, #top_widgeted_LI_20*/
+
+#top_widgeted_A_15, #top_widgeted_A_17, #top_widgeted_A_19, #top_widgeted_A_23, #top_widgeted_A_25 {
+    color: rgb(255, 255, 255);
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    border: 0px none rgb(255, 255, 255);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 15px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#top_widgeted_A_15, #top_widgeted_A_17, #top_widgeted_A_19, #top_widgeted_A_23, #top_widgeted_A_25*/
+
+#top_widgeted_LI_16 {
+    color: rgb(88, 89, 91);
+    display: block;
+    float: right;
+    height: 20px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 52px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 34px 12px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 34px 12px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 2px 8px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_LI_16*/
+
+#top_widgeted_LI_18 {
+    color: rgb(88, 89, 91);
+    display: block;
+    float: right;
+    height: 20px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 79px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 47.5px 12px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 47.5px 12px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 2px 8px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_LI_18*/
+
+#top_widgeted_A_21 {
+    color: rgb(255, 255, 255);
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    border: 0px none rgb(255, 255, 255);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 15px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#top_widgeted_A_21*/
+
+#top_widgeted_LI_22 {
+    color: rgb(88, 89, 91);
+    display: block;
+    float: right;
+    height: 20px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 83px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 49.5px 12px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 49.5px 12px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 2px 8px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_LI_22*/
+
+#top_widgeted_LI_24 {
+    color: rgb(88, 89, 91);
+    display: block;
+    float: right;
+    height: 20px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 107px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 61.5px 12px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 61.5px 12px;
+    border: 0px none rgb(88, 89, 91);
+    border-radius: 0 0 0 0;
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 2px 8px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#top_widgeted_LI_24*/
+
+
+
+#header_DIV_1 {
+    color: rgb(88, 89, 91);
+    height: 128px;
+    position: relative;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 1920px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/header-bg.png) repeat scroll 0% 0% / auto padding-box border-box;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+}/*#header_DIV_1*/
+
+#header_DIV_2 {
+    color: rgb(88, 89, 91);
+    height: 128px;
+    max-width: 1140px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 1140px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px 390px;
+    outline: rgb(88, 89, 91) none 0px;
+    overflow: hidden;
+}/*#header_DIV_2*/
+
+#header_DIV_3 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 128px;
+    text-decoration: none solid rgb(88, 89, 91);
+    text-indent: -9999px;
+    width: 266px;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/logo.png) no-repeat scroll 0% 0% / auto padding-box border-box;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+    overflow: hidden;
+}/*#header_DIV_3*/
+
+#header_H1_4 {
+    color: rgb(50, 117, 152);
+    float: left;
+    height: 128px;
+    text-decoration: none solid rgb(50, 117, 152);
+    text-indent: -9999px;
+    width: 266px;
+    border: 0px none rgb(50, 117, 152);
+    font: normal normal normal 28px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 10px 0px;
+    outline: rgb(50, 117, 152) none 0px;
+    overflow: hidden;
+}/*#header_H1_4*/
+
+#header_A_5 {
+    color: rgb(130, 131, 135);
+    display: block;
+    float: left;
+    height: 128px;
+    text-decoration: none solid rgb(130, 131, 135);
+    text-indent: -9999px;
+    text-transform: uppercase;
+    width: 266px;
+    border: 0px none rgb(130, 131, 135);
+    font: normal normal bold 40px/48px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(130, 131, 135) none 0px;
+    overflow: hidden;
+}/*#header_A_5*/
+
+#header_P_6 {
+    color: rgb(130, 131, 135);
+    height: 20px;
+    text-decoration: none solid rgb(130, 131, 135);
+    text-indent: -9999px;
+    border: 0px none rgb(130, 131, 135);
+    font: italic normal bold 20px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px 0px 10px;
+    outline: rgb(130, 131, 135) none 0px;
+    overflow: hidden;
+}/*#header_P_6*/
+
+#header_DIV_7 {
+    color: rgb(88, 89, 91);
+    float: right;
+    height: 128px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 820.796875px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+}/*#header_DIV_7*/
+
+#header_DIV_8 {
+    color: rgb(88, 89, 91);
+    height: 128px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 820.796875px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+}/*#header_DIV_8*/
+
+#header_DIV_9 {
+    color: rgb(88, 89, 91);
+    height: 128px;
+    max-width: 1140px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 820.796875px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+    overflow: hidden;
+}/*#header_DIV_9*/
+
+#header_UL_10 {
+    background-position: 0% 100%;
+    color: rgb(88, 89, 91);
+    float: right;
+    height: 128px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 820.796875px;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/nav-bg.png) no-repeat scroll 0% 100% / auto padding-box border-box;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 0px;
+}/*#header_UL_10*/
+
+#header_LI_11, #header_LI_15, #header_LI_19, #header_LI_23 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 128px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 147.734375px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+}/*#header_LI_11, #header_LI_15, #header_LI_19, #header_LI_23*/
+
+#header_A_12 {
+    background-position: 0px 11px;
+    color: rgb(77, 69, 74);
+    display: block;
+    height: 80px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(77, 69, 74);
+    text-transform: uppercase;
+    width: 115.734375px;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/nav-bg.png) repeat-x scroll 0px 11px / auto padding-box border-box;
+    border: 0px none rgb(77, 69, 74);
+    font: normal normal normal 24px/44px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(77, 69, 74) none 0px;
+    padding: 26px 16px 22px;
+}/*#header_A_12*/
+
+#header_BR_13, #header_BR_17, #header_BR_21, #header_BR_25, #header_BR_29 {
+    color: rgb(77, 69, 74);
+    text-align: left;
+    text-decoration: none solid rgb(77, 69, 74);
+    text-transform: uppercase;
+    border: 0px none rgb(77, 69, 74);
+    font: normal normal normal 24px/44px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(77, 69, 74) none 0px;
+}/*#header_BR_13, #header_BR_17, #header_BR_21, #header_BR_25, #header_BR_29*/
+
+#header_SPAN_14, #header_SPAN_18, #header_SPAN_22, #header_SPAN_26, #header_SPAN_30 {
+    color: rgb(77, 69, 74);
+    text-align: left;
+    text-decoration: none solid rgb(77, 69, 74);
+    text-transform: capitalize;
+    border: 0px none rgb(77, 69, 74);
+    font: normal normal normal 15px/18px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(77, 69, 74) none 0px;
+}/*#header_SPAN_14, #header_SPAN_18, #header_SPAN_22, #header_SPAN_26, #header_SPAN_30*/
+
+#header_A_16, #header_A_20 {
+    background-position: 100% 100%;
+    color: rgb(77, 69, 74);
+    display: block;
+    height: 80px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(77, 69, 74);
+    text-transform: uppercase;
+    width: 115.734375px;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/nav-bg.png) no-repeat scroll 100% 100% / auto padding-box border-box;
+    border: 0px none rgb(77, 69, 74);
+    font: normal normal normal 24px/44px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(77, 69, 74) none 0px;
+    padding: 26px 16px 22px;
+}/*#header_A_16, #header_A_20*/
+
+#header_A_24 {
+    background-position: 100% 100%;
+    color: rgb(77, 69, 74);
+    display: block;
+    height: 80px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(77, 69, 74);
+    text-transform: uppercase;
+    width: 115.734375px;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/nav-bg.png) no-repeat scroll 100% 100% / auto padding-box border-box;
+    border: 0px none rgb(77, 69, 74);
+    font: normal normal normal 24px/44px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(77, 69, 74) none 0px;
+    padding: 26px 16px 22px;
+}/*#header_A_24*/
+
+#header_LI_27 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 128px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 225.71875px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+}/*#header_LI_27*/
+
+#header_A_28 {
+    background-position: 100% 100%;
+    color: rgb(77, 69, 74);
+    display: block;
+    height: 80px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(77, 69, 74);
+    text-transform: uppercase;
+    width: 193.71875px;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/nav-bg.png) no-repeat scroll 100% 100% / auto padding-box border-box;
+    border: 0px none rgb(77, 69, 74);
+    font: normal normal normal 24px/44px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(77, 69, 74) none 0px;
+    padding: 26px 16px 22px;
+}/*#header_A_28*/
+
+
+#subnav_DIV_1 {
+    background-position: 50% 0%;
+    color: rgb(88, 89, 91);
+    height: 38px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 1920px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 960px 19px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 960px 19px;
+    background: rgba(0, 0, 0, 0) url(http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/subnav-bg.gif) repeat-x scroll 50% 0% / auto padding-box border-box;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    outline: rgb(88, 89, 91) none 0px;
+    overflow: hidden;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_DIV_1*/
+
+#subnav_DIV_2 {
+    color: rgb(88, 89, 91);
+    max-width: 1140px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 1140px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 570px 0px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 570px 0px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px 390px;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_DIV_2*/
+
+#subnav_UL_3 {
+    color: rgb(88, 89, 91);
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 1140px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 570px 0px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 570px 0px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_UL_3*/
+
+#subnav_LI_4, #subnav_LI_8 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 38px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 114px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 57px 19px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 57px 19px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_LI_4, #subnav_LI_8*/
+
+#subnav_A_5, #subnav_A_9 {
+    color: rgb(255, 255, 255);
+    display: block;
+    height: 20px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    width: 56px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 57px 19px;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 57px 19px;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 16px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 9px 29px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_5, #subnav_A_9*/
+
+#subnav_LI_6 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 38px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 180px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 90px 19px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 90px 19px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_LI_6*/
+
+#subnav_A_7 {
+    color: rgb(255, 255, 255);
+    display: block;
+    height: 20px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    width: 122px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 90px 19px;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 90px 19px;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 16px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 9px 29px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_7*/
+
+#subnav_LI_10 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 38px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 100px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50px 19px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 50px 19px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_LI_10*/
+
+#subnav_A_11 {
+    color: rgb(255, 255, 255);
+    display: block;
+    height: 20px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    width: 42px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50px 19px;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 50px 19px;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 16px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 9px 29px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_11*/
+
+#subnav_SPAN_12 {
+    color: rgb(255, 255, 255);
+    display: none;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50% 50%;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 50% 50%;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 16px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_SPAN_12*/
+
+#subnav_UL_13 {
+    color: rgb(88, 89, 91);
+    display: none;
+    height: auto;
+    position: absolute;
+    text-align: left;
+    text-decoration: none solid rgb(88, 89, 91);
+    visibility: hidden;
+    width: 170px;
+    z-index: 999;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50% 50%;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 50% 50%;
+    background: rgb(112, 159, 183) none repeat scroll 0% 0% / auto padding-box border-box;
+    border-top: 0px solid rgb(133, 173, 194);
+    border-right: 1px solid rgb(133, 173, 194);
+    border-bottom: 1px solid rgb(133, 173, 194);
+    border-left: 1px solid rgb(133, 173, 194);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    margin: 0px;
+    outline: rgb(88, 89, 91) none 0px;
+    padding: 10px;
+    -webkit-border-after: 1px solid rgb(133, 173, 194);
+    -webkit-border-before: 0px solid rgb(133, 173, 194);
+    -webkit-border-end: 1px solid rgb(133, 173, 194);
+    -webkit-border-start: 1px solid rgb(133, 173, 194);
+}/*#subnav_UL_13*/
+
+#subnav_LI_14, #subnav_LI_16, #subnav_LI_18, #subnav_LI_20, #subnav_LI_22, #subnav_LI_24, #subnav_LI_26, #subnav_LI_28, #subnav_LI_30, #subnav_LI_32, #subnav_LI_34 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: auto;
+    text-decoration: none solid rgb(88, 89, 91);
+    visibility: hidden;
+    width: auto;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50% 50%;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 50% 50%;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_LI_14, #subnav_LI_16, #subnav_LI_18, #subnav_LI_20, #subnav_LI_22, #subnav_LI_24, #subnav_LI_26, #subnav_LI_28, #subnav_LI_30, #subnav_LI_32, #subnav_LI_34*/
+
+#subnav_A_15, #subnav_A_17, #subnav_A_21, #subnav_A_25, #subnav_A_29, #subnav_A_33 {
+    color: rgb(255, 255, 255);
+    display: block;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    visibility: hidden;
+    width: 170px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50% 50%;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 50% 50%;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 13px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 5px 0px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_15, #subnav_A_17, #subnav_A_21, #subnav_A_25, #subnav_A_29, #subnav_A_33*/
+
+#subnav_A_19, #subnav_A_23, #subnav_A_31 {
+    color: rgb(255, 255, 255);
+    display: block;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    visibility: hidden;
+    width: 170px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50% 50%;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 50% 50%;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 13px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 5px 0px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_19, #subnav_A_23, #subnav_A_31*/
+
+#subnav_A_27, #subnav_A_35 {
+    color: rgb(255, 255, 255);
+    display: block;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    visibility: hidden;
+    width: 170px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 50% 50%;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 50% 50%;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 13px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 5px 0px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_27, #subnav_A_35*/
+
+#subnav_LI_36 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 38px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 99px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 49.5px 19px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 49.5px 19px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_LI_36*/
+
+#subnav_A_37 {
+    color: rgb(255, 255, 255);
+    display: block;
+    height: 20px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    width: 41px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 49.5px 19px;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 49.5px 19px;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 16px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 9px 29px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_37*/
+
+#subnav_LI_38 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 38px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 104px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 52px 19px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 52px 19px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_LI_38*/
+
+#subnav_A_39 {
+    color: rgb(255, 255, 255);
+    display: block;
+    height: 20px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    width: 46px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 52px 19px;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 52px 19px;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 16px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 9px 29px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_39*/
+
+#subnav_LI_40 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 38px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 161px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 80.5px 19px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 80.5px 19px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_LI_40*/
+
+#subnav_A_41 {
+    color: rgb(255, 255, 255);
+    display: block;
+    height: 20px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    width: 103px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 80.5px 19px;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 80.5px 19px;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 16px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 9px 29px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_41*/
+
+#subnav_LI_42, #subnav_LI_44 {
+    color: rgb(88, 89, 91);
+    float: left;
+    height: 38px;
+    text-decoration: none solid rgb(88, 89, 91);
+    width: 120px;
+    -webkit-column-rule-color: rgb(88, 89, 91);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 60px 19px;
+    -webkit-text-emphasis-color: rgb(88, 89, 91);
+    -webkit-text-fill-color: rgb(88, 89, 91);
+    -webkit-text-stroke-color: rgb(88, 89, 91);
+    -webkit-transform-origin: 60px 19px;
+    border: 0px none rgb(88, 89, 91);
+    font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(88, 89, 91) none 0px;
+    -webkit-border-after: 0px none rgb(88, 89, 91);
+    -webkit-border-before: 0px none rgb(88, 89, 91);
+    -webkit-border-end: 0px none rgb(88, 89, 91);
+    -webkit-border-start: 0px none rgb(88, 89, 91);
+}/*#subnav_LI_42, #subnav_LI_44*/
+
+#subnav_A_43, #subnav_A_45 {
+    color: rgb(255, 255, 255);
+    display: block;
+    height: 20px;
+    position: relative;
+    text-align: left;
+    text-decoration: none solid rgb(255, 255, 255);
+    width: 62px;
+    z-index: 90;
+    -webkit-column-rule-color: rgb(255, 255, 255);
+    -webkit-locale: en-US;
+    -webkit-perspective-origin: 60px 19px;
+    -webkit-text-decorations-in-effect: none;
+    -webkit-text-emphasis-color: rgb(255, 255, 255);
+    -webkit-text-fill-color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-transform-origin: 60px 19px;
+    border: 0px none rgb(255, 255, 255);
+    font: normal normal normal 16px/20px Oswald, 'Trebuchet MS', Verdana, serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 9px 29px;
+    -webkit-border-after: 0px none rgb(255, 255, 255);
+    -webkit-border-before: 0px none rgb(255, 255, 255);
+    -webkit-border-end: 0px none rgb(255, 255, 255);
+    -webkit-border-start: 0px none rgb(255, 255, 255);
+}/*#subnav_A_43, #subnav_A_45*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/*
+ * Image replacement
+ */
+
+.ir {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    /* IE 6/7 fallback */
+    *text-indent: -9999px;
+}
+
+.ir:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
+}
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+
+.invisible {
+    visibility: hidden;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+
+
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
