@@ -20,6 +20,8 @@ var WPCOMSharing = {
 	},
 	update_twitter_count : function( data ) {
 		if ( 'undefined' != typeof data.count && ( data.count * 1 ) > 0 ) {
+			if ( 'undefined' == typeof WPCOM_sharing_counts[ data.url ] )
+				data.url = data.url.replace(/\/$/, "");
 			WPCOMSharing.inject_share_count( 'sharing-twitter-' + WPCOM_sharing_counts[ data.url ], data.count );
 		}
 	},
@@ -256,7 +258,7 @@ var WPCOMSharing = {
 						key = $( '#recaptcha_public_key' ).val();
 
 					// Update the recaptcha
-					Recaptcha.create( key, 'sharing_recaptcha' );
+					Recaptcha.create( key, 'sharing_recaptcha', { lang : recaptcha_options.lang } );
 
 					// Show dialog
 					$( '#sharing_email' ).css( {

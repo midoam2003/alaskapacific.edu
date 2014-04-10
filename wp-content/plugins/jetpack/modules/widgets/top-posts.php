@@ -57,7 +57,7 @@ class Jetpack_Top_Posts_Widget extends WP_Widget {
 		}
 
 		$count = isset( $instance['count'] ) ? (int) $instance['count'] : 10;
-		if ( $count < 1 || 20 < $count ) {
+		if ( $count < 1 || 10 < $count ) {
 			$count = 10;
 		}
 
@@ -75,7 +75,7 @@ class Jetpack_Top_Posts_Widget extends WP_Widget {
 		</p>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php esc_html_e( 'Maximum number of posts to show:', 'jetpack' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'count' ); ?>"><?php esc_html_e( 'Maximum number of posts to show (no more than 10):', 'jetpack' ); ?></label>
 			<input id="<?php echo $this->get_field_id( 'count' ); ?>" name="<?php echo $this->get_field_name( 'count' ); ?>" type="number" value="<?php echo (int) $count; ?>" min="1" max="10" />
 		</p>
 
@@ -101,7 +101,7 @@ class Jetpack_Top_Posts_Widget extends WP_Widget {
 		}
 
 		$instance['count'] = (int) $new_instance['count'];
-		if ( $instance['count'] < 1 || 20 < $instance['count'] ) {
+		if ( $instance['count'] < 1 || 10 < $instance['count'] ) {
 			$instance['count'] = 10;
 		}
 
@@ -121,7 +121,7 @@ class Jetpack_Top_Posts_Widget extends WP_Widget {
 		$title = apply_filters( 'widget_title', $title );
 
 		$count = isset( $instance['count'] ) ? (int) $instance['count'] : false;
-		if ( $count < 1 || 20 < $count ) {
+		if ( $count < 1 || 10 < $count ) {
 			$count = 10;
 		}
 
@@ -175,7 +175,7 @@ class Jetpack_Top_Posts_Widget extends WP_Widget {
 		case 'grid' :
 			wp_enqueue_style( 'widget-grid-and-list' );
 			foreach ( $posts as &$post ) {
-				$image = Jetpack_PostImages::get_image( $post['post_id'] );
+				$image = Jetpack_PostImages::get_image( $post['post_id'], array( 'fallback_to_avatars' => true ) );
 				$post['image'] = $image['src'];
 				if ( 'blavatar' != $image['from'] && 'gravatar' != $image['from'] ) {
 					$size = (int) $get_image_options['avatar_size'];
@@ -190,7 +190,7 @@ class Jetpack_Top_Posts_Widget extends WP_Widget {
 				foreach ( $posts as $post ) :
 				?>
 					<div class="widget-grid-view-image">
-						<a href="<?php echo esc_url( $post['permalink'] ); ?>" title="<?php echo esc_attr( wp_kses( $post['title'], array() ) ); ?>" class="bump-view" data-bump-view="tp"><img src="<?php echo esc_url( $post['image'] ); ?>" /></a>
+						<a href="<?php echo esc_url( $post['permalink'] ); ?>" title="<?php echo esc_attr( wp_kses( $post['title'], array() ) ); ?>" class="bump-view" data-bump-view="tp"><img src="<?php echo esc_url( $post['image'] ); ?>" alt="<?php echo esc_attr( wp_kses( $post['title'], array() ) ); ?>" /></a>
 					</div>
 
 				<?php
@@ -201,7 +201,7 @@ class Jetpack_Top_Posts_Widget extends WP_Widget {
 				foreach ( $posts as $post ) :
 				?>
 					<li>
-						<img src="<?php echo esc_url( $post['image'] ); ?>" class='widgets-list-layout-blavatar' />
+						<img src="<?php echo esc_url( $post['image'] ); ?>" class='widgets-list-layout-blavatar' alt="<?php echo esc_attr( wp_kses( $post['title'], array() ) ); ?>" />
 						<div class="widgets-list-layout-links"><a href="<?php echo esc_url( $post['permalink'] ); ?>" class="bump-view" data-bump-view="tp"><?php echo esc_html( wp_kses( $post['title'], array() ) ); ?></a></div>
 					</li>
 				<?php
@@ -221,8 +221,17 @@ class Jetpack_Top_Posts_Widget extends WP_Widget {
 	}
 
 	function get_by_views( $count ) {
-		global $wpdb;
-		$post_view_posts = stats_get_csv( 'postviews', array( 'days' => 2, 'limit' => 10 ) );
+		$days = (int) apply_filters( 'jetpack_top_posts_days', 2 );
+
+		if ( $days < 1 ) {
+			$days = 2;
+		}
+
+		if ( $days > 10 ) {
+			$days = 10;
+		}
+
+		$post_view_posts = stats_get_csv( 'postviews', array( 'days' => absint( $days ), 'limit' => 11 ) );
 		if ( !$post_view_posts ) {
 			return array();
 		}
@@ -266,6 +275,10 @@ class Jetpack_Top_Posts_Widget extends WP_Widget {
 			$post = get_post( $post_id );
 
 			if ( !$post )
+				continue;
+
+			// Only posts and pages, no attachments
+			if ( 'attachment' == $post->post_type )
 				continue;
 
 			// hide private and password protected posts
