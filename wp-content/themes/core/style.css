@@ -2942,6 +2942,8 @@ ol li, ul li { margin-left: 20px; }
 #step-4[data-program="psyd-counseling-psychology"] .psyd-counseling-psychology { display: block; }
 #step-4[data-program="ms-counseling-psychology"] .ms-counseling-psychology { display: block; }
 #step-4[data-program="credit-by-choice"] .credit-by-choice { display: block; }
+#step-4[data-program="alaska-native-executive-leadership-program-anelp"] .alaska-native-executive-leadership-program-anelp { display: block; }
+
 
 
 #step-5[data-level="undergrad"] .undergrad { display: block; }
