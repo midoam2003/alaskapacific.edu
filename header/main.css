@@ -134,7 +134,7 @@ textarea {
 #apu_header nav li a span { text-transform: capitalize; padding-top: 14px; display: block; font-size: 14px; font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif;  }
 
 #apu_header nav #logo { margin: 0; padding: 0; height: 128px; width: 266px;  position: absolute; top: 0; left: 0; font: normal normal normal 14px/20px 'Trebuchet MS', Verdana, serif; }
-#apu_header nav #logo a { display: block; background: url('http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/themes/core/images/logo.png') no-repeat 0 0; height: 100%;}
+#apu_header nav #logo a { display: block; background: url('//www.alaskapacific.edu/wp-content/themes/core/images/logo.png') no-repeat 0 0; height: 100%;}
 
 #apu_header #subnav { height: 38px; background: #2e7499; box-shadow: inset 0px 2px 5px rgba(0,0,0,.2); }
 
