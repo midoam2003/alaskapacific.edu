@@ -1,6 +1,6 @@
 <?php
 
-// Template Name: Accounting
+// Template Name: ANELP
 
 //Add in academics and degree functions
 require_once(CHILD_DIR.'/academics_functions.php');
