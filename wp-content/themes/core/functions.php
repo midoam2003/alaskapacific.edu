@@ -688,6 +688,7 @@ register_nav_menu( 'environmental-studies-menu', __( 'Environmental Studies', 'g
 register_nav_menu( 'marine-menu', __( 'Marine Biology', 'genesis' ) );
 register_nav_menu( 'mses-menu', __( 'MSES', 'genesis' ) );
 register_nav_menu( 'accounting-menu', __( 'Accounting', 'genesis' ) );
+register_nav_menu( 'anelp-menu', __( 'Alaska Native Executive Leadership Program (ANELP)', 'genesis' ) );
 register_nav_menu( 'business-admin-menu', __( 'Business Admin', 'genesis' ) );
 register_nav_menu( 'graduate-certificate-menu', __( 'Graduate Certificate', 'genesis' ) );
 register_nav_menu( 'hsa-menu', __( 'HSA', 'genesis' ) );
