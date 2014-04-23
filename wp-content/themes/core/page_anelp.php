@@ -36,13 +36,13 @@ function template_do_sidebar(){
 //If the home page, add in the blog items
 add_action('genesis_after_post_content', 'template_after_post_content');
 function template_after_post_content(){
-	template_home_after_post_content(2520, 62);
+	template_home_after_post_content(38208, 62);
 }
 
 //Add in the degree header tab
 add_action('genesis_before_content_sidebar_wrap', 'section_do_title', 20);
 function section_do_title(){
-	?> <div class="tab-title"><h1><a href="<?php echo get_permalink(2520); ?>"><?php echo get_the_title(2520); ?></a></h1></div><?php
+	?> <div class="tab-title"><h1><a href="<?php echo get_permalink(38208); ?>"><?php echo get_the_title(38208); ?></a></h1></div><?php
 }
 
 genesis();
