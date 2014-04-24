@@ -90,7 +90,7 @@ function template_load_mobile(){
 <div class="copy">
 	
 	<h2>There’s a place <em>for you</em> at APU</h2>
-	<p><strong>The people</strong>, places and stories of Alaska are foundations of your sequenced cirriculum. Expect to be challenged academically as you develop in-demand skills including project management, collaborative teamwork in the sciences and liberal arts, and effective communication in a variety of media.</p>
+	<p><strong>The people</strong>, places and stories of Alaska are foundations of your sequenced curriculum. Expect to be challenged academically as you develop in-demand skills including project management, collaborative teamwork in the sciences and liberal arts, and effective communication in a variety of media.</p>
 </div>	
 <div class="video"><iframe src="//player.vimeo.com/video/60010026?title=0&amp;byline=0&amp;portrait=0" width="100%" height="242" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
 </div>
