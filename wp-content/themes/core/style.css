@@ -1669,6 +1669,33 @@ p.wp-caption-text {
 #sidebar #menu-item-8953 a{ background-image: url('images/menus/glance.jpg');}
 #sidebar #menu-conferencing-service-1 li:first-child a { background-image: url('images/menus/conferencing-services.jpg');}
 
+
+.page-template-page_at_a_glance-php #sidebar .superfish.menu > li:first-child a, .page-template-page_employment-php #sidebar .superfish.menu > li:first-child a, .page-template-page_giving-php #sidebar .superfish.menu > li:first-child a, .page-template-page_mission-php #sidebar .superfish.menu > li:first-child a, .page-template-page_presidents-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/about-apu.jpg'); }
+
+
+.page-template-page_accounting-php #sidebar .superfish.menu > li:first-child a, .page-template-page_business_admin-php #sidebar .superfish.menu > li:first-child a, .page-template-page_mba-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/business-businessadmin.jpg'); }
+
+.page-template-page_education_k8-php #sidebar .superfish.menu > li:first-child a, .page-template-page_teacher_coop-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/education-coop.jpg'); }
+
+.page-template-page_earth_sciences-php #sidebar .superfish.menu > li:first-child a, .page-template-page_environmental_science-php #sidebar .superfish.menu > li:first-child a, .page-template-page_marine_biology-php #sidebar .superfish.menu > li:first-child a, .page-template-page_mses-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/environment.jpg'); }
+
+.page-template-page_liberal_studies-php #sidebar .superfish.menu > li:first-child a, .page-template-page_liberal_studies-php #sidebar .superfish.menu > li:first-child a, .page-template-page_pre_med-php #sidebar .superfish.menu > li:first-child a, .page-template-page_sustainability-php #sidebar .superfish.menu > li:first-child a, .page-template-page_master_of_arts-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/liberal.jpg'); }
+
+.page-template-page_outdoor_studies-php #sidebar .superfish.menu > li:first-child a, .page-template-page_outdoor_studies-php #sidebar .superfish.menu > li:first-child a, .page-template-page_msoee-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/outdoorstudies.jpg'); }
+
+.page-template-page_counseling_psych-php #sidebar .superfish.menu > li:first-child a, .page-template-page_counseling_psych_ba-php #sidebar .superfish.menu > li:first-child a, .page-template-page_ms_counseling_psych-php #sidebar .superfish.menu > li:first-child a, .page-template-page_doctorate_psych-php #sidebar .superfish.menu > li:first-child a, .page-template-page_human_services_aa-php #sidebar .superfish.menu > li:first-child a, .page-template-page_human_services_ba-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/psychology-and-human-services.png'); }
+
+.page-template-page_moseley-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/moseley-sports-center.png'); }
+
+.page-template-page_nordic-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/nodic-ski-center.png'); }
+
+.page-template-page_student_life-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/student-life.png'); }
+
+.page-template-page_student_services-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/student-services.jpg'); }
+
+
+
+
 #sidebar iframe{
 	width: 100%;
 }
