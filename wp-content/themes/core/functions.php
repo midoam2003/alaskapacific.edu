@@ -689,6 +689,7 @@ register_nav_menu( 'marine-menu', __( 'Marine Biology', 'genesis' ) );
 register_nav_menu( 'mses-menu', __( 'MSES', 'genesis' ) );
 register_nav_menu( 'accounting-menu', __( 'Accounting', 'genesis' ) );
 register_nav_menu( 'anelp-menu', __( 'Alaska Native Executive Leadership Program (ANELP)', 'genesis' ) );
+register_nav_menu( 'scorecard-menu', __( 'Scorecard', 'genesis' ) );
 register_nav_menu( 'business-admin-menu', __( 'Business Admin', 'genesis' ) );
 register_nav_menu( 'graduate-certificate-menu', __( 'Graduate Certificate', 'genesis' ) );
 register_nav_menu( 'hsa-menu', __( 'HSA', 'genesis' ) );
@@ -727,6 +728,7 @@ register_nav_menu( 'expedition-menu', __( 'Expedition Menu', 'genesis' ) );
 register_nav_menu( 'top-menu', __( 'Top Menu', 'genesis' ) );
 register_nav_menu( 'sub-footer-menu', __( 'Sub Footer Menu', 'genesis' ) );
 register_nav_menu( 'footer-menu', __( 'Footer Menu', 'genesis' ) );
+
 
 unregister_nav_menu('secondary');
 
