@@ -1694,17 +1694,15 @@ p.wp-caption-text {
 .page-template-page_student_services-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/student-services.jpg'); }
 
 
-.page-template-page_scorecard-php #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard.jpg'); }
-
 .page-id-38240 #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard.png'); }
 
-.page-id-38241 #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard-academic-excellence.png'); }
+.page-id-38241 #sidebar .superfish.menu > li:first-child a, .parent-pageid-38241 #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard-academic-excellence.png'); }
 
-.page-id-38248 #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard-people-focused.png'); }
+.page-id-38248 #sidebar .superfish.menu > li:first-child a, .parent-pageid-38248 #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard-people-focused.png'); }
 
-.page-id-38250 #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard-unique-learning.png'); }
+.page-id-38250 #sidebar .superfish.menu > li:first-child a, .parent-pageid-38250 #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard-unique-learning.png'); }
 
-.page-id-38251 #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard-sustainability.png'); }
+.page-id-38251 #sidebar .superfish.menu > li:first-child a, .parent-pageid-38251 #sidebar .superfish.menu > li:first-child a { background-image: url('images/menus/scorecard-sustainability.png'); }
 
 
 
