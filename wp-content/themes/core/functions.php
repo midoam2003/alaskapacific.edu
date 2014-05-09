@@ -647,7 +647,7 @@ function get_event_time($event){
 			$timespan .= $long_start_date;
 			if( $long_end_date != $long_start_date )
 							$timespan .= " – $long_end_date";
-						$timespan = esc_html( $timespan );
+						$timespan = esc_html( $long_start_date );
 						$timespan .= '<span class="ai1ec-allday-label">';
 						$timespan .= __( ' (all-day)', AI1EC_PLUGIN_NAME );
 						$timespan .= '</span>';
