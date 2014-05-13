@@ -63,7 +63,7 @@ $('.degrees li').on('click', function(e) {
         $('#apply-page .step:not(#step-1)').fadeTo(300,0, function() { $(this).hide() });
 
 
-        $(this).parent()[0].config['onMixEnd'] = function () { console.log('filtering ended') 
+        $(this).parent()[0].config['onMixEnd'] = function () { //console.log('filtering ended') 
 
 
             $('html, body').animate({
@@ -76,7 +76,7 @@ $('.degrees li').on('click', function(e) {
 
         };
 
-        console.log('show em all')
+       // console.log('show em all')
 
         //var currentIndex = $('.degrees .current').index();
 
@@ -103,7 +103,7 @@ $('.degrees li').on('click', function(e) {
 
     } else {
 
-        $(this).parent()[0].config['onMixStart'] = function () { console.log('filtering ended') 
+        $(this).parent()[0].config['onMixStart'] = function () { //console.log('filtering ended') 
 
 
             $('html, body').animate({
@@ -117,7 +117,7 @@ $('.degrees li').on('click', function(e) {
 
         $('#apply-page .step').show().fadeTo(300,1)
 
-        console.log('hide em all')
+       // console.log('hide em all')
 
         var portal = $(this).attr('data-portal');
         var program = $(this).attr('data-program');
