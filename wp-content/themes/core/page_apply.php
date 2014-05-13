@@ -214,7 +214,7 @@ function template_load_mobile(){
 	            </div>
 	            </div>
 
-	            <div id="step-2" class="step">
+	            <div id="step-2" class="step" data-portal="" data-program="">
 
 	                <h1><small>Step 2.</small>Review important dates <span class="amp">&amp;</span> deadlines</h1>
 
@@ -294,7 +294,7 @@ function template_load_mobile(){
 
 	            </div>
 
-	            <div id="step-3" class="step">
+	            <div id="step-3" class="step" data-portal="" data-program="">
 		            <h1><small>Step 3.</small>Complete the online application</h1>
 
 		            <p>Please note you will need to create a new account to begin your online application. This new username and password is only for the application and will cease to be valid once you submit the completed application. An Admissions Counselor will contact you within a week after receiving your application to discuss any other documents necessary to complete your application.</p>
@@ -305,7 +305,7 @@ function template_load_mobile(){
 
 	            </div>
 
-	            <div id="step-4" class="step">
+	            <div id="step-4" class="step" data-portal="" data-program="">
 
 	                <h1><small>Step 4.</small>Submit additional supporting documents</h1>
 
@@ -634,7 +634,7 @@ function template_load_mobile(){
 
 	<!--             <h1><small>Step 5.</small>Interview with the Early Honors program director</h1> -->
 
-	            <div id="step-5" class="step">
+	            <div id="step-5" class="step" data-portal="" data-program="">
 	            <h1><small>Step 5.</small>Wait for your acceptance decision</h1>
 
 	                <div class="undergrad">
@@ -645,7 +645,7 @@ function template_load_mobile(){
 	                    <p>Each Graduate program requires admission to the University as well as to the program the student wishes to enter. Application documents are collected by the Admissions Office and then sent to the appropriate department for evaluation by the Program Director. When a decision is made regarding admission, the applicant will be notified by the Graduate Program Director and the Graduate Admissions Counselor.</p>
 	                </div>
 	            </div>
-	            <div id="step-6" class="step">
+	            <div id="step-6" class="step" data-portal="" data-program="">
 	            <h1><small>Step 6.</small>Get in touch with our admissions counselors</h1>
 
 	            <div class="cup ehp non">
