@@ -122,6 +122,12 @@ $('.degrees li').on('click', function(e) {
         var portal = $(this).attr('data-portal');
         var program = $(this).attr('data-program');
 
+                $('#step-4').attr('data-portal',portal);
+        $('#step-4').attr('data-program',program);
+
+        $('#step-6').attr('data-portal',portal);
+
+
 
         switch (program)
         {
@@ -144,10 +150,6 @@ $('.degrees li').on('click', function(e) {
                 break;
         }
 
-        $('#step-4').attr('data-portal',portal);
-        $('#step-4').attr('data-program',program);
-
-        $('#step-6').attr('data-portal',portal);
 
 
         switch (portal)
