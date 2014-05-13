@@ -648,14 +648,28 @@ function template_load_mobile(){
 	            <div id="step-6" class="step">
 	            <h1><small>Step 6.</small>Get in touch with our admissions counselors</h1>
 
+	            <div class="cup ehp non">
+
 				<div class="post-21332 people type-people status-publish hentry entry">
-				<a href="http://www.alaskapacific.edu/blog/people/brian-mcdermott/" title="Brian McDermott">
-				<img width="100" height="100" src="http://www.alaskapacific.edu/wp-content/uploads/BrianMcDermott-100x100.jpg" class="alignleft post-image" alt="BrianMcDermott">				</a>
-				<h2 class="entry-title"><a href="http://www.alaskapacific.edu/blog/people/brian-mcdermott/" title="Brian McDermott">Brian McDermott</a></h2>
-				<p class="people-details">
-				Admissions Counselor<br>				907-564-8248<br>				<a href="http://www.alaskapacific.edu/contact/index.php?person=21332" title="Contact Brian McDermott">Contact</a><br>								</p>
+					<a href="http://www.alaskapacific.edu/blog/people/brian-mcdermott/" title="Brian McDermott">
+					<img width="100" height="100" src="http://www.alaskapacific.edu/wp-content/uploads/BrianMcDermott-100x100.jpg" class="alignleft post-image" alt="BrianMcDermott">				</a>
+					<h2 class="entry-title"><a href="http://www.alaskapacific.edu/blog/people/brian-mcdermott/" title="Brian McDermott">Brian McDermott</a></h2>
+					<p class="people-details">
+					Admissions Counselor<br>				907-564-8248<br>				<a href="http://www.alaskapacific.edu/contact/index.php?person=21332" title="Contact Brian McDermott">Contact</a><br>								</p>
+					</div>
+
 				</div>
 
+				<div class="grad ps doct">
+
+					<div class="post-36950 people type-people status-publish hentry second entry">
+					<a href="http://www.alaskapacific.edu/blog/people/carla-campos/" title="Carla Campos">
+					<img width="100" height="100" src="http://2p3hfwqbf6o3bs9g5tpqw3k05.wpengine.netdna-cdn.com/wp-content/uploads/carla-campos-100x100.jpg" class="alignleft post-image" alt="carla-campos">				</a>
+					<h2 class="entry-title"><a href="http://www.alaskapacific.edu/blog/people/carla-campos/" title="Carla Campos">Carla Campos</a></h2>
+					<p class="people-details">
+					Graduate and Professional Studies Admissions Counselor<br>								<a href="http://www.alaskapacific.edu/contact/index.php?person=36950" title="Email Carla Campos">Email</a><br>								</p>
+					</div>
+				</div>
 
 </div>
 

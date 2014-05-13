@@ -147,6 +147,7 @@ $('.degrees li').on('click', function(e) {
         $('#step-4').attr('data-portal',portal);
         $('#step-4').attr('data-program',program);
 
+        $('#step-6').attr('data-portal',portal);
 
 
         switch (portal)

@@ -2989,6 +2989,17 @@ ol li, ul li { margin-left: 20px; }
 #step-5[data-level="grad"] .undergrad { display: none; }
 #step-5[data-level="grad"] .grad { display: block; }
 
+#step-6 > div { display: none; }
+
+
+#step-6[data-portal="cup"] .cup { display: block; }
+#step-6[data-portal="ps"] .ps { display: block; }
+#step-6[data-portal="doct"] .doct { display: block; }
+#step-6[data-portal="ehp"] .ehp { display: block; }
+#step-6[data-portal="non"] .non { display: block; }
+#step-6[data-portal="grad"] .grad { display: block; }
+
+
 
 .floats { overflow: hidden; }
 
