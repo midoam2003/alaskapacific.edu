@@ -119,10 +119,8 @@ function template_load_mobile(){
 		?>
 
 		<div class="news">
-		<ol>
-		
 		<h2>Scholarships</h2>
-
+		<ol>
 
 		<? while ( have_posts() ) : the_post(); ?>
 		
