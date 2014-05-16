@@ -118,8 +118,9 @@ function template_load_mobile(){
 
 		?>
 
-		<ol>
 		<div class="news">
+		<ol>
+		
 		<h2>Scholarships</h2>
 
 
