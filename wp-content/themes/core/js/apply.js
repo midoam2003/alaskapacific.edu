@@ -103,7 +103,9 @@ $('.degrees li').on('click', function(e) {
 
     } else {
 
-        $(this).parent()[0].config['onMixStart'] = function () { //console.log('filtering ended') 
+        $(this).parent()[0].config['onMixStart'] = function () { 
+
+        //console.log('filtering ended') 
 
 
             $('html, body').animate({
