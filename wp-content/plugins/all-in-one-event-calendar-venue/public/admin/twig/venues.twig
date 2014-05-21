@@ -1,0 +1,114 @@
+<tr class="form-field">
+	<th scope="row" valign="top">
+		<label for="ai1ecv_venue-address">
+			{{ 'Address:' | __ }}
+		</label>
+	</th>
+	<td>
+		<input type='text' name='ai1ecv_venue-address' value="{{ address }}" />
+	</td>
+</tr>
+
+<tr class="form-field">
+	<th scope="row" valign="top">
+		<label for="ai1ecv_venue-description">
+			{{ 'Description:' | __ }}
+		</label>
+	</th>
+	<td>
+		<textarea name='ai1ecv_venue-description'>{{ description }}</textarea>
+	</td>
+</tr>
+
+<tr class="form-field">
+	<th scope="row" valign="top">
+		<label for="ai1ecv_venue-contact-name">
+			{{ 'Contact name:' | __ }}
+		</label>
+	</th>
+	<td>
+		<input type='text' name='ai1ecv_venue-contact-name' value="{{ contact_name }}" />
+	</td>
+</tr>
+
+<tr class="form-field">
+	<th scope="row" valign="top">
+		<label for="ai1ecv_venue-phone">
+			{{ 'Phone:' | __ }}
+		</label>
+	</th>
+	<td>
+		<input type='text' name='ai1ecv_venue-phone' value="{{ phone }}" />
+	</td>
+</tr>
+
+<tr class="form-field">
+	<th scope="row" valign="top">
+		<label for="ai1ecv_venue-email">
+			{{ 'Email:' | __ }}
+		</label>
+	</th>
+	<td>
+		<input type='text' name='ai1ecv_venue-email' value="{{ email }}" />
+	</td>
+</tr>
+
+<tr class="form-field">
+	<th scope="row" valign="top">
+		<label for="ai1ecv_venue-url">
+			{{ 'External url:' | __ }}
+		</label>
+	</th>
+	<td>
+		<input type='text' name='ai1ecv_venue-url' value="{{ url }}" />
+	</td>
+</tr>
+
+<tr class="form-field">
+	<th scope="row" valign="top">
+		<label for="ai1ecv_venue-capacity">
+			{{ 'Seating capacity:' | __ }}
+		</label>
+	</th>
+	<td>
+		<input type='text' name='ai1ecv_venue-capacity' value="{{ capacity }}" />
+	</td>
+</tr>
+
+<tr class="form-field">
+	<th scope="row" valign="top">
+		<label for="ai1ecv_venue-parking">
+			{{ 'Handicap Accessible:' | __ }}
+		</label>
+	</th>
+	<td>
+		<input type='checkbox' name='ai1ecv_venue-handicap' value="1"
+			{% if handicap %}checked="true"{% endif %}/>
+	</td>
+</tr>
+
+<tr class="form-field">
+	<th scope="row" valign="top">
+		<label for="ai1ecv_venue-parking">
+			{{ 'Parking:' | __ }}
+		</label>
+	</th>
+	<td>
+		<textarea name='ai1ecv_venue-parking'>{{ parking }}</textarea>
+	</td>
+</tr>
+
+
+<script type="text/javascript">
+	jQuery('.form-wrap h3').hide();
+	jQuery('.wrap h2').html(jQuery('.wrap h2').html().replace('Category', 'Venue'));
+	jQuery('#tag-description').parent().hide();
+	jQuery('.column-description').hide();
+	jQuery('#description').parent().parent().hide();
+	jQuery(document).ready(function($){
+		if ( $('#addtag .button-primary').length > 0 ) {
+			$('#addtag .button-primary').val($('#addtag .button-primary').val().replace('Category', 'Venue'));
+		}
+		
+	});
+</script>
