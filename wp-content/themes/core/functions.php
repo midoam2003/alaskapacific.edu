@@ -639,28 +639,30 @@ function footer_output_filter($output, $backtotop_text, $creds_text) {
 
 //Get event time and date for event tab widget
 function get_event_time($event){
-	$timespan = '';
-	$long_start_date = $event->long_start_date;
-	$long_end_date   = $event->long_end_date;
-	
-	if( $event->allday ) {
-			$timespan .= $long_start_date;
-			if( $long_end_date != $long_start_date )
-							$timespan .= " – $long_end_date";
-						$timespan = esc_html( $long_start_date );
-						$timespan .= '<span class="ai1ec-allday-label">';
-						$timespan .= __( ' (all-day)', AI1EC_PLUGIN_NAME );
-						$timespan .= '</span>';
-					} else {
-						if( $long_end_date != $long_start_date )
-							$timespan .= esc_html( $event->long_start_time . ' – ' . $event->long_end_time );
-						elseif( $event->start != $event->end )
-							$timespan .= esc_html( $event->long_start_time . ' - ' . $event->end_time );
-						else
-							$timespan .= esc_html( $event->long_start_time );
-					}
-					
-	return $timespan;
+    date_default_timezone_set('America/Anchorage');
+    $timespan = '';
+    $long_start_date = date("F j, Y @ g:i A", $event->start);
+    $long_end_date   = date("F j, Y @ g:i A", $event->end);
+    $short_end_date   = date("g:i A", $event->end);
+    
+    if( $event->allday ) {
+            $timespan .= $long_start_date;
+            if( $long_end_date != $long_start_date )
+                            $timespan .= " – $long_end_date";
+                        $timespan = esc_html( $long_start_date );
+                        $timespan .= '<span class="ai1ec-allday-label">';
+                        $timespan .= __( ' (all-day)', AI1EC_PLUGIN_NAME );
+                        $timespan .= '</span>';
+                    } else {
+                        if( $long_end_date != $long_start_date )
+                            $timespan .= esc_html( $long_start_date . ' – ' . $short_end_date );
+                        elseif( $event->start != $event->end )
+                            $timespan .= esc_html( $long_start_date . ' - ' . $short_end_date );
+                        else
+                            $timespan .= esc_html( $long_start_date );
+                    }
+                    
+    return $timespan;
 }
 
 

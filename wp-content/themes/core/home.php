@@ -113,58 +113,59 @@ if (is_sidebar_active('Home Slideshow Caption') && $blog_id == 1) :
 					</ul>
 					
 					<div id="tabs-this-week">
-						<?php  
-						
-						
-						//$events = get_posts(array('post_type' => 'ai1ec_event', 'numberposts' => -1, 'events_categories' => 'this-week'));
-						
-						global $wpdb;
-						
-						$querystr = "
-						    SELECT $wpdb->posts.* 
-						    FROM $wpdb->posts, wp_ai1ec_events
-						    WHERE $wpdb->posts.post_type = 'ai1ec_event'
-						    AND $wpdb->posts.ID = wp_ai1ec_events.post_id 
-						    AND $wpdb->posts.post_status = 'publish'
-						    AND wp_ai1ec_events.start > DATE_ADD(CURDATE(), INTERVAL 8 HOUR)
-						    ORDER BY wp_ai1ec_events.start ASC
-						    LIMIT 0, 6
-						 ";
-						
-						 $events = $wpdb->get_results($querystr, OBJECT);
-						
-						if ($events) :
-						
-						foreach ($events as $key => $event) {
-								setup_postdata($event);
-								$event_instance = new Ai1ec_Event($event->ID); 
-								
-								?><div class="post event">
-								<?php $images = get_posts(array( 'post_type' => 'attachment', 'numberposts' => -1, 'post_status' => null, 'post_parent' => $event->ID )); 
-									if ($images) {
-										?><a title="<?php echo $event->post_title; ?>" href="<?php echo get_permalink($event->ID); ?>"><?php
-										echo wp_get_attachment_image( $images[0]->ID, 'Home Page Tabs' );
-										?></a><?php
-									} 
-								?>
-								
-								<h2><a title="<?php echo $event->post_title; ?>" href="<?php echo get_permalink($event->ID); ?>"><?php echo $event->post_title ?></a></h2>
-								<p class="post-info"><span class="date"><?php echo get_event_time($event_instance);?></span><br /><span class="location"><?php echo $event_instance->venue;?></span></p>
-								<?php echo the_content_limit(200, ''); ?> 
-								<a class="more-link" title="Read On" href="<?php echo get_permalink($event->ID); ?>">Read On</a>
-								</div><?php
-								wp_reset_postdata();
-							}
-						else :
-						
-						?><p>There are no events currently scheduled.<?php
-							
-						endif;
-							
-						?>
-						<p class="more-from-category"><a href="<?php echo get_bloginfo('url'); ?>/university-calendar" title="See More Events">See More Events</a></p>
-						
-					</div>
+                        <?php  
+                        
+                        
+                        //$events = get_posts(array('post_type' => 'ai1ec_event', 'numberposts' => -1, 'events_categories' => 'this-week'));
+                        
+                        global $wpdb;
+                        
+                        $querystr = "
+                            SELECT $wpdb->posts.*, wp_ai1ec_events.*
+                            FROM $wpdb->posts, wp_ai1ec_events
+                            WHERE $wpdb->posts.post_type = 'ai1ec_event'
+                            AND $wpdb->posts.ID = wp_ai1ec_events.post_id 
+                            AND $wpdb->posts.post_status = 'publish'
+                            AND wp_ai1ec_events.start > UNIX_TIMESTAMP()
+                            ORDER BY wp_ai1ec_events.start ASC
+                            LIMIT 0, 6
+                         ";
+                        
+                         $events = $wpdb->get_results($querystr, OBJECT);
+                        
+                        if ($events) :
+                        
+                        foreach ($events as $key => $event) {
+                                
+                                
+                                //$event_instance = new Ai1ec_Event($event->ID); 
+                                
+                                ?><div class="post event">
+                                <?php $images = get_posts(array( 'post_type' => 'attachment', 'numberposts' => -1, 'post_status' => null, 'post_parent' => $event->ID )); 
+                                    if ($images) {
+                                        ?><a title="<?php echo $event->post_title; ?>" href="<?php echo $event->guid; ?>"><?php
+                                        echo wp_get_attachment_image( $images[0]->ID, 'Home Page Tabs' );
+                                        ?></a><?php
+                                    } 
+                                ?>
+                                
+                                <h2><a title="<?php echo $event->post_title; ?>" href="<?php echo $event->guid; ?>"><?php echo $event->post_title ?></a></h2>
+                                <p class="post-info"><span class="date"><?php echo get_event_time($event);?></span><br /><span class="location"><?php echo $event->venue;?></span></p>
+                                <?php echo the_content_limit(200, ''); ?> 
+                                <a class="more-link" title="Read On" href="<?php echo $event->guid; ?>">Read On</a>
+                                </div><?php
+                                wp_reset_postdata();
+                            }
+                        else :
+                        
+                        ?><p>There are no events currently scheduled.<?php
+                            
+                        endif;
+                            
+                        ?>
+                        <p class="more-from-category"><a href="<?php echo get_bloginfo('url'); ?>/university-calendar" title="See More Events">See More Events</a></p>
+                        
+                    </div>
 					
 					<div id="tabs-active-learning">
 						<?php if (!dynamic_sidebar('Home Active Learning')) : ?>
