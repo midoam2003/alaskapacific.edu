@@ -481,7 +481,8 @@ class Ai1ec_Javascript_Controller {
 		if ( ! $conditional_get->cacheIsValid ) {
 			$http_encoder = new HTTP_Encoder( array(
 				'content' => $javascript,
-				'type' => 'text/javascript'
+				'type' => 'text/javascript',
+				this: 'method' => ''
 			)
 			);
 			$compression_level = null;
