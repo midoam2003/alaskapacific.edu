@@ -3030,7 +3030,7 @@ ol li, ul li { margin-left: 20px; }
 
 /*.page-id-38478 .entry-content .item { float: left; width: 25%; height: 300px;}*/
 
-.page-id-38478 .entry-content table { width: 100%; margin-top: 40px; }
+.page-id-38478 .entry-content table { width: 100% !important; margin-top: 40px; }
 
 .page-id-38478 .entry-content table td { width: 24%; vertical-align: top; padding-right: 25px; padding-bottom: 30px; }
 
