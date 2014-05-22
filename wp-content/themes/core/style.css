@@ -3030,11 +3030,9 @@ ol li, ul li { margin-left: 20px; }
 
 /*.page-id-38478 .entry-content .item { float: left; width: 25%; height: 300px;}*/
 
-.page-id-38478 .entry-content table { width: 100% !important; margin-top: 30px; }
+.page-id-38478 .entry-content table { width: 100% !important; margin-top: 30px; padding-left: 25px;}
 
 .page-id-38478 .entry-content table td { width: 24%; vertical-align: top; padding-right: 25px; padding-bottom: 30px; }
-
-.page-id-38478 .entry-content table tr td:last-child { padding-right: 0; } 
 
 .page-id-38478 .entry-content table td h2 { text-align: center; font-family: "Gotham"; font-weight: bold; text-transform: uppercase; font-size: 16px; color: #696863; line-height: 21px; margin-bottom: 12px; }
 
