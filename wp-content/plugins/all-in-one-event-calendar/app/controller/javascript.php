@@ -482,7 +482,7 @@ class Ai1ec_Javascript_Controller {
 			$http_encoder = new HTTP_Encoder( array(
 				'content' => $javascript,
 				'type' => 'text/javascript',
-				this: 'method' => ''
+				'method' => ''
 			)
 			);
 			$compression_level = null;
