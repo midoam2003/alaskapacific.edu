@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "Gotham";
+    src: url("gotham/Gotham-Bold.eot");
+    src: url("gotham/Gotham-Bold.woff") format("woff"),
+    url("gotham/Gotham-Bold.ttf") format("truetype"),
+    url("gotham/Gotham-Bold.svg") format("svg");
+    font-weight: 600;
+    font-style: normal;
+}

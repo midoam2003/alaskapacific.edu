@@ -68,6 +68,10 @@
 
 @import url(//fonts.googleapis.com/css?family=Oswald:300,400,700|Patua+One);
 
+@import url(//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic);
+
+@import url(./fonts/gotham.css);
+
 
 /* Defaults
 ------------------------------------------------------------ */
@@ -3011,6 +3015,30 @@ ol li, ul li { margin-left: 20px; }
 #apply-page .main .degrees li[data-delivery~="online"] .options .online { display: block; }
 #apply-page .main .degrees li[data-delivery~="mixed"] .options .online { display: block; }
 #apply-page .main .degrees li[data-delivery~="evenings"] .options .evening { display: block; }
+
+
+
+
+
+
+
+
+
+
+/* APU Gala Site */
+
+
+/*.page-id-38478 .entry-content .item { float: left; width: 25%; height: 300px;}*/
+
+.page-id-38478 .entry-content table { width: 100%; margin-top: 40px; }
+
+.page-id-38478 .entry-content table td { width: 24%; vertical-align: top; padding-right: 25px; padding-bottom: 30px; }
+
+.page-id-38478 .entry-content table td h2 { text-align: center; font-family: "Gotham"; font-weight: bold; text-transform: uppercase; font-size: 16px; color: #696863; line-height: 21px; margin-bottom: 12px; }
+
+.page-id-38478 .entry-content table td p { font-family: "Libre Baskerville"; }
+
+
 
 
 /** Media Queries **/
