@@ -3159,6 +3159,8 @@ ol li, ul li { margin-left: 20px; }
 
 @media only screen and (max-width: 767px) {
 
+
+
 	#inner{ margin: 40px 0 0 !important; padding: 0;}
 	
 	.ui-tabs .ui-tabs-nav li, .ui-tabs .ui-tabs-nav li a { float: none; font-size: 18px; margin-right: 0; margin-bottom: 5px;
@@ -3199,6 +3201,9 @@ ol li, ul li { margin-left: 20px; }
 .page-template-page_futurestudents-php .meet .people { width: 100%; }
 
 
+/* APU Gala Table */
+
+.page-id-38478 .entry-content table td { width: 100%; padding-right: 0px; padding-bottom: 30px; }
 
 
 }
