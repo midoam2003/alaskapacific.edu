@@ -3,7 +3,7 @@
 Plugin Name: Gravity Forms Authorize.Net Add-On
 Plugin URI: http://www.gravityforms.com
 Description: Integrates Gravity Forms with Authorize.Net, enabling end users to purchase goods and services through Gravity Forms.
-Version: 1.3.4
+Version: 1.5.4.3
 Author: rocketgenius
 Author URI: http://www.rocketgenius.com
 
@@ -39,15 +39,18 @@ class GFAuthorizeNet {
     private static $path = "gravityformsauthorizenet/authorizenet.php";
     private static $url = "http://www.gravityforms.com";
     private static $slug = "gravityformsauthorizenet";
-    private static $version = "1.3.4";
-    private static $min_gravityforms_version = "1.6.4.2.5";
+    private static $version = "1.5.4.2";
+    private static $min_gravityforms_version = "1.7";
     public static $transaction_response = "";
     private static $supported_fields = array("checkbox", "radio", "select", "text", "website", "textarea", "email", "hidden", "number", "phone", "multiselect", "post_title",
-                                    "post_tags", "post_custom_field", "post_content", "post_excerpt");
+                                             "post_tags", "post_custom_field", "post_content", "post_excerpt");
 
     //Plugin starting point. Will load appropriate files
     public static function init(){
-        self::process_renewals();
+
+        //runs the setup when version changes
+        self::setup();
+
         //supports logging
         add_filter("gform_logging_supported", array("GFAuthorizeNet", "set_logging_supported"));
 
@@ -69,8 +72,7 @@ class GFAuthorizeNet {
 
         if(is_admin()){
 
-            //runs the setup when version changes
-            self::setup();
+
 
             //loading translations
             load_plugin_textdomain('gravityformsauthorizenet', FALSE, '/gravityformsauthorizenet/languages' );
@@ -132,21 +134,635 @@ class GFAuthorizeNet {
 
             //handling post submission.
             add_filter('gform_validation',array("GFAuthorizeNet", "authorizenet_validation"), 10, 4);
-            add_action('gform_after_submission',array("GFAuthorizeNet", "authorizenet_after_submission"), 10, 2);
+            add_action('gform_entry_post_save',array("GFAuthorizeNet", "authorizenet_commit_transaction"), 10, 2);
         }
     }
 
-    public static function setup_cron(){
-       if(!wp_next_scheduled("renewal_cron"))
-           wp_schedule_event(time(), "daily", "renewal_cron");
+
+    //-------------------- VALIDATION STEP -------------------------------------------------------
+
+    public static function authorizenet_validation($validation_result){
+
+        $config = self::is_ready_for_capture($validation_result);
+        $form = $validation_result["form"];
+
+        if(!$config)
+            return $validation_result;
+
+        //getting submitted data from fields
+        $form_data = self::get_form_data($form, $config);
+        $initial_payment_amount = $form_data["amount"] + floatval(rgar($form_data,"fee_amount"));
+
+        //don't process payment if initial payment is 0, but act as if the transaction was successful
+        if($initial_payment_amount == 0){
+
+            self::log_debug("Amount is 0. No need to authorize payment, but act as if transaction was successful");
+
+            self::process_free_product($form);
+        }
+        else{
+
+            self::log_debug("Initial payment of {$initial_payment_amount}. Credit card authorization required.");
+
+            //authorizing credit card and setting self::$transaction_response variable
+            $validation_result = self::authorize_credit_card($form_data, $config, $validation_result);
+        }
+
+        return $validation_result;
     }
 
-    public static function update_feed_active(){
-        check_ajax_referer('gf_authorizenet_update_feed_active','gf_authorizenet_update_feed_active');
-        $id = $_POST["feed_id"];
-        $feed = GFAuthorizeNetData::get_feed($id);
-        GFAuthorizeNetData::update_feed($id, $feed["form_id"], $_POST["is_active"], $feed["meta"]);
+    private static function authorize_credit_card($form_data, $config, $validation_result){
+
+        //Getting transaction object
+        $transaction = self::get_initial_transaction($form_data, $config);
+        $transaction = apply_filters("gform_authorizenet_transaction_pre_authorize", $transaction, $form_data, $config, $validation_result["form"]);
+
+        self::log_debug("Authorizing credit card...");
+
+        //Doing an authorization to make sure credit card is valid
+        $auth_amount = apply_filters("gform_authorizenet_amount_pre_authorize", $form_data["amount"] + floatval($form_data["fee_amount"]), $transaction, $form_data, $config, $validation_result["form"]);
+
+        $auth_response = $transaction->authorizeOnly($auth_amount);
+
+        self::log_debug("Authorization response: ");
+        self::log_debug(print_r($auth_response, true));
+
+        //If first transaction was successful, move on to create subscription.
+        if($auth_response->approved ){
+
+            self::log_debug("Credit card approved.");
+
+            self::$transaction_response = array("auth_transaction_id" => $auth_response->transaction_id, "config" => $config, "auth_code" => $auth_response->authorization_code, "amount" => $form_data["amount"], "setup_fee" => $form_data["fee_amount"] );
+
+            //passed validation
+            $validation_result["is_valid"] = true;
+        }
+        else
+        {
+            self::log_error("Credit card authorization failed. Aborting.");
+            self::log_error(print_r($auth_response, true));
+
+            //authorization was not succesfull. failed validation
+            $validation_result = self::set_validation_result($validation_result, $_POST, $auth_response, "aim");
+        }
+
+        return $validation_result;
     }
+
+    private static function process_free_product($form){
+
+
+        //blank out credit card field if this is the last page
+        if(self::is_last_page($form)){
+            $card_field = self::get_creditcard_field($form);
+            $_POST["input_{$card_field["id"]}_1"] = "";
+        }
+
+        //creating dummy transaction response if there are any visible product fields in the form
+        if(self::has_visible_products($form)){
+            self::$transaction_response = array("auth_transaction_id" => "N/A", "amount" => 0);
+        }
+    }
+
+    private static function get_subscription($config, $form_data, $invoice_number){
+
+        $subscription = new AuthorizeNet_Subscription;
+
+        //getting trial information
+        $trial_info = self::get_trial_info($config);
+
+        $total_occurrences = $config["meta"]["recurring_times"] == "Infinite" ? "9999" : $config["meta"]["recurring_times"];
+        if($total_occurrences <> "9999")
+            $total_occurrences += $trial_info["trial_occurrences"];
+
+        //setting trial properties
+        if($trial_info["trial_enabled"]){
+            $subscription->trialOccurrences = $trial_info["trial_occurrences"];
+            $subscription->trialAmount = $trial_info["trial_amount"];
+        }
+
+        $subscription->name = $form_data["first_name"] . " " . $form_data["last_name"];
+        $subscription->intervalLength = $config["meta"]["billing_cycle_number"];
+        $subscription->intervalUnit = $config["meta"]["billing_cycle_type"] == "D" ? "days" : "months";
+        $subscription->startDate = gmdate("Y-m-d");
+        $subscription->totalOccurrences = $total_occurrences;
+        $subscription->amount = $form_data["amount"];
+        $subscription->creditCardCardNumber = self::remove_spaces_cc($form_data["card_number"]);
+        $exp_date = $form_data["expiration_date"][1] . "-" . str_pad($form_data["expiration_date"][0], 2, "0", STR_PAD_LEFT);
+        $subscription->creditCardExpirationDate = $exp_date;
+        $subscription->creditCardCardCode = $form_data["security_code"];
+        //authorize.net requires billToFirstName and billToLastName, if one isn't populated, populate it with the other
+        $billToFirstName = empty($form_data["first_name"]) ? $form_data["last_name"] : $form_data["first_name"];
+        $billToLastName = empty($form_data["last_name"]) ? $form_data["first_name"] : $form_data["last_name"];
+        $subscription->billToFirstName = $billToFirstName;
+        $subscription->billToLastName = $billToLastName;
+
+        $subscription->customerEmail = $form_data["email"];
+        $subscription->billToAddress = $form_data["address1"];
+        $subscription->billToCity = $form_data["city"];
+        $subscription->billToState = $form_data["state"];
+        $subscription->billToZip = $form_data["zip"];
+        $subscription->billToCountry = $form_data["country"];
+        $subscription->orderInvoiceNumber = $invoice_number;
+        $subscription->orderDescription = $form_data["form_title"];
+
+        return $subscription;
+    }
+
+    private static function set_validation_result($validation_result,$post,$response,$responsetype){
+
+        if($responsetype == "aim")
+        {
+            $code = $response->response_reason_code;
+            switch($code){
+                case "2" :
+                case "3" :
+                case "4" :
+                case "41" :
+                    $message = __("This credit card has been declined by your bank. Please use another form of payment.", "gravityformsauthorizenet");
+                break;
+
+                case "8" :
+                    $message = __("The credit card has expired.", "gravityformsauthorizenet");
+                break;
+
+                case "17" :
+                case "28" :
+                    $message = __("The merchant does not accept this type of credit card.", "gravityformsauthorizenet");
+                break;
+
+                case "7" :
+                case "44" :
+                case "45" :
+                case "65" :
+                case "78" :
+                case "6" :
+                case "37" :
+                case "27" :
+                case "78" :
+                case "45" :
+                case "200" :
+                case "201" :
+                case "202" :
+                    $message = __("There was an error processing your credit card. Please verify the information and try again.", "gravityformsauthorizenet");
+                break;
+
+                default :
+                    $message = __("There was an error processing your credit card. Please verify the information and try again.", "gravityformsauthorizenet");
+
+            }
+        }
+        else
+        {
+            $code = $response->getMessageCode();
+            switch($code)
+            {
+                case "E00012" :
+                    $message = __("A duplicate subscription already exists.", "gravityformsauthorizenet");
+                break;
+                case "E00018" :
+                    $message = __("The credit card expires before the subscription start date. Please use another form of payment.", "gravityformsauthorizenet");
+                break;
+                default :
+                    $message = __("There was an error processing your credit card. Please verify the information and try again.", "gravityformsauthorizenet");
+            }
+        }
+
+        $message = "<!-- Error: " . $code . " -->" . $message;
+
+        $credit_card_page = 0;
+        foreach($validation_result["form"]["fields"] as &$field)
+        {
+            if($field["type"] == "creditcard")
+            {
+                $field["failed_validation"] = true;
+                $field["validation_message"] = $message;
+                $credit_card_page = $field["pageNumber"];
+                break;
+             }
+
+        }
+        $validation_result["is_valid"] = false;
+
+        GFFormDisplay::set_current_page($validation_result["form"]["id"], $credit_card_page);
+
+        return $validation_result;
+    }
+
+
+    //-------------------- SUBMISSION STEP -------------------------------------------------------
+
+    public static function authorizenet_commit_transaction($entry, $form){
+
+        if(empty(self::$transaction_response))
+            return $entry;
+
+        $config = self::$transaction_response["config"];
+
+        //Creating entry meta
+        gform_update_meta($entry["id"], "payment_gateway", "authorize.net");
+        gform_update_meta($entry["id"], "authorize.net_feed_id", $config["id"]);
+
+        gform_update_meta($entry["id"], "authorize.net_auth_code", self::$transaction_response["auth_code"]);
+
+        //Capturing payment
+        if($config["meta"]["type"] == "product"){
+
+            $result = self::capture_product_payment($config, $entry, $form);
+        }
+        else{
+
+            $result = self::create_subscription($config, $entry, $form);
+        }
+
+        //Updates entry, creates transaction and entry notes
+        $entry = self::update_entry($result, $entry, $config);
+
+        return $entry;
+    }
+
+    private static function capture_product_payment($config, $entry, $form){
+
+        self::log_debug("Capturing funds. Authorization transaction ID: " . self::$transaction_response["auth_transaction_id"] . " - Authorization code: " . self::$transaction_response["auth_code"]);
+
+        //Getting transaction
+        $form_data = self::get_form_data($form, $config);
+        $transaction = self::get_initial_transaction($form_data, $config, $entry["id"]);
+
+        $transaction = apply_filters("gform_authorizenet_transaction_pre_capture", $transaction, $form_data, $config, $form);
+
+        //Check if transaction is false after gform_authorizenet_transaction_pre_capture filter. If false, payment is not captured.
+        if(!$transaction)
+        {
+            self::log_debug("Funds not captured. Transaction was false after gform_authorizenet_transaction_pre_capture filer.");
+            $result = array("is_success" => true, "error_code" => "", "error_message" => "");
+            return $result;
+        }
+        
+        //deprecated
+        $transaction = apply_filters("gform_authorizenet_before_single_payment", $transaction, $form_data, $config, $form);
+
+        $save_entry_id = apply_filters("gform_authorizenet_save_entry_id", false, $form["id"]);
+
+        if($save_entry_id){
+
+            self::log_debug("Creating a new capture only transaction that will save the entry id as the invoice number.");
+
+            //Capturing payment. Must do a captureOnly to save the entry ID. This will create a new capture transaction and leave behind the prior authorization transaction (that will then be voided)
+            $response = $transaction->captureOnly(self::$transaction_response["auth_code"]);
+
+            self::void_authorization_transaction($config);
+            //Voiding authorization transaction
+            $void_response = $transaction->void(self::$transaction_response["auth_transaction_id"]);
+
+            self::log_debug("Voiding authorization transaction - Transaction ID: " . self::$transaction_response["auth_transaction_id"] ." - Result: " . print_r($void_response, true));
+
+        }
+        else{
+
+            self::log_debug("Capturing funds using prior authorization transaction. Authorization transaction ID: " . self::$transaction_response["auth_transaction_id"] . " - Authorization code: " . self::$transaction_response["auth_code"]);
+
+            $response = $transaction->priorAuthCapture(self::$transaction_response["auth_transaction_id"]);
+        }
+
+        if($response->approved)
+        {
+            //Saving transaction ID
+            self::$transaction_response["transaction_id"] = $response->transaction_id;
+
+            self::log_debug("Funds captured successfully. Transaction Id: {$response->transaction_id}");
+            $result = array("is_success" => true, "error_code" => "", "error_message" => "");
+        }
+        else{
+            self::log_error("Funds could not be captured. Response: ");
+            self::log_error(print_r($response, true));
+
+            $result = array("is_success" => false, "error_code" => $response->response_reason_code, "error_message" => $response->response_reason_text);
+        }
+
+        do_action("gform_authorizenet_post_capture", $result["is_success"], $form_data["amount"], $entry, $form, $config, $response);
+
+        return $result;
+    }
+
+    private static function create_subscription($config, $entry, $form){
+
+        //Capture setup fee payment if needed
+        $form_data = self::get_form_data($form, $config);
+        $fee_amount = self::$transaction_response["setup_fee"];
+
+        $setup_fee_result = true;
+        if(!empty($fee_amount) && $fee_amount > 0){
+
+                //Getting transaction
+                $transaction = self::get_initial_transaction($form_data, $config, $entry["id"]);
+                $transaction = apply_filters("gform_authorizenet_transaction_pre_capture_setup_fee", $transaction, $form_data, $config, $form);
+                //Capturing setup fee payment
+                $response = $transaction->captureOnly(self::$transaction_response["auth_code"],$fee_amount);
+
+                $setup_fee_result = $response->approved;
+        }
+
+        if($setup_fee_result)
+        {
+            //Create subscription.
+            $subscription = self::get_subscription($config, $form_data, $entry["id"]);
+
+            $subscription = apply_filters("gform_authorizenet_subscription_pre_create", $subscription, $form_data, $config, $form);
+
+            //deprecated
+            $subscription = apply_filters("gform_authorizenet_before_start_subscription", $subscription, $form_data, $config, $form);
+
+            self::log_debug("Sending create subscription request.");
+
+            //Send subscription request.
+            $request = self::get_arb(self::get_local_api_settings($config));
+            $arb_response = $request->createSubscription($subscription);
+
+            self::log_debug(print_r($arb_response, true));
+
+            if($arb_response->isOk())
+            {
+                //Getting subscription ID
+                $subscription_id = $arb_response->getSubscriptionId();
+                self::log_debug("Subscription created successfully. Subscription Id: {$subscription_id}");
+
+                self::$transaction_response["transaction_id"] = $subscription_id;
+
+                //Creating meta
+                gform_update_meta($entry["id"], "subscription_payment_date", gmdate("Y-m-d H:i:s"));
+                gform_update_meta($entry["id"], "subscription_payment_count", "1");
+                gform_update_meta($entry["id"], "subscription_regular_amount", $subscription->amount);
+                gform_update_meta($entry["id"], "subscription_trial_amount", $subscription->trialAmount);
+
+                $result = array("is_success" => true, "error_code" => "", "error_message" => "", "subscription_id" => $subscription_id);
+
+                do_action("gform_authorizenet_post_create_subscription", $result["is_success"], $subscription, $arb_response, $entry, $form, $config);
+
+                //Deprecated. Use gform_authorizenet_post_create_subscription instead
+                do_action("gform_authorizenet_after_subscription_created", $subscription_id, $subscription->amount, $fee_amount);
+            }
+            else{
+
+                $void_text = "";
+
+                if(!empty($fee_amount) && $fee_amount > 0){
+
+                    //Void setup fee transaction
+                    $transaction = self::get_initial_transaction($form_data, $config, $entry["id"]);
+
+                    $void_response = $transaction->void($response->transaction_id);
+                    if($void_response->approved)
+                        $void_text = " Initial setup fee transaction has been voided.";
+                }
+
+                self::log_debug("There was an error creating Subscription." . $void_text );
+                $result = array("is_success" => false, "error_code" => $arb_response->getMessageCode(), "error_message" => $arb_response->getMessageText());
+
+            }
+
+
+        }
+        else{
+
+            self::log_debug("There was an error capturing the Setup Fee. Subscription was not created.");
+            $result = array("is_success" => false, "error_code" => $response->response_reason_code, "error_message" => $response->response_reason_text);
+
+        }
+
+        self::void_authorization_transaction($config);
+
+        return $result;
+    }
+
+    private static function void_authorization_transaction($config){
+
+        $transaction = self::get_aim(self::get_local_api_settings($config));
+
+        //Voiding authorization transaction
+        $void_response = $transaction->void(self::$transaction_response["auth_transaction_id"]);
+
+        self::log_debug("Voiding authorization transaction - Transaction ID: " . self::$transaction_response["auth_transaction_id"] ." - Result: " . print_r($void_response, true));
+
+    }
+
+    private static function update_entry($result, $entry, $config){
+
+        $entry["transaction_id"] = self::$transaction_response["auth_transaction_id"];
+        $entry["transaction_type"] = $config["meta"]["type"] == "product" ? "1" : "2";
+        $entry["is_fulfilled"] = true;
+        $entry["currency"] = GFCommon::get_currency();
+
+        if($result["is_success"]){
+
+            $entry["payment_amount"] = self::$transaction_response["amount"];
+            $entry["payment_status"] = $config["meta"]["type"] == "product" ? "Approved" : "Active";
+            $entry["payment_date"] = gmdate("Y-m-d H:i:s");
+
+            if($config["meta"]["type"] == "product"){
+                GFAuthorizeNetData::insert_transaction($entry["id"], "payment", $entry["transaction_id"], $entry["transaction_id"], $entry["payment_amount"]);
+            }
+            else{
+
+                $entry["transaction_id"] = $result["subscription_id"];
+                GFFormsModel::add_note($entry["id"], 0, "System", __("Subscription has been successfully created. Subscription Id: {$entry["transaction_id"]}", "gravityformsauthorizenet"));
+
+                //Add note for setup fee payment if completed
+                $fee_amount = self::$transaction_response["setup_fee"];
+                if(!empty($fee_amount) && $fee_amount > 0){
+                    RGFormsModel::add_note($entry["id"], 0, "System", sprintf(__("Setup fee payment has been made. Amount: %s. Subscription Id: %s", "gravityforms"), GFCommon::to_money($fee_amount, $entry["currency"]),self::$transaction_response["transaction_id"]));
+                    GFAuthorizeNetData::insert_transaction($entry["id"], "payment", self::$transaction_response["transaction_id"], $entry["transaction_id"], $fee_amount);
+                }
+
+            }
+        }
+        else{
+            $entry["payment_status"] = "Failed";
+            $message = $config["meta"]["type"] == "product" ? sprintf(  __("Transaction failed to be captured. Reason: %s", "gravityformsauthorizenet") , $result["error_message"] ) . " (" . $result["error_code"] . ")" : sprintf( __("Subscription failed to be created. Reason: %s", "gravityformsauthorizenet") , $result["error_message"]) . "(" . $result["error_code"] . ")";
+            GFFormsModel::add_note($entry["id"], 0, "System", $message);
+        }
+
+        RGFormsModel::update_lead($entry);
+
+        return $entry;
+    }
+
+    private static function get_initial_transaction($form_data, $config, $invoice_number=""){
+
+        // processing products and services single transaction and first payment of subscription transaction
+        $transaction = self::get_aim(self::get_local_api_settings($config));
+
+        $transaction->amount = $form_data["amount"];
+        $transaction->card_num = self::remove_spaces_cc($form_data["card_number"]);
+        $exp_date = str_pad($form_data["expiration_date"][0], 2, "0", STR_PAD_LEFT) . "-" . $form_data["expiration_date"][1];
+        $transaction->exp_date = $exp_date;
+        $transaction->card_code = $form_data["security_code"];
+        $transaction->first_name = $form_data["first_name"];
+        $transaction->last_name = $form_data["last_name"];
+        $transaction->address = trim($form_data["address1"] . " " . $form_data["address2"]);
+        $transaction->city = $form_data["city"];
+        $transaction->state = $form_data["state"];
+        $transaction->zip = $form_data["zip"];
+        $transaction->country = $form_data["country"];
+        $transaction->email = $form_data["email"];
+        $transaction->description = $form_data["form_title"];
+        $transaction->email_customer = $config["meta"]["enable_receipt"] == 1 ? "true" : "false";
+        $transaction->duplicate_window = 5;
+        $transaction->invoice_num = empty($invoice_number) ? uniqid() : $invoice_number;
+
+        foreach($form_data["line_items"] as $line_item)
+            $transaction->addLineItem($line_item["item_id"], self::remove_spaces(self::truncate($line_item["item_name"], 31)) , self::truncate($line_item["item_description"], 255), $line_item["item_quantity"], GFCommon::to_number($line_item["item_unit_price"]), $line_item["item_taxable"]);
+        return $transaction;
+    }
+
+
+    //-------------------- CRON -------------------------------------------------------
+
+    public static function setup_cron(){
+       if(!wp_next_scheduled("renewal_cron"))
+           wp_schedule_event(time(), "hourly", "renewal_cron");
+    }
+
+    public static function process_renewals(){
+
+        if(!self::is_gravityforms_supported())
+            return;
+
+        // getting user information
+        $user_id = 0;
+        $user_name = "System";
+
+        //loading data lib
+        require_once(self::get_base_path() . "/data.php");
+
+        // loading authorizenet api and getting credentials
+        self::include_api();
+
+        // getting all authorize.net subscription feeds
+        $recurring_feeds = GFAuthorizeNetData::get_feeds();
+        foreach($recurring_feeds as $feed){
+
+            // process renewalls if authorize.net feed is subscription feed
+            if($feed["meta"]["type"] == "subscription")
+            {
+                $form_id = $feed["form_id"];
+
+                // getting billig cycle information
+                $billing_cycle_number = $feed["meta"]["billing_cycle_number"];
+                $billing_cycle_type = $feed["meta"]["billing_cycle_type"];
+
+                if($billing_cycle_type == "M")
+                    $billing_cycle = $billing_cycle_number . " month";
+                else
+                    $billing_cycle = $billing_cycle_number . " day";
+
+                $querytime = strtotime(gmdate("Y-m-d") . "-" . $billing_cycle);
+                $querydate = gmdate("Y-m-d", $querytime) . " 00:00:00";
+
+                // finding leads with a late payment date
+                global $wpdb;
+                $results = $wpdb->get_results("SELECT l.id, l.transaction_id, m.meta_value as payment_date
+                                                FROM {$wpdb->prefix}rg_lead l
+                                                INNER JOIN {$wpdb->prefix}rg_lead_meta m ON l.id = m.lead_id
+                                                WHERE l.form_id={$form_id}
+                                                AND payment_status = 'Active'
+                                                AND meta_key = 'subscription_payment_date'
+                                                AND meta_value < '{$querydate}'");
+
+                foreach($results as $result)
+                {
+                    //Getting entry
+                    $entry_id = $result->id;
+                    $entry = RGFormsModel::get_lead($entry_id);
+
+                    //Getting subscription status from authorize.net
+                    $subscription_id = $result->transaction_id;
+                    $status_request = self::get_arb(self::get_local_api_settings($feed));
+                    $status_response = $status_request->getSubscriptionStatus($subscription_id);
+                    $status = $status_response->getSubscriptionStatus();
+
+                    switch(strtolower($status)){
+                        case "active" :
+                            // getting feed trial information
+                            $trial_period_enabled = $feed["meta"]["trial_period_enabled"];
+                            $trial_period_occurrences = $feed["meta"]["trial_period_number"];
+
+                            // finding payment date
+                            $new_payment_time =  strtotime($result->payment_date . "+" . $billing_cycle);
+                            $new_payment_date = gmdate( 'Y-m-d H:i:s' , $new_payment_time );
+
+                            // finding payment amount
+                            $payment_count = gform_get_meta($entry_id, "subscription_payment_count");
+                            $new_payment_amount = gform_get_meta($entry_id, "subscription_regular_amount");
+                            if($trial_period_enabled == 1 && $trial_period_occurrences >= $payment_count){
+                                $new_payment_amount = gform_get_meta($entry_id, "subscription_trial_amount");
+                            }
+
+                            // update subscription payment and lead information
+                            gform_update_meta($entry_id, "subscription_payment_count", $payment_count + 1);
+                            gform_update_meta($entry_id, "subscription_payment_date",$new_payment_date);
+                            RGFormsModel::add_note($entry_id, $user_id, $user_name, sprintf(__("Subscription payment has been made. Amount: %s. Subscriber Id: %s", "gravityforms"), GFCommon::to_money($new_payment_amount, $entry["currency"]),$subscription_id));
+
+                            // inserting transaction
+                            GFAuthorizeNetData::insert_transaction($entry_id, "payment", $subscription_id, $subscription_id, $new_payment_amount);
+
+                            do_action("gform_authorizenet_post_recurring_payment", $subscription_id, $entry, $new_payment_amount, $payment_count);
+
+                            //deprecated
+                            do_action("gform_authorizenet_after_recurring_payment", $entry, $subscription_id, $subscription_id, $new_payment_amount);
+                         break;
+
+                         case "expired" :
+                               $entry["payment_status"] = "Expired";
+                               RGFormsModel::update_lead($entry);
+                               RGFormsModel::add_note($entry["id"], $user_id, $user_name, sprintf(__("Subscription has successfully completed its billing schedule. Subscriber Id: %s", "gravityformsauthorizenet"), $subscription_id));
+
+                               do_action("gform_authorizenet_post_expire_subscription", $subscription_id, $entry);
+
+                               //deprecated
+                               do_action("gform_authorizenet_subscription_ended", $entry, $subscription_id, $transaction_id, $new_payment_amount);
+                         break;
+
+                         case "suspended":
+                               $entry["payment_status"] = "Failed";
+                               RGFormsModel::update_lead($entry);
+                               RGFormsModel::add_note($entry["id"], $user_id, $user_name, sprintf(__("Subscription is currently suspended due to a transaction decline, rejection, or error. Suspended subscriptions must be reactivated before the next scheduled transaction or the subscription will be terminated by the payment gateway. Subscriber Id: %s", "gravityforms"), $subscription_id));
+
+                               do_action("gform_authorizenet_post_suspend_subscription", $subscription_id, $entry);
+
+                               //deprecated
+                               do_action("gform_authorizenet_subscription_suspended", $entry, $subscription_id, $transaction_id, $new_payment_amount);
+                         break;
+
+                         case "terminated":
+                         case "canceled":
+                              self::cancel_subscription($entry);
+                              RGFormsModel::add_note($entry_id, $user_id, $user_name, sprintf(__("Subscription has been canceled. Subscriber Id: %s", "gravityforms"), $subscription_id));
+
+                              do_action("gform_authorizenet_post_cancel_subscription", $subscription_id, $entry);
+
+                              //deprecated
+                              do_action("gform_authorizenet_subscription_canceled", $entry, $subscription_id, $transaction_id, $new_payment_amount);
+                         break;
+
+                         default:
+                              $entry["payment_status"] = "Failed";
+                              RGFormsModel::update_lead($entry);
+                              RGFormsModel::add_note($entry["id"], $user_id, $user_name, sprintf(__("Subscription is currently suspended due to a transaction decline, rejection, or error. Suspended subscriptions must be reactivated before the next scheduled transaction or the subscription will be terminated by the payment gateway. Subscriber Id: %s", "gravityforms"), $subscription_id));
+
+                              do_action("gform_authorizenet_post_suspend_subscription", $subscription_id, $entry);
+
+                              //deprecated
+                              do_action("gform_authorizenet_subscription_suspended", $entry, $subscription_id, $transaction_id, $new_payment_amount);
+                         break;
+                    }
+                }
+
+            }
+        }
+
+    }
+
 
     //-------------- Automatic upgrade ---------------------------------------
     public static function flush_version_info(){
@@ -199,6 +815,14 @@ class GFAuthorizeNet {
     }
 
     //------------------------------------------------------------------------
+
+
+    public static function update_feed_active(){
+        check_ajax_referer('gf_authorizenet_update_feed_active','gf_authorizenet_update_feed_active');
+        $id = $_POST["feed_id"];
+        $feed = GFAuthorizeNetData::get_feed($id);
+        GFAuthorizeNetData::update_feed($id, $feed["form_id"], $_POST["is_active"], $feed["meta"]);
+    }
 
     //Creates AuthorizeNet left nav menu under Forms
     public static function create_menu($menus){
@@ -411,7 +1035,7 @@ class GFAuthorizeNet {
                     jQuery(img).attr('title','<?php _e("Active", "gravityformsauthorizenet") ?>').attr('alt', '<?php _e("Active", "gravityformsauthorizenet") ?>');
                 }
 
-                var mysack = new sack("<?php echo admin_url("admin-ajax.php")?>" );
+                var mysack = new sack(ajaxurl);
                 mysack.execute = 1;
                 mysack.method = 'POST';
                 mysack.setVar( "action", "gf_authorizenet_update_feed_active" );
@@ -612,21 +1236,9 @@ class GFAuthorizeNet {
         return array("login_id" => $login_id, "transaction_key" => $transaction_key, "mode" => $mode);
     }
 
-
     private static function include_api(){
         if(!class_exists('AuthorizeNetRequest'))
             require_once self::get_base_path() . "/api/AuthorizeNet.php";
-    }
-
-    private static function get_product_field_options($productFields, $selectedValue){
-        $options = "<option value=''>" . __("Select a product", "gravityformsauthorizenet") . "</option>";
-        foreach($productFields as $field){
-            $label = GFCommon::truncate_middle($field["label"], 30);
-            $selected = $selectedValue == $field["id"] ? "selected='selected'" : "";
-            $options .= "<option value='{$field["id"]}' {$selected}>{$label}</option>";
-        }
-
-        return $options;
     }
 
     private static function stats_page(){
@@ -657,9 +1269,9 @@ class GFAuthorizeNet {
 
             <form method="post" action="">
                 <ul class="subsubsub">
-                    <li><a class="<?php echo (!RGForms::get("tab") || RGForms::get("tab") == "daily") ? "current" : "" ?>" href="?page=gf_authorizenet&view=stats&id=<?php echo $_GET["id"] ?>"><?php _e("Daily", "gravityforms"); ?></a> | </li>
-                    <li><a class="<?php echo RGForms::get("tab") == "weekly" ? "current" : ""?>" href="?page=gf_authorizenet&view=stats&id=<?php echo $_GET["id"] ?>&tab=weekly"><?php _e("Weekly", "gravityforms"); ?></a> | </li>
-                    <li><a class="<?php echo RGForms::get("tab") == "monthly" ? "current" : ""?>" href="?page=gf_authorizenet&view=stats&id=<?php echo $_GET["id"] ?>&tab=monthly"><?php _e("Monthly", "gravityforms"); ?></a></li>
+                    <li><a class="<?php echo (!RGForms::get("tab") || RGForms::get("tab") == "daily") ? "current" : "" ?>" href="?page=gf_authorizenet&view=stats&id=<?php echo absint($_GET["id"]) ?>"><?php _e("Daily", "gravityforms"); ?></a> | </li>
+                    <li><a class="<?php echo RGForms::get("tab") == "weekly" ? "current" : ""?>" href="?page=gf_authorizenet&view=stats&id=<?php echo absint($_GET["id"]) ?>&tab=weekly"><?php _e("Weekly", "gravityforms"); ?></a> | </li>
+                    <li><a class="<?php echo RGForms::get("tab") == "monthly" ? "current" : ""?>" href="?page=gf_authorizenet&view=stats&id=<?php echo absint($_GET["id"]) ?>&tab=monthly"><?php _e("Monthly", "gravityforms"); ?></a></li>
                 </ul>
                 <?php
                 $config = GFAuthorizeNetData::get_feed(RGForms::get("id"));
@@ -1099,7 +1711,7 @@ class GFAuthorizeNet {
         //getting setting id (0 when creating a new one)
         $id = !empty($_POST["authorizenet_setting_id"]) ? $_POST["authorizenet_setting_id"] : absint($_GET["id"]);
         $config = empty($id) ? array("meta" => array(), "is_active" => true) : GFAuthorizeNetData::get_feed($id);
-        $is_validation_error = false;
+        $setup_fee_field_conflict = false; //initialize variable
 
         //updating meta information
         if(rgpost("gf_authorizenet_submit")){
@@ -1160,16 +1772,16 @@ class GFAuthorizeNet {
 
             $config = apply_filters('gform_authorizenet_save_config', $config);
 
-            $is_validation_error = apply_filters("gform_authorizenet_config_validation", false, $config);
+            $setup_fee_field_conflict = $has_setup_fee && $config["meta"]["recurring_amount_field"] == $config["meta"]["setup_fee_amount_field"];
 
-            if(!$is_validation_error){
+            if(!$setup_fee_field_conflict){
                 $id = GFAuthorizeNetData::update_feed($id, $config["form_id"], $config["is_active"], $config["meta"]);
                 ?>
                 <div class="updated fade" style="padding:6px"><?php echo sprintf(__("Feed Updated. %sback to list%s", "gravityformsauthorizenet"), "<a href='?page=gf_authorizenet'>", "</a>") ?></div>
                 <?php
             }
             else{
-                $is_validation_error = true;
+                $setup_fee_field_conflict = true;
             }
         }
 
@@ -1179,11 +1791,12 @@ class GFAuthorizeNet {
         <form method="post" action="">
             <input type="hidden" name="authorizenet_setting_id" value="<?php echo $id ?>" />
 
-            <div class="margin_vertical_10 <?php echo $is_validation_error ? "authorizenet_validation_error" : "" ?>">
+            <div style="padding: 15px; margin:15px 0px" class="<?php echo $setup_fee_field_conflict ? "error" : "" ?>">
                 <?php
-                if($is_validation_error){
+                if($setup_fee_field_conflict){
                     ?>
-                    <span><?php _e('There was an issue saving your feed. Please address the errors below and try again.'); ?></span>
+                    <span><?php _e('There was an issue saving your feed.', 'gravityformsauthorizenet'); ?></span>
+                    <span><?php _e('Recurring Amount and Setup Fee must be assigned to different fields.', 'gravityformsauthorizenet'); ?></span>
                     <?php
                 }
                 ?>
@@ -1418,13 +2031,13 @@ class GFAuthorizeNet {
                     <div class="margin_vertical_10">
                         <label class="left_header" for="gf_authorizenet_api_login"><?php _e("API Login ID", "gravityformsauthorizenet"); ?> <?php gform_tooltip("authorizenet_api_login") ?></label>
                         <input class="size-1" id="gf_authorizenet_api_login" name="gf_authorizenet_api_login" value="<?php echo rgar($config["meta"],"api_login") ?>" />
-                        <img src="<?php echo self::get_base_url() ?>/images/<?php echo $config["meta"]["api_valid"] ? "tick.png" : "stop.png" ?>" border="0" alt="<?php echo $config["meta"]["api_message"]  ?>" title="<?php echo $config["meta"]["api_message"] ?>" style="display:<?php echo empty($config["meta"]["api_message"]) ? 'none;' : 'inline;' ?>" />
+                        <img src="<?php echo self::get_base_url() ?>/images/<?php echo rgar($config["meta"], "api_valid") ? "tick.png" : "stop.png" ?>" border="0" alt="<?php echo rgar($config["meta"], "api_message")  ?>" title="<?php echo rgar($config["meta"], "api_message") ?>" style="display:<?php echo empty($config["meta"]["api_message"]) ? 'none;' : 'inline;' ?>" />
                     </div>
 
                     <div class="margin_vertical_10">
                         <label class="left_header" for="gf_authorizenet_api_key"><?php _e("Transaction Key", "gravityformsauthorizenet"); ?> <?php gform_tooltip("paypalpro_api_key") ?></label>
                         <input class="size-1" id="gf_authorizenet_api_key" name="gf_authorizenet_api_key" value="<?php echo rgar($config["meta"],"api_key") ?>" />
-                        <img src="<?php echo self::get_base_url() ?>/images/<?php echo $config["meta"]["api_valid"] ? "tick.png" : "stop.png" ?>" border="0" alt="<?php echo $config["meta"]["api_message"] ?>" title="<?php echo $config["meta"]["api_message"] ?>" style="display:<?php echo empty($config["meta"]["api_message"]) ? 'none;' : 'inline;' ?>" />
+                        <img src="<?php echo self::get_base_url() ?>/images/<?php echo rgar($config["meta"], "api_valid") ? "tick.png" : "stop.png" ?>" border="0" alt="<?php echo rgar($config["meta"], "api_message") ?>" title="<?php echo rgar($config["meta"], "api_message") ?>" style="display:<?php echo empty($config["meta"]["api_message"]) ? 'none;' : 'inline;' ?>" />
                     </div>
 
                 </div>
@@ -1486,7 +2099,7 @@ class GFAuthorizeNet {
                 jQuery("#authorizenet_wait").show();
                 jQuery("#authorizenet_field_group").slideUp();
 
-                var mysack = new sack("<?php bloginfo( 'wpurl' ); ?>/wp-admin/admin-ajax.php" );
+                var mysack = new sack(ajaxurl);
                 mysack.execute = 1;
                 mysack.method = 'POST';
                 mysack.setVar( "action", "gf_select_authorizenet_form" );
@@ -1705,12 +2318,16 @@ class GFAuthorizeNet {
 
         //fields meta
         $form = RGFormsModel::get_form_meta($form_id);
+        $form_json = GFCommon::json_encode($form);
 
         $customer_fields = self::get_customer_information($form);
+        $customer_fields_json = json_encode($customer_fields);
         $recurring_amount_fields = self::get_product_options($form, "",true);
+        $recurring_amount_fields_json =  json_encode($recurring_amount_fields);
         $product_fields = self::get_product_options($form, "",false);
+        $product_fields_json = json_encode($product_fields);
 
-        die("EndSelectForm(" . GFCommon::json_encode($form) . ", '" . str_replace("'", "\'", $customer_fields) . "', '" . str_replace("'", "\'", $recurring_amount_fields) . "', '" . str_replace("'", "\'", $product_fields) . "');");
+        die("EndSelectForm(" . $form_json . ", " . $customer_fields_json . ", " . $recurring_amount_fields_json . ", " . $product_fields_json . ");");
     }
 
     public static function add_permissions(){
@@ -1810,33 +2427,13 @@ class GFAuthorizeNet {
         return array("trial_enabled" => $trial_enabled, "trial_amount" => $trial_amount, "trial_occurrences" => $trial_occurrences);
     }
 
-    private static function get_local_api_settings($config)
-    {
+    private static function get_local_api_settings($config){
         if(rgar($config["meta"],"api_settings_enabled") == 1)
             $local_api_settings = array("mode" => $config["meta"]["api_mode"], "login" => $config["meta"]["api_login"], "key" =>  $config["meta"]["api_key"]);
         else
             $local_api_settings = array();
 
         return $local_api_settings;
-    }
-
-    public static function authorizenet_validation($validation_result){
-
-        $config = self::is_ready_for_capture($validation_result);
-        if(!$config)
-            return $validation_result;
-
-        if($config["meta"]["type"] == "product"){
-            //making one time payment
-            $validation_result = self::make_product_payment($config, $validation_result);
-            return $validation_result;
-        }
-        else
-        {
-            // creating subscription
-            $validation_result = self::start_subscription($config, $validation_result);
-            return $validation_result;
-        }
     }
 
     private static function has_visible_products($form){
@@ -1848,175 +2445,14 @@ class GFAuthorizeNet {
         return false;
     }
 
-    private static function make_product_payment($config, $validation_result){
-
-        $form = $validation_result["form"];
-
-        self::log_debug("Starting to make a product payment for form: {$form["id"]}");
-
-        $form_data = self::get_form_data($form, $config);
-        $transaction = self::get_initial_transaction($form_data, $config);
-
-        //don't process payment if total is 0, but act as if the transaction was successful
-        if($form_data["amount"] == 0){
-            self::log_debug("Amount is 0. No need to process payment, but act as if transaction was successful");
-
-            //blank out credit card field if this is the last page
-            if(self::is_last_page($form)){
-                $card_field = self::get_creditcard_field($form);
-                $_POST["input_{$card_field["id"]}_1"] = "";
-            }
-
-            //creating dummy transaction response if there are any visible product fields in the form
-            if(self::has_visible_products($form)){
-                self::$transaction_response = array("transaction_id" => "N/A", "amount" => 0, "transaction_type" => 1);
-            }
-
-            return $validation_result;
-        }
-
-        self::log_debug("Sending an authorizeAndCapture() transaction.");
-
-        $transaction = apply_filters("gform_authorizenet_before_single_payment", $transaction, $form_data, $config, $form);
-
-        //capture funds
-        $response = $transaction->authorizeAndCapture();
-
-        self::log_debug(print_r($response, true));
-
-        if($response->approved )
-        {
-            self::log_debug("Transaction approved. ID: {$response->transaction_id} - Amount: {$response->amount}");
-
-            self::$transaction_response = array("transaction_id" => $response->transaction_id, "amount" => $response->amount, "transaction_type" => 1, "invoice_number" => $response->invoice_number);
-
-            $validation_result["is_valid"] = true;
-            return $validation_result;
-        }
-        else
-        {
-            self::log_error("Transaction failed");
-            self::log_error(print_r($response, true));
-
-            // Payment for single transaction was not successful
-            return self::set_validation_result($validation_result, $_POST, $response, "aim");
-        }
-    }
-
-    private static function start_subscription($config, $validation_result){
-
-        $form = $validation_result["form"];
-
-        self::log_debug("Starting subscription for form: {$form["id"]}");
-
-        $form_data = self::get_form_data($form, $config);
-        $invoice_number = uniqid();
-        $transaction = self::get_initial_transaction($form_data, $config, $invoice_number);
-
-        $initial_transaction_amount = $form_data["amount"] + $form_data["fee_amount"];
-        $regular_amount = $form_data["amount"];
-
-        //getting trial information
-        $trial_info = self::get_trial_info($config);
-
-        if($trial_info["trial_enabled"] && $trial_info["trial_amount"] == 0)
-        {
-            self::log_debug("Free trial. Authorizing credit card");
-
-            //Free trial. Just authorize the credit card to make sure the information is correct
-            $aim_response = $transaction->authorizeOnly();
-        }
-        else if($trial_info["trial_enabled"]){
-
-            self::log_debug("Paid trial. Capturing trial amount");
-
-            //Paid trial. Capture trial amount
-            $transaction->amount = $trial_info["trial_amount"];
-            $transaction = apply_filters("gform_authorizenet_before_trial_payment", $transaction, $form_data, $config, $form);
-
-            $aim_response = $transaction->authorizeAndCapture();
-        }
-        else{
-
-            self::log_debug("No trial. Capturing payment for first cycle");
-
-            //No trial. Capture payment for first cycle
-            $aim_response = $transaction->authorizeAndCapture();
-        }
-
-        self::log_debug(print_r($aim_response, true));
-
-        //If first transaction was successful, move on to create subscription.
-        if($aim_response->approved ){
-
-            //Create subscription.
-            $subscription = self::get_subscription($config, $form_data, $trial_info, $invoice_number);
-
-            //Send subscription request.
-            $request = self::get_arb(self::get_local_api_settings($config));
-
-            self::log_debug("Sending create subscription request");
-
-            $subscription = apply_filters("gform_authorizenet_before_start_subscription", $subscription, $form_data, $config, $form);
-
-            $arb_response = $request->createSubscription($subscription);
-
-            self::log_debug(print_r($arb_response, true));
-
-            if($arb_response->isOk())
-            {
-                self::log_debug("Subscription created successfully");
-
-                $subscription_id = $arb_response->getSubscriptionId();
-
-                do_action("gform_authorizenet_after_subscription_created", $subscription_id, $regular_amount, $initial_transaction_amount);
-
-                self::$transaction_response = array("transaction_id" => $subscription_id, "amount" => $initial_transaction_amount, "transaction_type" => 2, "regular_amount" => $regular_amount, "invoice_number" => $invoice_number );
-                if($trial_info["trial_enabled"])
-                    self::$transaction_response["trial_amount"] = $trial_info["trial_amount"];
-                if($form_data["fee_amount"] > 0)
-                    self::$transaction_response["fee_amount"] = $form_data["fee_amount"];
-
-                $validation_result["is_valid"] = true;
-                return $validation_result;
-            }
-            else
-            {
-
-                $void = self::get_aim(self::get_local_api_settings($config));
-                $void->setFields(
-                    array(
-                    'amount' => $form_data["amount"],
-                    'card_num' => $form_data["card_number"],
-                    'trans_id' => $aim_response->transaction_id,
-                    )
-                );
-
-                self::log_error("Subscription failed. Voiding first payment.");
-                self::log_error(print_r($arb_response, true));
-
-                $void_response = $void->Void();
-
-                self::log_debug(print_r($void_response, true));
-
-                return self::set_validation_result($validation_result, $_POST, $arb_response, "arb");
-            }
-        }
-        else
-        {
-            self::log_error("Initial payment failed. Aborting subscription.");
-            self::log_error(print_r($aim_response, true));
-
-            // First payment was not succesfull, subscription was not created, need to display error message
-            return self::set_validation_result($validation_result, $_POST, $aim_response, "aim");
-        }
-    }
-
     private static function get_form_data($form, $config){
 
         // get products
         $tmp_lead = RGFormsModel::create_lead($form);
         $products = GFCommon::get_product_fields($form, $tmp_lead);
+
+
+
         $form_data = array();
 
         // getting billing information
@@ -2030,7 +2466,7 @@ class GFAuthorizeNet {
         $form_data["country"] = rgpost('input_'. str_replace(".", "_",$config["meta"]["customer_fields"]["country"]));
 
         $card_field = self::get_creditcard_field($form);
-        $form_data["card_number"] = rgpost("input_{$card_field["id"]}_1");
+        $form_data["card_number"] = self::remove_spaces_cc(rgpost("input_{$card_field["id"]}_1"));
         $form_data["expiration_date"] = rgpost("input_{$card_field["id"]}_2");
         $form_data["security_code"] = rgpost("input_{$card_field["id"]}_3");
         $form_data["card_name"] = rgpost("input_{$card_field["id"]}_5");
@@ -2106,33 +2542,25 @@ class GFAuthorizeNet {
         return array("amount" => $amount, "fee_amount" => $fee_amount, "line_items" => $line_items);
     }
 
-    private static function get_initial_transaction($form_data, $config, $invoice_number=""){
-
-        // processing products and services single transaction and first payment of subscription transaction
-        $transaction = self::get_aim(self::get_local_api_settings($config));
-
-        $transaction->amount = $form_data["amount"] + $form_data["fee_amount"];
-        $transaction->card_num = $form_data["card_number"];
-        $exp_date = str_pad($form_data["expiration_date"][0], 2, "0", STR_PAD_LEFT) . "-" . $form_data["expiration_date"][1];
-        $transaction->exp_date = $exp_date;
-        $transaction->card_code = $form_data["security_code"];
-        $transaction->first_name = $form_data["first_name"];
-        $transaction->last_name = $form_data["last_name"];
-        $transaction->address = trim($form_data["address1"] . " " . $form_data["address2"]);
-        $transaction->city = $form_data["city"];
-        $transaction->state = $form_data["state"];
-        $transaction->zip = $form_data["zip"];
-        $transaction->country = $form_data["country"];
-        $transaction->email = $form_data["email"];
-        $transaction->description = $form_data["form_title"];
-        $transaction->email_customer = $config["meta"]["enable_receipt"] == 1 ? "true" : "false";
-        $transaction->duplicate_window = 5;
-        $transaction->invoice_num = empty($invoice_number) ? uniqid() : $invoice_number;
-
-        foreach($form_data["line_items"] as $line_item)
-            $transaction->addLineItem($line_item["item_id"], self::truncate($line_item["item_name"], 31), self::truncate($line_item["item_description"], 255), $line_item["item_quantity"], GFCommon::to_number($line_item["item_unit_price"]), $line_item["item_taxable"]);
-
-        return $transaction;
+    private static function remove_spaces($text){
+        
+        $text = str_replace("\t", " ",$text);
+        $text = str_replace("\n", " ",$text);
+        $text = str_replace("\r", " ",$text);
+        
+        return $text;
+        
+    }
+    
+    private static function remove_spaces_cc($text){
+        
+        $text = str_replace("\t", "",$text);
+        $text = str_replace("\n", "",$text);
+        $text = str_replace("\r", "",$text);
+        $text = str_replace(" ", "",$text);
+        
+        return $text;
+        
     }
 
     private static function truncate($text, $max_chars){
@@ -2140,353 +2568,6 @@ class GFAuthorizeNet {
             return $text;
 
         return substr($text, 0, $max_chars);
-    }
-
-    private static function get_subscription($config, $form_data, $trial_info, $invoice_number){
-
-        $subscription = new AuthorizeNet_Subscription;
-
-        $total_occurrences = $config["meta"]["recurring_times"] == "Infinite" ? "9999" : $config["meta"]["recurring_times"];
-        if($total_occurrences <> "9999")
-            $total_occurrences += $trial_info["trial_occurrences"];
-
-        $interval_length = $config["meta"]["billing_cycle_number"];
-        $interval_unit = $config["meta"]["billing_cycle_type"] == "D" ? "days" : "months";
-
-        //setting subscription start date
-        $is_free_trial = $trial_info["trial_enabled"] && $trial_info["trial_amount"] == 0;
-        if($is_free_trial){
-            $subscription_start_date = gmdate("Y-m-d");
-        }
-        else{
-            //first payment has been made already, so start subscription on the next cycle
-            $subscription_start_date = gmdate("Y-m-d", strtotime("+ " . $interval_length . $interval_unit));
-
-            //removing one from total occurrences because first payment has been made
-            $total_occurrences = $total_occurrences <> "9999" ? $total_occurrences - 1 : "9999";
-            $trial_info["trial_occurrences"] = $trial_info["trial_enabled"] ? $trial_info["trial_occurrences"] -1 : null;
-        }
-
-        //setting trial properties
-        if($trial_info["trial_enabled"]){
-            $subscription->trialOccurrences = $trial_info["trial_occurrences"];
-            $subscription->trialAmount = $trial_info["trial_amount"];
-        }
-
-        $subscription->name = $form_data["first_name"] . " " . $form_data["last_name"];
-        $subscription->intervalLength = $interval_length;
-        $subscription->intervalUnit = $interval_unit;
-        $subscription->startDate = $subscription_start_date;
-        $subscription->totalOccurrences = $total_occurrences;
-        $subscription->amount = $form_data["amount"];
-        $subscription->creditCardCardNumber = $form_data["card_number"];
-        $exp_date = $form_data["expiration_date"][1] . "-" . str_pad($form_data["expiration_date"][0], 2, "0", STR_PAD_LEFT);
-        $subscription->creditCardExpirationDate = $exp_date;
-        $subscription->creditCardCardCode = $form_data["security_code"];
-        $subscription->billToFirstName = $form_data["first_name"];
-        $subscription->billToLastName = $form_data["last_name"];
-
-        $subscription->customerEmail = $form_data["email"];
-        $subscription->billToAddress = $form_data["address1"];
-        $subscription->billToCity = $form_data["city"];
-        $subscription->billToState = $form_data["state"];
-        $subscription->billToZip = $form_data["zip"];
-        $subscription->billToCountry = $form_data["country"];
-        $subscription->orderInvoiceNumber = $invoice_number;
-
-        return $subscription;
-    }
-
-    public static function authorizenet_after_submission($entry,$form){
-        $entry_id = $entry["id"];
-
-        if(!empty(self::$transaction_response))
-        {
-            //Current Currency
-            $currency = GFCommon::get_currency();
-            $transaction_id = self::$transaction_response["transaction_id"];
-            $transaction_type = self::$transaction_response["transaction_type"];
-            $amount = self::$transaction_response["amount"];
-            $payment_date = gmdate("Y-m-d H:i:s");
-            $entry["currency"] = $currency;
-            if($transaction_type == "1")
-            {
-                $entry["payment_status"] = "Approved";
-                $entry["payment_amount"] = $amount;
-            }
-            else
-            {
-                $entry["payment_status"] = "Active";
-                $entry["payment_amount"] = rgar(self::$transaction_response, "regular_amount");
-            }
-
-            $entry["payment_date"] = $payment_date;
-            $entry["transaction_id"] = $transaction_id;
-            $entry["transaction_type"] = $transaction_type;
-            $entry["is_fulfilled"] = true;
-
-            RGFormsModel::update_lead($entry);
-
-            //saving feed id
-            $config = self::get_config($form);
-            gform_update_meta($entry_id, "authorize.net_feed_id", $config["id"]);
-            //updating form meta with current payment gateway
-            gform_update_meta($entry_id, "payment_gateway", "authorize.net");
-
-            //creating invoice number meta
-            gform_update_meta($entry["id"], "invoice_number", self::$transaction_response["invoice_number"]);
-
-            $subscriber_id = "";
-            if($transaction_type == "2")
-            {
-                $subscriber_id = $transaction_id;
-                $regular_amount = rgar(self::$transaction_response, "regular_amount");
-                $trial_amount = rgar(self::$transaction_response, "trial_amount");
-                $fee_amount = rgar(self::$transaction_response, "fee_amount");
-
-                //Add subsciption creation and initial payment note
-                $str_trial_amount = strval($trial_amount);
-                if($str_trial_amount != "")
-                {
-
-                    if($trial_amount > 0)
-                    {
-                        RGFormsModel::add_note($entry_id, 0, "System", sprintf(__("Subscription has been created and initial payment has been made. Amount: %s. Subscriber Id: %s", "gravityforms"), GFCommon::to_money($trial_amount, $entry["currency"]),$subscriber_id));
-
-                        GFAuthorizeNetData::insert_transaction($entry["id"], "payment", $subscriber_id, $transaction_id, $trial_amount);
-                    }
-                    else
-                        RGFormsModel::add_note($entry_id, 0, "System", sprintf(__("Subscription has been created. Subscriber Id: %s", "gravityforms"), $subscriber_id));
-                }
-                else
-                {
-                    RGFormsModel::add_note($entry_id, 0, "System", sprintf(__("Subscription has been created and initial payment has been made. Amount: %s. Subscriber Id: %s", "gravityforms"), GFCommon::to_money($regular_amount, $entry["currency"]),$subscriber_id));
-                    GFAuthorizeNetData::insert_transaction($entry["id"], "payment", $subscriber_id, $transaction_id, $amount);
-                }
-                //Add note for setup fee payment if completed
-                if(!empty($fee_amount) && $fee_amount > 0)
-                    RGFormsModel::add_note($entry_id, 0, "System", sprintf(__("Setup fee payment has been made. Amount: %s. Subscriber Id: %s", "gravityforms"), GFCommon::to_money($fee_amount, $entry["currency"]),$subscriber_id));
-
-                gform_update_meta($entry["id"], "subscription_regular_amount",$regular_amount);
-                gform_update_meta($entry["id"], "subscription_trial_amount",$trial_amount);
-                gform_update_meta($entry["id"], "subscription_payment_count","1");
-                gform_update_meta($entry["id"], "subscription_payment_date",$payment_date);
-
-            }
-            else
-            {
-                GFAuthorizeNetData::insert_transaction($entry["id"], "payment", $subscriber_id, $transaction_id, $amount);
-            }
-        }
-
-    }
-
-    private static function set_validation_result($validation_result,$post,$response,$responsetype){
-
-        if($responsetype == "aim")
-        {
-            $code = $response->response_reason_code;
-            switch($code){
-                case "2" :
-                case "3" :
-                case "4" :
-                case "41" :
-                    $message = __("This credit card has been declined by your bank. Please use another form of payment.", "gravityformsauthorizenet");
-                break;
-
-                case "8" :
-                    $message = __("The credit card has expired.", "gravityformsauthorizenet");
-                break;
-
-                case "17" :
-                case "28" :
-                    $message = __("The merchant does not accept this type of credit card.", "gravityformsauthorizenet");
-                break;
-
-                case "7" :
-                case "44" :
-                case "45" :
-                case "65" :
-                case "78" :
-                case "6" :
-                case "37" :
-                case "27" :
-                case "78" :
-                case "45" :
-                case "200" :
-                case "201" :
-                case "202" :
-                    $message = __("There was an error processing your credit card. Please verify the information and try again.", "gravityformsauthorizenet");
-                break;
-
-                default :
-                    $message = __("There was an error processing your credit card. Please verify the information and try again.", "gravityformsauthorizenet");
-
-            }
-        }
-        else
-        {
-            $code = $response->getMessageCode();
-            switch($code)
-            {
-                case "E00012" :
-                    $message = __("A duplicate subscription already exists.", "gravityformsauthorizenet");
-                break;
-                case "E00018" :
-                    $message = __("The credit card expires before the subscription start date. Please use another form of payment.", "gravityformsauthorizenet");
-                break;
-                default :
-                    $message = __("There was an error processing your credit card. Please verify the information and try again.", "gravityformsauthorizenet");
-            }
-        }
-
-        $message = "<!-- Error: " . $code . " -->" . $message;
-
-        $credit_card_page = 0;
-        foreach($validation_result["form"]["fields"] as &$field)
-        {
-            if($field["type"] == "creditcard")
-            {
-                $field["failed_validation"] = true;
-                $field["validation_message"] = $message;
-                $credit_card_page = $field["pageNumber"];
-                break;
-             }
-
-        }
-        $validation_result["is_valid"] = false;
-
-        GFFormDisplay::set_current_page($validation_result["form"]["id"], $credit_card_page);
-
-        return $validation_result;
-    }
-
-    public static function process_renewals(){
-
-        if(!self::is_gravityforms_supported())
-            return;
-
-        // getting user information
-        $user_id = 0;
-        $user_name = "System";
-
-        //loading data lib
-        require_once(self::get_base_path() . "/data.php");
-
-        // loading authorizenet api and getting credentials
-        self::include_api();
-
-        // getting all authorize.net subscription feeds
-        $recurring_feeds = GFAuthorizeNetData::get_feeds();
-        foreach($recurring_feeds as $feed)
-        {
-            // process renewalls if authorize.net feed is subscription feed
-            if($feed["meta"]["type"]=="subscription")
-            {
-                $form_id = $feed["form_id"];
-
-                // getting billig cycle information
-                $billing_cycle_number = $feed["meta"]["billing_cycle_number"];
-                $billing_cycle_type = $feed["meta"]["billing_cycle_type"];
-                $billing_cycle = $billing_cycle_number;
-                if($billing_cycle_type == "M")
-                    $billing_cycle = $billing_cycle_number . " month";
-                else
-                    $billing_cycle = $billing_cycle_number . " day";
-
-                $querytime = strtotime(gmdate("Y-m-d") . "-" . $billing_cycle);
-                $querydate = gmdate("Y-m-d", $querytime) . " 00:00:00";
-
-                // finding leads with a late payment date
-                global $wpdb;
-                $results = $wpdb->get_results("SELECT l.id, l.transaction_id, m.meta_value as payment_date
-                                                FROM {$wpdb->prefix}rg_lead l
-                                                INNER JOIN {$wpdb->prefix}rg_lead_meta m ON l.id = m.lead_id
-                                                WHERE m.form_id={$form_id}
-                                                AND payment_status = 'Active'
-                                                AND meta_key = 'subscription_payment_date'
-                                                AND meta_value < '{$querydate}'");
-
-                foreach($results as $result)
-                {
-                    $entry_id = $result->id;
-                    $subscription_id = $result->transaction_id;
-
-                    $entry = RGFormsModel::get_lead($entry_id);
-
-                    // Get the subscription status
-                    $status_request = self::get_arb(self::get_local_api_settings($feed));
-                    $status_response = $status_request->getSubscriptionStatus($subscription_id);
-                    $status = $status_response->getSubscriptionStatus();
-
-                    switch(strtolower($status)){
-                        case "active" :
-                            // getting feed trial information
-                            $trial_period_enabled = $feed["meta"]["trial_period_enabled"];
-                            $trial_period_occurrences = $feed["meta"]["trial_period_number"];
-
-                            // finding payment date
-                            $new_payment_time =  strtotime($result->payment_date . "+" . $billing_cycle);
-                            $new_payment_date = gmdate( 'Y-m-d H:i:s' , $new_payment_time );
-
-                            // finding payment amount
-                            $payment_count = gform_get_meta($entry_id, "subscription_payment_count");
-                            $new_payment_amount = gform_get_meta($entry_id, "subscription_regular_amount");
-                            $new_payment_count = $payment_count + 1;
-                            if($trial_period_enabled == 1)
-                            {
-                                 if($trial_period_occurrences > $payment_count)
-                                    $new_payment_amount = gform_get_meta($entry_id, "subscription_trial_amount");
-                            }
-
-                            // update subscription payment and lead information
-                            gform_update_meta($entry_id, "subscription_payment_count",$new_payment_count);
-                            gform_update_meta($entry_id, "subscription_payment_date",$new_payment_date);
-                            RGFormsModel::add_note($entry_id, $user_id, $user_name, sprintf(__("Subscription payment has been made. Amount: %s. Subscriber Id: %s", "gravityforms"), GFCommon::to_money($new_payment_amount, $entry["currency"]),$subscription_id));
-                            $transaction_id = $subscription_id;
-                            GFAuthorizeNetData::insert_transaction($entry_id, "payment", $subscription_id, $transaction_id, $new_payment_amount);
-
-                            do_action("gform_authorizenet_after_recurring_payment", $entry, $subscription_id, $transaction_id, $new_payment_amount);
-
-                         break;
-
-                         case "expired" :
-                               $entry["payment_status"] = "Expired";
-                               RGFormsModel::update_lead($entry);
-                               RGFormsModel::add_note($entry["id"], $user_id, $user_name, sprintf(__("Subscription has successfully completed its billing schedule. Subscriber Id: %s", "gravityforms"), $subscription_id));
-
-                               do_action("gform_authorizenet_subscription_ended", $entry, $subscription_id, $transaction_id, $new_payment_amount);
-                         break;
-
-                         case "suspended":
-                               $entry["payment_status"] = "Failed";
-                               RGFormsModel::update_lead($entry);
-                               RGFormsModel::add_note($entry["id"], $user_id, $user_name, sprintf(__("Subscription is currently suspended due to a transaction decline, rejection, or error. Suspended subscriptions must be reactivated before the next scheduled transaction or the subscription will be terminated by the payment gateway. Subscriber Id: %s", "gravityforms"), $subscription_id));
-
-                               do_action("gform_authorizenet_subscription_suspended", $entry, $subscription_id, $transaction_id, $new_payment_amount);
-                         break;
-
-                         case "terminated":
-                         case "canceled":
-                              self::cancel_subscription($entry);
-                              RGFormsModel::add_note($entry_id, $user_id, $user_name, sprintf(__("Subscription has been canceled. Subscriber Id: %s", "gravityforms"), $subscription_id));
-
-                              do_action("gform_authorizenet_subscription_canceled", $entry, $subscription_id, $transaction_id, $new_payment_amount);
-                         break;
-
-                         default:
-                              $entry["payment_status"] = "Failed";
-                              RGFormsModel::update_lead($entry);
-                              RGFormsModel::add_note($entry["id"], $user_id, $user_name, sprintf(__("Subscription is currently suspended due to a transaction decline, rejection, or error. Suspended subscriptions must be reactivated before the next scheduled transaction or the subscription will be terminated by the payment gateway. Subscriber Id: %s", "gravityforms"), $subscription_id));
-
-                              do_action("gform_authorizenet_subscription_suspended", $entry, $subscription_id, $transaction_id, $new_payment_amount);
-                         break;
-                    }
-                }
-
-            }
-        }
-
     }
 
     public static function authorizenet_entry_info($form_id, $lead) {
@@ -2691,7 +2772,7 @@ class GFAuthorizeNet {
             $field_label = RGFormsModel::get_label($field);
 
             $selected = $field_id == $selected_field ? "selected='selected'" : "";
-            $str .= "<option value='" . $field_id . "' ". $selected . ">" . $field_label . "</option>";
+            $str .= "<option value='" . $field_id . "' ". $selected . ">" . $field_label. "</option>";
         }
 
         if($form_total){
@@ -2736,8 +2817,7 @@ class GFAuthorizeNet {
         return WP_PLUGIN_DIR . "/" . $folder;
     }
 
-    function set_logging_supported($plugins)
-    {
+    function set_logging_supported($plugins){
         $plugins[self::$slug] = "Authorize.Net";
         return $plugins;
     }
